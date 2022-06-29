@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:homeshop/widgets/paginaInicio.dart';
 import 'package:homeshop/widgets/registrarse.dart';
 
 class Login extends StatefulWidget {
@@ -15,10 +16,13 @@ class _LoginState extends State<Login> {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   void _iniciarSesion() {
+    final route =
+        MaterialPageRoute(builder: (BuildContext context) => PaginaInicio());
+    Navigator.push(context, route);
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
       final route =
-          MaterialPageRoute(builder: (BuildContext context) => Registrarse());
+          MaterialPageRoute(builder: (BuildContext context) => PaginaInicio());
       Navigator.push(context, route);
     }
   }
@@ -49,7 +53,7 @@ class _LoginState extends State<Login> {
               ),
             ),
             const SizedBox(height: 30),
-            Image.asset("assets/logo.png", height: 150),
+            Image.asset("assets/icon/logo.png", height: 150),
             const SizedBox(height: 30),
             Form(
               key: formKey,

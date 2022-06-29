@@ -58,7 +58,7 @@ class _RegistrarseState extends State<Registrarse> {
                 ),
               ),
               const SizedBox(height: 30),
-              Image.asset("assets/logo.png", height: 150),
+              Image.asset("assets/icon/logo.png", height: 150),
               const SizedBox(height: 30),
               Form(
                 key: formKey,
