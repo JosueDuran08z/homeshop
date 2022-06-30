@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
+import 'package:homeshop/widgets/propiedad.dart';
 
 class Propiedades extends StatefulWidget {
   Propiedades({Key? key}) : super(key: key);
@@ -10,7 +11,9 @@ class Propiedades extends StatefulWidget {
 
 class _PropiedadesState extends State<Propiedades> {
   void _mostrarPropiedad(id) {
-    print("Propiedad $id");
+    final route =
+        MaterialPageRoute(builder: (BuildContext context) => Propiedad(id));
+    Navigator.push(context, route);
   }
 
   void _abrirWhatsApp() {
@@ -98,16 +101,17 @@ class _PropiedadesState extends State<Propiedades> {
                               size: 18,
                             ),
                             style: ElevatedButton.styleFrom(
-                                primary: Colors.green,
-                                padding: const EdgeInsets.only(
-                                  left: 10,
-                                  top: 5,
-                                  right: 10,
-                                  bottom: 5,
-                                ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15),
-                                )),
+                              primary: Colors.green,
+                              padding: const EdgeInsets.only(
+                                left: 10,
+                                top: 5,
+                                right: 10,
+                                bottom: 5,
+                              ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                            ),
                           ),
                         ],
                       ),

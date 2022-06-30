@@ -1,0 +1,199 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
+import 'package:homeshop/widgets/propiedad.dart';
+
+class MisPropiedades extends StatefulWidget {
+  MisPropiedades({Key? key}) : super(key: key);
+
+  @override
+  State<MisPropiedades> createState() => _MisPropiedadesState();
+}
+
+class _MisPropiedadesState extends State<MisPropiedades> {
+  void _mostrarPropiedad(id) {
+    final route =
+        MaterialPageRoute(builder: (BuildContext context) => Propiedad(id));
+    Navigator.push(context, route);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 15, top: 20, right: 15),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Mis Propiedades",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.red[600],
+                ),
+              ),
+              ElevatedButton(
+                onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                    primary: Colors.grey[200],
+                    padding: const EdgeInsets.only(
+                      left: 10,
+                      top: 5,
+                      right: 10,
+                      bottom: 5,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    )),
+                child: Icon(
+                  Icons.add,
+                  size: 18,
+                  color: Colors.red[600],
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 20),
+        Expanded(
+          child: ListView.builder(
+            padding: const EdgeInsets.only(
+              left: 10,
+              right: 10,
+              bottom: 10,
+            ),
+            itemCount: 10,
+            itemBuilder: (BuildContext context, int index) {
+              return Card(
+                child: Column(
+                  children: [
+                    ImageSlideshow(
+                      children: [
+                        Image.network(
+                          "https://img.remediosdigitales.com/8e8f64/lo-de-que-comprar-una-casa-es-la-mejor-inversion-hay-generaciones-que-ya-no-lo-ven-ni-de-lejos---1/1366_2000.jpg",
+                          fit: BoxFit.cover,
+                        ),
+                        Image.asset(
+                          "assets/icon/logo.png",
+                          fit: BoxFit.cover,
+                        ),
+                        Image.network(
+                          "https://img.remediosdigitales.com/8e8f64/lo-de-que-comprar-una-casa-es-la-mejor-inversion-hay-generaciones-que-ya-no-lo-ven-ni-de-lejos---1/1366_2000.jpg",
+                          fit: BoxFit.cover,
+                        ),
+                        Image.asset(
+                          "assets/icon/logo.png",
+                          fit: BoxFit.cover,
+                        ),
+                        Image.network(
+                          "https://img.remediosdigitales.com/8e8f64/lo-de-que-comprar-una-casa-es-la-mejor-inversion-hay-generaciones-que-ya-no-lo-ven-ni-de-lejos---1/1366_2000.jpg",
+                          fit: BoxFit.cover,
+                        ),
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        left: 20,
+                        top: 20,
+                        right: 10,
+                        bottom: 20,
+                      ),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text(
+                                "\$ 500,000",
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: const BorderRadius.all(
+                                    Radius.circular(15),
+                                  ),
+                                  border: Border.all(
+                                    color:
+                                        const Color.fromARGB(255, 229, 57, 53),
+                                  ),
+                                ),
+                                padding: const EdgeInsets.only(
+                                  left: 10,
+                                  top: 5,
+                                  right: 10,
+                                  bottom: 5,
+                                ),
+                                child: Text(
+                                  "En Venta",
+                                  style: TextStyle(color: Colors.red[600]),
+                                ),
+                              ),
+                              Row(
+                                children: [
+                                  ElevatedButton(
+                                    onPressed: () {},
+                                    style: ElevatedButton.styleFrom(
+                                        primary: Colors.red[300],
+                                        padding: const EdgeInsets.only(
+                                          left: 10,
+                                          top: 5,
+                                          right: 10,
+                                          bottom: 5,
+                                        ),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                        )),
+                                    child: Icon(
+                                      Icons.edit,
+                                      size: 18,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 10),
+                                  ElevatedButton(
+                                    onPressed: () {},
+                                    style: ElevatedButton.styleFrom(
+                                        primary: Colors.red[600],
+                                        padding: const EdgeInsets.only(
+                                          left: 10,
+                                          top: 5,
+                                          right: 10,
+                                          bottom: 5,
+                                        ),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                        )),
+                                    child: const Icon(
+                                      Icons.delete,
+                                      size: 18,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 10),
+                          Text(
+                            "Blvd. Universidad Tecnológica #225 Col. San Carlos CP. 37670",
+                            style: TextStyle(
+                              fontSize: 13,
+                            ),
+                          )
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              );
+            },
+          ),
+        ),
+      ],
+    );
+  }
+}
