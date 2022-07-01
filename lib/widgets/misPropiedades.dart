@@ -36,7 +36,7 @@ class _MisPropiedadesState extends State<MisPropiedades> {
               ElevatedButton(
                 onPressed: () {},
                 style: ElevatedButton.styleFrom(
-                    primary: Colors.grey[200],
+                    primary: Colors.blue[600],
                     padding: const EdgeInsets.only(
                       left: 10,
                       top: 5,
@@ -49,7 +49,6 @@ class _MisPropiedadesState extends State<MisPropiedades> {
                 child: Icon(
                   Icons.add,
                   size: 18,
-                  color: Colors.red[600],
                 ),
               ),
             ],
@@ -74,16 +73,16 @@ class _MisPropiedadesState extends State<MisPropiedades> {
                           "https://img.remediosdigitales.com/8e8f64/lo-de-que-comprar-una-casa-es-la-mejor-inversion-hay-generaciones-que-ya-no-lo-ven-ni-de-lejos---1/1366_2000.jpg",
                           fit: BoxFit.cover,
                         ),
-                        Image.asset(
-                          "assets/icon/logo.png",
+                        Image.network(
+                          "https://th.bing.com/th/id/R.2c76042f56bf81ef78c51089192d5d10?rik=9Va9wLV7TzGRYw&pid=ImgRaw&r=0",
                           fit: BoxFit.cover,
                         ),
                         Image.network(
                           "https://img.remediosdigitales.com/8e8f64/lo-de-que-comprar-una-casa-es-la-mejor-inversion-hay-generaciones-que-ya-no-lo-ven-ni-de-lejos---1/1366_2000.jpg",
                           fit: BoxFit.cover,
                         ),
-                        Image.asset(
-                          "assets/icon/logo.png",
+                        Image.network(
+                          "https://th.bing.com/th/id/R.2c76042f56bf81ef78c51089192d5d10?rik=9Va9wLV7TzGRYw&pid=ImgRaw&r=0",
                           fit: BoxFit.cover,
                         ),
                         Image.network(
@@ -137,7 +136,7 @@ class _MisPropiedadesState extends State<MisPropiedades> {
                                   ElevatedButton(
                                     onPressed: () {},
                                     style: ElevatedButton.styleFrom(
-                                        primary: Colors.red[300],
+                                        primary: Colors.blue[600],
                                         padding: const EdgeInsets.only(
                                           left: 10,
                                           top: 5,

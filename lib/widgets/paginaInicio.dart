@@ -15,7 +15,6 @@ class PaginaInicio extends StatefulWidget {
 class _PaginaInicioState extends State<PaginaInicio> {
   int paginaActual = 0;
   List<Widget> paginas = [
-    Propiedad(1),
     Propiedades(),
     Buscar(),
     MisPropiedades(),

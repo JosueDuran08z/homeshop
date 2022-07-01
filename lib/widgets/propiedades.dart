@@ -37,16 +37,16 @@ class _PropiedadesState extends State<Propiedades> {
                       "https://img.remediosdigitales.com/8e8f64/lo-de-que-comprar-una-casa-es-la-mejor-inversion-hay-generaciones-que-ya-no-lo-ven-ni-de-lejos---1/1366_2000.jpg",
                       fit: BoxFit.cover,
                     ),
-                    Image.asset(
-                      "assets/icon/logo.png",
+                    Image.network(
+                      "https://th.bing.com/th/id/R.2c76042f56bf81ef78c51089192d5d10?rik=9Va9wLV7TzGRYw&pid=ImgRaw&r=0",
                       fit: BoxFit.cover,
                     ),
                     Image.network(
                       "https://img.remediosdigitales.com/8e8f64/lo-de-que-comprar-una-casa-es-la-mejor-inversion-hay-generaciones-que-ya-no-lo-ven-ni-de-lejos---1/1366_2000.jpg",
                       fit: BoxFit.cover,
                     ),
-                    Image.asset(
-                      "assets/icon/logo.png",
+                    Image.network(
+                      "https://th.bing.com/th/id/R.2c76042f56bf81ef78c51089192d5d10?rik=9Va9wLV7TzGRYw&pid=ImgRaw&r=0",
                       fit: BoxFit.cover,
                     ),
                     Image.network(
