@@ -12,7 +12,6 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   late TextEditingController _usuarioController;
   late TextEditingController _contraseniaController;
-  TextStyle textLinkStyle = TextStyle(color: Colors.grey[700]);
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   void _iniciarSesion() {
@@ -108,14 +107,25 @@ class _LoginState extends State<Login> {
                     ),
                   ),
                   const SizedBox(height: 30),
-                  GestureDetector(
-                    onTap: _mostrarOlvideMiContrasenia,
-                    child: Text("Olvidé mi contraseña", style: textLinkStyle),
-                  ),
-                  const SizedBox(height: 10),
-                  GestureDetector(
-                    onTap: _mostrarRegistrarse,
-                    child: Text("Registrarse", style: textLinkStyle),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "¿Eres nuevo en HomeShop?",
+                        style: TextStyle(color: Colors.grey[700]),
+                      ),
+                      const SizedBox(width: 10),
+                      GestureDetector(
+                        onTap: _mostrarRegistrarse,
+                        child: Text(
+                          "Regístrate",
+                          style: TextStyle(
+                            color: Colors.red[700],
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
