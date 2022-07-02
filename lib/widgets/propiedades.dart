@@ -77,14 +77,14 @@ class _PropiedadesState extends State<Propiedades> {
                           Container(
                             child: new Text(
                               "En Venta",
-                              style: TextStyle(color: Colors.red[600]),
+                              style: TextStyle(color: Colors.red[700]),
                             ),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.all(
                                 Radius.circular(15),
                               ),
                               border: Border.all(
-                                color: Color.fromARGB(255, 229, 57, 53),
+                                color: Colors.red,
                               ),
                             ),
                             padding: EdgeInsets.only(

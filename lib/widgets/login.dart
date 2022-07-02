@@ -54,6 +54,13 @@ class _LoginState extends State<Login> {
             ),
             const SizedBox(height: 30),
             Image.asset("assets/icon/logo.png", height: 150),
+            const Text(
+              "HomeShop",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 25,
+              ),
+            ),
             const SizedBox(height: 30),
             Form(
               key: formKey,
