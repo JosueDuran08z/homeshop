@@ -16,6 +16,64 @@ class _MisPropiedadesState extends State<MisPropiedades> {
     Navigator.push(context, route);
   }
 
+  void _mostrarSnackbarEliminar(BuildContext context) {
+    SnackBar snackbar = SnackBar(
+      content: const Text(
+        "!Propiedad eliminada correctamente!",
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      backgroundColor: Colors.blue[600],
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackbar);
+  }
+
+  void _mostrarModalEliminar(BuildContext context, int idPropiedad) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: const Text(
+            "¿Estás seguro que deseas eliminar esta propiedad?",
+            textAlign: TextAlign.justify,
+            style: TextStyle(
+              fontSize: 15,
+            ),
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text(
+                "Cancelar",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+            TextButton(
+              onPressed: () => _eliminarPropiedad(context, idPropiedad),
+              child: Text(
+                "Aceptar",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blue[600],
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _eliminarPropiedad(context, int idPropiedad) {
+    print(idPropiedad);
+    Navigator.pop(context);
+    _mostrarSnackbarEliminar(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -36,16 +94,17 @@ class _MisPropiedadesState extends State<MisPropiedades> {
               ElevatedButton(
                 onPressed: () {},
                 style: ElevatedButton.styleFrom(
-                    primary: Colors.blue[600],
-                    padding: const EdgeInsets.only(
-                      left: 10,
-                      top: 5,
-                      right: 10,
-                      bottom: 5,
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    )),
+                  primary: Colors.blue[600],
+                  padding: const EdgeInsets.only(
+                    left: 10,
+                    top: 5,
+                    right: 10,
+                    bottom: 5,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                ),
                 child: Icon(
                   Icons.add,
                   size: 18,
@@ -116,8 +175,7 @@ class _MisPropiedadesState extends State<MisPropiedades> {
                                     Radius.circular(15),
                                   ),
                                   border: Border.all(
-                                    color:
-                                        const Color.fromARGB(255, 229, 57, 53),
+                                    color: Color.fromARGB(255, 229, 57, 53),
                                   ),
                                 ),
                                 padding: const EdgeInsets.only(
@@ -154,7 +212,8 @@ class _MisPropiedadesState extends State<MisPropiedades> {
                                   ),
                                   const SizedBox(width: 10),
                                   ElevatedButton(
-                                    onPressed: () {},
+                                    onPressed: () => _mostrarModalEliminar(
+                                        context, index + 1),
                                     style: ElevatedButton.styleFrom(
                                         primary: Colors.red[600],
                                         padding: const EdgeInsets.only(
