@@ -1,34 +1,34 @@
 import 'package:flutter/material.dart';
-import 'package:homeshop/widgets/paginaInicio.dart';
-import 'package:homeshop/widgets/registrarse.dart';
+import 'package:homeshop/widgets/paginaInicioWidget.dart';
+import 'package:homeshop/widgets/login/registrarseWidget.dart';
 
-class Login extends StatefulWidget {
-  Login({Key? key}) : super(key: key);
+class LoginWidget extends StatefulWidget {
+  LoginWidget({Key? key}) : super(key: key);
 
   @override
-  State<Login> createState() => _LoginState();
+  State<LoginWidget> createState() => _LoginWidgetState();
 }
 
-class _LoginState extends State<Login> {
+class _LoginWidgetState extends State<LoginWidget> {
   late TextEditingController _usuarioController;
   late TextEditingController _contraseniaController;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   void _iniciarSesion() {
-    final route =
-        MaterialPageRoute(builder: (BuildContext context) => PaginaInicio());
+    final route = MaterialPageRoute(
+        builder: (BuildContext context) => PaginaInicioWidget());
     Navigator.push(context, route);
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
-      final route =
-          MaterialPageRoute(builder: (BuildContext context) => PaginaInicio());
+      final route = MaterialPageRoute(
+          builder: (BuildContext context) => PaginaInicioWidget());
       Navigator.push(context, route);
     }
   }
 
   void _mostrarRegistrarse() {
-    final route =
-        MaterialPageRoute(builder: (BuildContext context) => Registrarse());
+    final route = MaterialPageRoute(
+        builder: (BuildContext context) => RegistrarseWidget());
     Navigator.push(context, route);
   }
 

@@ -1,26 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:homeshop/widgets/buscar.dart';
-import 'package:homeshop/widgets/gestionar.dart';
-import 'package:homeshop/widgets/misCitas.dart';
-import 'package:homeshop/widgets/misPropiedades.dart';
-import 'package:homeshop/widgets/propiedad.dart';
-import 'package:homeshop/widgets/propiedades.dart';
+import 'package:homeshop/widgets/buscarPropiedades/buscarPropiedadesWidget.dart';
+import 'package:homeshop/widgets/gestionar/gestionarWidget.dart';
+import 'package:homeshop/widgets/misCitas/misCitasWidget.dart';
+import 'package:homeshop/widgets/misPropiedades/misPropiedadesWidget.dart';
+import 'package:homeshop/widgets/propiedades/propiedadesWidget.dart';
 
-class PaginaInicio extends StatefulWidget {
-  PaginaInicio({Key? key}) : super(key: key);
+class PaginaInicioWidget extends StatefulWidget {
+  PaginaInicioWidget({Key? key}) : super(key: key);
 
   @override
-  State<PaginaInicio> createState() => _PaginaInicioState();
+  State<PaginaInicioWidget> createState() => _PaginaInicioWidgetState();
 }
 
-class _PaginaInicioState extends State<PaginaInicio> {
+class _PaginaInicioWidgetState extends State<PaginaInicioWidget> {
   int paginaActual = 0;
   List<Widget> paginas = [
-    Propiedades(),
-    Buscar(),
-    MisCitas(),
-    MisPropiedades(),
-    Gestionar(),
+    PropiedadesWidget(),
+    BuscarPropiedadesWidget(),
+    MisCitasWidget(),
+    MisPropiedadesWidget(),
+    GestionarWidget(),
   ];
 
   void _cambiarPagina(index) => setState(() => paginaActual = index);

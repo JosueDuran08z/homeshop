@@ -1,18 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
-import 'package:homeshop/widgets/propiedad.dart';
+import 'package:homeshop/widgets/misPropiedades/agregarPropiedadWidget.dart';
+import 'package:homeshop/widgets/misPropiedades/editarPropiedadWidget.dart';
+import 'package:homeshop/widgets/propiedades/propiedadWidget.dart';
 
-class MisPropiedades extends StatefulWidget {
-  MisPropiedades({Key? key}) : super(key: key);
+class MisPropiedadesWidget extends StatefulWidget {
+  MisPropiedadesWidget({Key? key}) : super(key: key);
 
   @override
-  State<MisPropiedades> createState() => _MisPropiedadesState();
+  State<MisPropiedadesWidget> createState() => _MisPropiedadesWidgetState();
 }
 
-class _MisPropiedadesState extends State<MisPropiedades> {
-  void _mostrarPropiedad(id) {
-    final route =
-        MaterialPageRoute(builder: (BuildContext context) => Propiedad(id));
+class _MisPropiedadesWidgetState extends State<MisPropiedadesWidget> {
+  void _agregarPropiedad() {
+    final route = MaterialPageRoute(
+        builder: (BuildContext context) => AgregarPropiedadWidget());
+    Navigator.push(context, route);
+  }
+
+  void _editarPropiedad(idPropiedad) {
+    final route = MaterialPageRoute(
+        builder: (BuildContext context) =>
+            EditarPropiedadWidget(idPropiedad + 1));
     Navigator.push(context, route);
   }
 
@@ -92,7 +101,7 @@ class _MisPropiedadesState extends State<MisPropiedades> {
                 ),
               ),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: _agregarPropiedad,
                 style: ElevatedButton.styleFrom(
                   primary: Colors.blue[600],
                   padding: const EdgeInsets.only(
@@ -192,7 +201,7 @@ class _MisPropiedadesState extends State<MisPropiedades> {
                               Row(
                                 children: [
                                   ElevatedButton(
-                                    onPressed: () {},
+                                    onPressed: () => _editarPropiedad(index),
                                     style: ElevatedButton.styleFrom(
                                         primary: Colors.blue[600],
                                         padding: const EdgeInsets.only(

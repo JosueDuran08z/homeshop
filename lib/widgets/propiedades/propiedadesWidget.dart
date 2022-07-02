@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
-import 'package:homeshop/widgets/propiedad.dart';
+import 'package:homeshop/widgets/propiedades/propiedadWidget.dart';
 
-class Propiedades extends StatefulWidget {
-  Propiedades({Key? key}) : super(key: key);
+class PropiedadesWidget extends StatefulWidget {
+  PropiedadesWidget({Key? key}) : super(key: key);
 
   @override
-  State<Propiedades> createState() => _PropiedadesState();
+  State<PropiedadesWidget> createState() => _PropiedadesWidgetState();
 }
 
-class _PropiedadesState extends State<Propiedades> {
+class _PropiedadesWidgetState extends State<PropiedadesWidget> {
   void _mostrarPropiedad(id) {
-    final route =
-        MaterialPageRoute(builder: (BuildContext context) => Propiedad(id));
+    final route = MaterialPageRoute(
+        builder: (BuildContext context) => PropiedadWidget(id));
     Navigator.push(context, route);
   }
 

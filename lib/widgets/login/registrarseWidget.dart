@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:date_field/date_field.dart';
-import 'package:homeshop/widgets/login.dart';
+import 'package:homeshop/widgets/login/loginWidget.dart';
 import 'package:intl/intl.dart';
 
-class Registrarse extends StatefulWidget {
-  Registrarse({Key? key}) : super(key: key);
+class RegistrarseWidget extends StatefulWidget {
+  RegistrarseWidget({Key? key}) : super(key: key);
 
   @override
-  State<Registrarse> createState() => _RegistrarseState();
+  State<RegistrarseWidget> createState() => _RegistrarseWidgetState();
 }
 
-class _RegistrarseState extends State<Registrarse> {
+class _RegistrarseWidgetState extends State<RegistrarseWidget> {
   late TextEditingController _nombreController;
   late TextEditingController _apePController;
   late TextEditingController _apeMController;
@@ -33,7 +33,7 @@ class _RegistrarseState extends State<Registrarse> {
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
       final route =
-          MaterialPageRoute(builder: (BuildContext context) => Login());
+          MaterialPageRoute(builder: (BuildContext context) => LoginWidget());
       Navigator.push(context, route);
     }
   }

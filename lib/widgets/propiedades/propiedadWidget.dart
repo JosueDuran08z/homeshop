@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 
-class Propiedad extends StatefulWidget {
-  Propiedad(this.id, {Key? key}) : super(key: key);
+class PropiedadWidget extends StatefulWidget {
+  PropiedadWidget(this.id, {Key? key}) : super(key: key);
   int id;
 
   @override
-  State<Propiedad> createState() => _PropiedadState();
+  State<PropiedadWidget> createState() => _PropiedadWidgetState();
 }
 
-class _PropiedadState extends State<Propiedad> {
+class _PropiedadWidgetState extends State<PropiedadWidget> {
   TextStyle textStyleTitulo = TextStyle(
     fontSize: 18,
     fontWeight: FontWeight.bold,
