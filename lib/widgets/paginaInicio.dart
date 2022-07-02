@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:homeshop/widgets/buscar.dart';
-import 'package:homeshop/widgets/miCuenta.dart';
+import 'package:homeshop/widgets/gestionar.dart';
+import 'package:homeshop/widgets/misCitas.dart';
 import 'package:homeshop/widgets/misPropiedades.dart';
 import 'package:homeshop/widgets/propiedad.dart';
 import 'package:homeshop/widgets/propiedades.dart';
@@ -17,8 +18,9 @@ class _PaginaInicioState extends State<PaginaInicio> {
   List<Widget> paginas = [
     Propiedades(),
     Buscar(),
+    MisCitas(),
     MisPropiedades(),
-    MiCuenta(),
+    Gestionar(),
   ];
 
   void _cambiarPagina(index) => setState(() => paginaActual = index);
@@ -47,15 +49,21 @@ class _PaginaInicioState extends State<PaginaInicio> {
             ),
           ),
           BottomNavigationBarItem(
+            label: "Mis Citas",
+            icon: Icon(
+              Icons.calendar_month,
+            ),
+          ),
+          BottomNavigationBarItem(
             label: "Mis Propiedades",
             icon: Icon(
               Icons.edit,
             ),
           ),
           BottomNavigationBarItem(
-            label: "Mi Cuenta",
+            label: "Gestionar",
             icon: Icon(
-              Icons.person,
+              Icons.settings,
             ),
           ),
         ],

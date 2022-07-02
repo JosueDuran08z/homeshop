@@ -32,8 +32,6 @@ class _LoginState extends State<Login> {
     Navigator.push(context, route);
   }
 
-  void _mostrarOlvideMiContrasenia() {}
-
   String? _validarCampo(valor, mensaje) =>
       valor!.trim().isEmpty ? mensaje : null;
 
