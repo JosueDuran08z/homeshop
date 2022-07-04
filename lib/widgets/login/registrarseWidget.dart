@@ -45,9 +45,9 @@ class _RegistrarseWidgetState extends State<RegistrarseWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("Registrarse")),
-      body: Padding(
-        padding: const EdgeInsets.all(30),
-        child: SingleChildScrollView(
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(30),
           child: Column(
             children: [
               const Text(

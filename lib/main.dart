@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:homeshop/widgets/login/loginWidget.dart';
+import 'package:homeshop/widgets/misPropiedades/agregarPropiedadWidget.dart';
 
 void main() {
   runApp(const MyApp());
@@ -33,6 +34,6 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    return LoginWidget();
+    return AgregarPropiedadWidget();
   }
 }
