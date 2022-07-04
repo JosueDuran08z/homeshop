@@ -43,6 +43,7 @@ class _AgregarPropiedadWidgetState extends State<AgregarPropiedadWidget> {
   ];
   Widget _imageSlider = Container();
   double _alturaSB = 0;
+  Widget _botonesImagen = Container();
 
   String? _validarCampo(valor, mensaje) =>
       valor!.trim().isEmpty ? mensaje : null;
@@ -74,6 +75,50 @@ class _AgregarPropiedadWidgetState extends State<AgregarPropiedadWidget> {
         ],
       );
       _alturaSB = 20;
+      _botonesImagen = Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          ElevatedButton(
+            onPressed: _editarImagen,
+            style: ElevatedButton.styleFrom(
+              primary: Colors.blue[600],
+              padding: const EdgeInsets.only(
+                left: 10,
+                top: 5,
+                right: 10,
+                bottom: 5,
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15),
+              ),
+            ),
+            child: const Icon(
+              Icons.edit,
+              size: 18,
+            ),
+          ),
+          const SizedBox(width: 20),
+          ElevatedButton(
+            onPressed: _eliminarImagen,
+            style: ElevatedButton.styleFrom(
+              primary: Colors.red[600],
+              padding: const EdgeInsets.only(
+                left: 10,
+                top: 5,
+                right: 10,
+                bottom: 5,
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15),
+              ),
+            ),
+            child: const Icon(
+              Icons.delete,
+              size: 18,
+            ),
+          ),
+        ],
+      );
     });
   }
 
@@ -87,6 +132,9 @@ class _AgregarPropiedadWidgetState extends State<AgregarPropiedadWidget> {
       Navigator.push(context, route);
     }
   }
+
+  void _editarImagen() {}
+  void _eliminarImagen() {}
 
   @override
   Widget build(BuildContext context) {
@@ -102,6 +150,8 @@ class _AgregarPropiedadWidgetState extends State<AgregarPropiedadWidget> {
             child: Column(
               children: [
                 _imageSlider,
+                SizedBox(height: _alturaSB),
+                _botonesImagen,
                 SizedBox(height: _alturaSB),
                 ElevatedButton.icon(
                   onPressed: _agregarImagen,
