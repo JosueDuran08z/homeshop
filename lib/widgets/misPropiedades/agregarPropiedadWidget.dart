@@ -51,11 +51,13 @@ class _AgregarPropiedadWidgetState extends State<AgregarPropiedadWidget> {
       valor!.trim().isEmpty ? mensaje : null;
 
   Future _seleccionarImagen() async {
-    try {
-      XFile? imagen;
-      imagen = await ImagePicker().pickImage(source: ImageSource.gallery);
-      if (imagen == null) return;
+    XFile? imagen;
+    imagen = await ImagePicker().pickImage(source: ImageSource.gallery);
+    return imagen;
+  }
 
+  void _agregarImagen() {
+    _seleccionarImagen().then((imagen) {
       setState(() {
         /* _imagenes.add(
           Image.file(
@@ -70,13 +72,7 @@ class _AgregarPropiedadWidgetState extends State<AgregarPropiedadWidget> {
           fit: BoxFit.cover,
         ));
       });
-    } catch (e) {
-      print("Error");
-    }
-  }
-
-  void _agregarImagen() {
-    _seleccionarImagen();
+    }).catchError((e) => print("Error"));
   }
 
   void _cambiarOperacion(value) => setState(() => _tipoOperacion = value);
@@ -91,10 +87,16 @@ class _AgregarPropiedadWidgetState extends State<AgregarPropiedadWidget> {
   }
 
   void _editarImagen() {
-    setState(() {
-      _imagenes[_imagenActual] =
-          Image.asset("assets/icon/logo.png", fit: BoxFit.cover);
-    });
+    _seleccionarImagen().then((imagen) {
+      setState(() {
+        /* _imagenes[_imagenActual] = Image.file(
+          File(imagen!.path),
+          fit: BoxFit.cover,
+        ); */
+        _imagenes[_imagenActual] =
+            Image.asset("assets/icon/logo.png", fit: BoxFit.cover);
+      });
+    }).catchError((e) => print("Error"));
   }
 
   void _eliminarImagen() => setState(() {
