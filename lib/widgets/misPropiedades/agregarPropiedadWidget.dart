@@ -17,12 +17,30 @@ class _AgregarPropiedadWidgetState extends State<AgregarPropiedadWidget> {
     fontSize: 15,
     color: Colors.grey[800],
   );
-  late TextEditingController _calleController;
-  late TextEditingController _coloniaController;
   String _tipoOperacion = "";
   bool _agua = false;
   bool _luz = false;
   bool _internet = false;
+  late TextEditingController _habitacionesController;
+  late TextEditingController _pisosController;
+  late TextEditingController _baniosController;
+  late TextEditingController _calleController;
+  late TextEditingController _coloniaController;
+  late TextEditingController _codPostalController;
+  late TextEditingController _numIntController;
+  late TextEditingController _numExtController;
+  late TextEditingController _largoController;
+  late TextEditingController _anchoController;
+  late TextEditingController _edadController;
+  late TextEditingController _descripcionController;
+  late TextEditingController _precioController;
+  String? estadoInstalaciones;
+  List<DropdownMenuItem<String>> estadosInstalaciones = [
+    const DropdownMenuItem<String>(
+        value: "Excelente", child: Text("Excelente")),
+    const DropdownMenuItem<String>(value: "Regular", child: Text("Regular")),
+    const DropdownMenuItem<String>(value: "Malo", child: Text("Malo")),
+  ];
   Widget _imageSlider = Container();
   double _alturaSB = 0;
 
@@ -221,7 +239,7 @@ class _AgregarPropiedadWidgetState extends State<AgregarPropiedadWidget> {
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
-                  controller: _coloniaController,
+                  controller: _habitacionesController,
                   decoration: const InputDecoration(
                     labelText: "Habitaciones",
                     border: OutlineInputBorder(),
@@ -232,7 +250,7 @@ class _AgregarPropiedadWidgetState extends State<AgregarPropiedadWidget> {
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
-                  controller: _coloniaController,
+                  controller: _pisosController,
                   decoration: const InputDecoration(
                     labelText: "Pisos",
                     border: OutlineInputBorder(),
@@ -247,7 +265,7 @@ class _AgregarPropiedadWidgetState extends State<AgregarPropiedadWidget> {
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
-                  controller: _coloniaController,
+                  controller: _baniosController,
                   decoration: const InputDecoration(
                     labelText: "Baños",
                     border: OutlineInputBorder(),
@@ -261,15 +279,19 @@ class _AgregarPropiedadWidgetState extends State<AgregarPropiedadWidget> {
                       _validarCampo(value, "Introduzca el número de baños"),
                 ),
                 const SizedBox(height: 20),
-                TextFormField(
-                  controller: _calleController,
+                DropdownButtonFormField(
+                  value: estadoInstalaciones,
+                  isExpanded: true,
+                  onChanged: (String? value) =>
+                      setState(() => estadoInstalaciones = value!),
+                  items: estadosInstalaciones,
                   decoration: const InputDecoration(
                     labelText: "Estado Instalaciones",
                     border: OutlineInputBorder(),
                     suffixIcon: Icon(Icons.star_rate),
                   ),
                   validator: (value) =>
-                      _validarCampo(value, "Introduzca la calle"),
+                      value == null ? "Seleccione una opción" : null,
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
@@ -325,78 +347,89 @@ class _AgregarPropiedadWidgetState extends State<AgregarPropiedadWidget> {
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
-                  controller: _coloniaController,
+                  controller: _codPostalController,
                   decoration: const InputDecoration(
                     labelText: "Código Postal",
                     border: OutlineInputBorder(),
                     suffixIcon: Icon(Icons.location_on_outlined),
                   ),
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly,
+                  ],
                   validator: (value) =>
-                      _validarCampo(value, "Introduzca el número exterior"),
+                      _validarCampo(value, "Introduzca el código postal"),
                 ),
                 const SizedBox(height: 20),
                 Row(
                   children: [
                     Expanded(
                       child: TextFormField(
-                        controller: _coloniaController,
+                        controller: _largoController,
                         decoration: const InputDecoration(
                           labelText: "Largo (m)",
                           border: OutlineInputBorder(),
                           suffixIcon: Icon(Icons.arrow_upward),
                         ),
-                        validator: (value) => _validarCampo(
-                            value, "Introduzca el número interior"),
+                        keyboardType: TextInputType.number,
+                        validator: (value) =>
+                            _validarCampo(value, "Introduzca el largo"),
                       ),
                     ),
                     const SizedBox(width: 20),
                     Expanded(
                       child: TextFormField(
-                        controller: _coloniaController,
+                        controller: _anchoController,
                         decoration: const InputDecoration(
                           labelText: "Ancho (m)",
                           border: OutlineInputBorder(),
                           suffixIcon: Icon(Icons.arrow_back_outlined),
                         ),
-                        validator: (value) => _validarCampo(
-                            value, "Introduzca el número exterior"),
+                        keyboardType: TextInputType.number,
+                        validator: (value) =>
+                            _validarCampo(value, "Introduzca el ancho"),
                       ),
                     ),
                   ],
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
-                  controller: _coloniaController,
+                  controller: _edadController,
                   decoration: const InputDecoration(
                     labelText: "Edad Propiedad",
                     border: OutlineInputBorder(),
                     suffixIcon: Icon(Icons.hourglass_bottom),
                   ),
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly,
+                  ],
                   validator: (value) => _validarCampo(
                       value, "Introduzca la edad de la propiedad"),
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
-                  controller: _coloniaController,
+                  controller: _descripcionController,
                   decoration: const InputDecoration(
                     labelText: "Descripción",
                     border: OutlineInputBorder(),
                     suffixIcon: Icon(Icons.description),
                   ),
                   maxLines: 4,
-                  validator: (value) => _validarCampo(
-                      value, "Introduzca la edad de la propiedad"),
+                  validator: (value) =>
+                      _validarCampo(value, "Introduzca la descripción"),
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
-                  controller: _coloniaController,
+                  controller: _precioController,
                   decoration: const InputDecoration(
                     labelText: "Precio",
                     border: OutlineInputBorder(),
                     suffixIcon: Icon(Icons.attach_money),
                   ),
+                  keyboardType: TextInputType.number,
                   validator: (value) =>
-                      _validarCampo(value, "Introduzca la colonia"),
+                      _validarCampo(value, "Introduzca el precio"),
                 ),
                 const SizedBox(height: 30),
                 ElevatedButton.icon(
@@ -428,7 +461,18 @@ class _AgregarPropiedadWidgetState extends State<AgregarPropiedadWidget> {
   @override
   void initState() {
     super.initState();
+    _habitacionesController = TextEditingController();
+    _pisosController = TextEditingController();
+    _baniosController = TextEditingController();
     _calleController = TextEditingController();
     _coloniaController = TextEditingController();
+    _codPostalController = TextEditingController();
+    _numIntController = TextEditingController();
+    _numExtController = TextEditingController();
+    _largoController = TextEditingController();
+    _anchoController = TextEditingController();
+    _edadController = TextEditingController();
+    _descripcionController = TextEditingController();
+    _precioController = TextEditingController();
   }
 }
