@@ -86,9 +86,7 @@ class _EditarPropiedadWidgetState extends State<EditarPropiedadWidget> {
   void _editarPropiedad() {
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
-      final route = MaterialPageRoute(
-          builder: (BuildContext context) => MisPropiedadesWidget());
-      Navigator.push(context, route);
+      Navigator.pop(context);
     }
   }
 

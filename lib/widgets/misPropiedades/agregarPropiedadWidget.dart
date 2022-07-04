@@ -82,9 +82,7 @@ class _AgregarPropiedadWidgetState extends State<AgregarPropiedadWidget> {
   void _agregarPropiedad() {
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
-      final route = MaterialPageRoute(
-          builder: (BuildContext context) => MisPropiedadesWidget());
-      Navigator.push(context, route);
+      Navigator.pop(context);
     }
   }
 
