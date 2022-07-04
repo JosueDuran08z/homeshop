@@ -21,6 +21,7 @@ class _AgregarPropiedadWidgetState extends State<AgregarPropiedadWidget> {
     color: Colors.grey[800],
   );
   String _tipoOperacion = "";
+  String _cochera = "";
   bool _agua = false;
   bool _luz = false;
   bool _internet = false;
@@ -37,8 +38,8 @@ class _AgregarPropiedadWidgetState extends State<AgregarPropiedadWidget> {
   late TextEditingController _edadController;
   late TextEditingController _descripcionController;
   late TextEditingController _precioController;
-  String? estadoInstalaciones;
-  List<DropdownMenuItem<String>> estadosInstalaciones = [
+  String? _estadoInstalaciones;
+  final List<DropdownMenuItem<String>> _estadosInstalaciones = [
     const DropdownMenuItem<String>(
         value: "Excelente", child: Text("Excelente")),
     const DropdownMenuItem<String>(value: "Regular", child: Text("Regular")),
@@ -76,6 +77,7 @@ class _AgregarPropiedadWidgetState extends State<AgregarPropiedadWidget> {
   }
 
   void _cambiarOperacion(value) => setState(() => _tipoOperacion = value);
+  void _cambiarValorCochera(value) => setState(() => _cochera = value);
 
   void _agregarPropiedad() {
     if (formKey.currentState!.validate()) {
@@ -249,8 +251,8 @@ class _AgregarPropiedadWidgetState extends State<AgregarPropiedadWidget> {
                         title: const Text("Sí"),
                         leading: Radio(
                           value: "Sí",
-                          groupValue: _tipoOperacion,
-                          onChanged: _cambiarOperacion,
+                          groupValue: _cochera,
+                          onChanged: _cambiarValorCochera,
                         ),
                       ),
                     ),
@@ -261,8 +263,8 @@ class _AgregarPropiedadWidgetState extends State<AgregarPropiedadWidget> {
                         title: const Text("No"),
                         leading: Radio(
                           value: "No",
-                          groupValue: _tipoOperacion,
-                          onChanged: _cambiarOperacion,
+                          groupValue: _cochera,
+                          onChanged: _cambiarValorCochera,
                         ),
                       ),
                     ),
@@ -354,11 +356,11 @@ class _AgregarPropiedadWidgetState extends State<AgregarPropiedadWidget> {
                 ),
                 const SizedBox(height: 20),
                 DropdownButtonFormField(
-                  value: estadoInstalaciones,
+                  value: _estadoInstalaciones,
                   isExpanded: true,
                   onChanged: (String? value) =>
-                      setState(() => estadoInstalaciones = value!),
-                  items: estadosInstalaciones,
+                      setState(() => _estadoInstalaciones = value!),
+                  items: _estadosInstalaciones,
                   decoration: const InputDecoration(
                     labelText: "Estado Instalaciones",
                     border: OutlineInputBorder(),
