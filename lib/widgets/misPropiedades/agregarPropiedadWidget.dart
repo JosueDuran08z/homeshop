@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:homeshop/widgets/misPropiedades/misPropiedadesWidget.dart';
+import 'package:image_picker/image_picker.dart';
 
 class AgregarPropiedadWidget extends StatefulWidget {
   AgregarPropiedadWidget({Key? key}) : super(key: key);
@@ -41,85 +44,39 @@ class _AgregarPropiedadWidgetState extends State<AgregarPropiedadWidget> {
     const DropdownMenuItem<String>(value: "Regular", child: Text("Regular")),
     const DropdownMenuItem<String>(value: "Malo", child: Text("Malo")),
   ];
-  Widget _imageSlider = Container();
-  double _alturaSB = 0;
-  Widget _botonesImagen = Container();
+  List<Image> _imagenes = <Image>[];
+  int _imagenActual = 0;
 
   String? _validarCampo(valor, mensaje) =>
       valor!.trim().isEmpty ? mensaje : null;
 
+  Future _seleccionarImagen() async {
+    try {
+      XFile? imagen;
+      imagen = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (imagen == null) return;
+
+      setState(() {
+        /* _imagenes.add(
+          Image.file(
+            File(imagen!.path),
+            fit: BoxFit.cover,
+          ),
+        ); */
+        _imagenes.add(Image.network(
+          _imagenes.length % 2 == 0
+              ? "https://img.remediosdigitales.com/8e8f64/lo-de-que-comprar-una-casa-es-la-mejor-inversion-hay-generaciones-que-ya-no-lo-ven-ni-de-lejos---1/1366_2000.jpg"
+              : "https://th.bing.com/th/id/R.2c76042f56bf81ef78c51089192d5d10?rik=9Va9wLV7TzGRYw&pid=ImgRaw&r=0",
+          fit: BoxFit.cover,
+        ));
+      });
+    } catch (e) {
+      print("Error");
+    }
+  }
+
   void _agregarImagen() {
-    setState(() {
-      _imageSlider = ImageSlideshow(
-        children: [
-          Image.network(
-            "https://img.remediosdigitales.com/8e8f64/lo-de-que-comprar-una-casa-es-la-mejor-inversion-hay-generaciones-que-ya-no-lo-ven-ni-de-lejos---1/1366_2000.jpg",
-            fit: BoxFit.cover,
-          ),
-          Image.network(
-            "https://th.bing.com/th/id/R.2c76042f56bf81ef78c51089192d5d10?rik=9Va9wLV7TzGRYw&pid=ImgRaw&r=0",
-            fit: BoxFit.cover,
-          ),
-          Image.network(
-            "https://img.remediosdigitales.com/8e8f64/lo-de-que-comprar-una-casa-es-la-mejor-inversion-hay-generaciones-que-ya-no-lo-ven-ni-de-lejos---1/1366_2000.jpg",
-            fit: BoxFit.cover,
-          ),
-          Image.network(
-            "https://th.bing.com/th/id/R.2c76042f56bf81ef78c51089192d5d10?rik=9Va9wLV7TzGRYw&pid=ImgRaw&r=0",
-            fit: BoxFit.cover,
-          ),
-          Image.network(
-            "https://img.remediosdigitales.com/8e8f64/lo-de-que-comprar-una-casa-es-la-mejor-inversion-hay-generaciones-que-ya-no-lo-ven-ni-de-lejos---1/1366_2000.jpg",
-            fit: BoxFit.cover,
-          ),
-        ],
-      );
-      _alturaSB = 20;
-      _botonesImagen = Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          ElevatedButton(
-            onPressed: _editarImagen,
-            style: ElevatedButton.styleFrom(
-              primary: Colors.blue[600],
-              padding: const EdgeInsets.only(
-                left: 10,
-                top: 5,
-                right: 10,
-                bottom: 5,
-              ),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15),
-              ),
-            ),
-            child: const Icon(
-              Icons.edit,
-              size: 18,
-            ),
-          ),
-          const SizedBox(width: 20),
-          ElevatedButton(
-            onPressed: _eliminarImagen,
-            style: ElevatedButton.styleFrom(
-              primary: Colors.red[600],
-              padding: const EdgeInsets.only(
-                left: 10,
-                top: 5,
-                right: 10,
-                bottom: 5,
-              ),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15),
-              ),
-            ),
-            child: const Icon(
-              Icons.delete,
-              size: 18,
-            ),
-          ),
-        ],
-      );
-    });
+    _seleccionarImagen();
   }
 
   void _cambiarOperacion(value) => setState(() => _tipoOperacion = value);
@@ -133,8 +90,17 @@ class _AgregarPropiedadWidgetState extends State<AgregarPropiedadWidget> {
     }
   }
 
-  void _editarImagen() {}
-  void _eliminarImagen() {}
+  void _editarImagen() {
+    setState(() {
+      _imagenes[_imagenActual] =
+          Image.asset("assets/icon/logo.png", fit: BoxFit.cover);
+    });
+  }
+
+  void _eliminarImagen() => setState(() {
+        _imagenes.removeAt(_imagenActual);
+        _imagenActual = _imagenes.isEmpty ? 0 : _imagenActual - 1;
+      });
 
   @override
   Widget build(BuildContext context) {
@@ -149,28 +115,84 @@ class _AgregarPropiedadWidgetState extends State<AgregarPropiedadWidget> {
             key: formKey,
             child: Column(
               children: [
-                _imageSlider,
-                SizedBox(height: _alturaSB),
-                _botonesImagen,
-                SizedBox(height: _alturaSB),
-                ElevatedButton.icon(
-                  onPressed: _agregarImagen,
-                  icon: const Icon(Icons.add),
-                  label: const Text("Añadir Imagen"),
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.blue[600],
-                    padding: const EdgeInsets.only(
-                      left: 20,
-                      top: 15,
-                      right: 20,
-                      bottom: 15,
-                    ),
-                    minimumSize: const Size.fromHeight(50),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                  ),
-                ),
+                _imagenes.isEmpty
+                    ? Container()
+                    : ImageSlideshow(
+                        initialPage: 2,
+                        onPageChanged: (index) => setState(() {
+                          print("Imgen actual $index");
+                          _imagenActual = index;
+                        }),
+                        children: _imagenes,
+                      ),
+                SizedBox(height: _imagenes.isEmpty ? 0 : 20),
+                _imagenes.isEmpty
+                    ? Container()
+                    : Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ElevatedButton(
+                            onPressed: _editarImagen,
+                            style: ElevatedButton.styleFrom(
+                              primary: Colors.blue[600],
+                              padding: const EdgeInsets.only(
+                                left: 10,
+                                top: 5,
+                                right: 10,
+                                bottom: 5,
+                              ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                            ),
+                            child: const Icon(
+                              Icons.edit,
+                              size: 18,
+                            ),
+                          ),
+                          const SizedBox(width: 20),
+                          ElevatedButton(
+                            onPressed: _eliminarImagen,
+                            style: ElevatedButton.styleFrom(
+                              primary: Colors.red[600],
+                              padding: const EdgeInsets.only(
+                                left: 10,
+                                top: 5,
+                                right: 10,
+                                bottom: 5,
+                              ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                            ),
+                            child: const Icon(
+                              Icons.delete,
+                              size: 18,
+                            ),
+                          ),
+                        ],
+                      ),
+                SizedBox(height: _imagenes.isEmpty ? 0 : 20),
+                _imagenes.length < 5
+                    ? ElevatedButton.icon(
+                        onPressed: _agregarImagen,
+                        icon: const Icon(Icons.add),
+                        label: const Text("Añadir Imagen"),
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.blue[600],
+                          padding: const EdgeInsets.only(
+                            left: 20,
+                            top: 15,
+                            right: 20,
+                            bottom: 15,
+                          ),
+                          minimumSize: const Size.fromHeight(50),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                        ),
+                      )
+                    : Container(),
                 const SizedBox(height: 20),
                 Row(
                   children: [
@@ -370,7 +392,7 @@ class _AgregarPropiedadWidgetState extends State<AgregarPropiedadWidget> {
                   children: [
                     Expanded(
                       child: TextFormField(
-                        controller: _coloniaController,
+                        controller: _numIntController,
                         decoration: const InputDecoration(
                           labelText: "# Interior",
                           border: OutlineInputBorder(),
@@ -383,7 +405,7 @@ class _AgregarPropiedadWidgetState extends State<AgregarPropiedadWidget> {
                     const SizedBox(width: 20),
                     Expanded(
                       child: TextFormField(
-                        controller: _coloniaController,
+                        controller: _numExtController,
                         decoration: const InputDecoration(
                           labelText: "# Exterior",
                           border: OutlineInputBorder(),
