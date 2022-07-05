@@ -254,7 +254,7 @@ class _PropiedadWidgetState extends State<PropiedadWidget> {
                             decoration: const InputDecoration(
                               labelText: "Hora",
                               border: OutlineInputBorder(),
-                              suffixIcon: Icon(Icons.timer),
+                              suffixIcon: Icon(Icons.access_time_rounded),
                             ),
                             validator: (value) =>
                                 value == null ? "Seleccione una hora" : null,
