@@ -5,6 +5,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:homeshop/widgets/misPropiedades/misPropiedadesWidget.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
+import 'package:date_field/date_field.dart';
 
 class EditarPropiedadWidget extends StatefulWidget {
   EditarPropiedadWidget(this.id, {Key? key}) : super(key: key);
@@ -26,31 +28,86 @@ class _EditarPropiedadWidgetState extends State<EditarPropiedadWidget> {
   );
   String _tipoOperacion = "";
   String _cochera = "";
-  bool _agua = false;
-  bool _luz = false;
-  bool _internet = false;
-  late TextEditingController _habitacionesController;
-  late TextEditingController _pisosController;
-  late TextEditingController _baniosController;
-  late TextEditingController _calleController;
-  late TextEditingController _coloniaController;
-  late TextEditingController _codPostalController;
-  late TextEditingController _numIntController;
-  late TextEditingController _numExtController;
-  late TextEditingController _largoController;
-  late TextEditingController _anchoController;
-  late TextEditingController _edadController;
-  late TextEditingController _descripcionController;
-  late TextEditingController _precioController;
+  bool _agua = false, _luz = false, _internet = false;
+  late TextEditingController _habitacionesController,
+      _pisosController,
+      _baniosController,
+      _calleController,
+      _coloniaController,
+      _codPostalController,
+      _numIntController,
+      _numExtController,
+      _largoController,
+      _anchoController,
+      _edadController,
+      _descripcionController,
+      _precioController;
   String? _estadoInstalaciones;
-  List<DropdownMenuItem<String>> estadosInstalaciones = [
+  final List<DropdownMenuItem<String>> _estadosInstalaciones = [
     const DropdownMenuItem<String>(
         value: "Excelente", child: Text("Excelente")),
     const DropdownMenuItem<String>(value: "Regular", child: Text("Regular")),
     const DropdownMenuItem<String>(value: "Malo", child: Text("Malo")),
   ];
+  bool _lunes = false,
+      _martes = false,
+      _miercoles = false,
+      _jueves = false,
+      _viernes = false,
+      _sabado = false,
+      _domingo = false;
+  int? _duracion;
+  int _duracionAux = 0;
+  final List<DropdownMenuItem<int>> _duraciones = [
+    const DropdownMenuItem<int>(value: 1, child: Text("1 hora")),
+    const DropdownMenuItem<int>(value: 2, child: Text("2 horas")),
+    const DropdownMenuItem<int>(value: 3, child: Text("3 horas")),
+  ];
+  DateTime? _horaInicio;
+  DateTime? _horaFin;
+  List<DropdownMenuItem<DateTime>> _horasFin = <DropdownMenuItem<DateTime>>[];
   List<Image> _imagenes = <Image>[];
   int _imagenActual = 0;
+
+  void _mostrarFechasFin() {
+    setState(() {
+      _horaFin = null;
+      _horasFin = <DropdownMenuItem<DateTime>>[];
+      List<DateTime> _horasFinAux = [];
+      _duracionAux = _duracion!;
+      DateTime _hoy = DateTime.now();
+      DateTime _fechaLimite =
+          DateTime(_hoy.year, _hoy.month, _hoy.day, 23, 59, 0);
+
+      do {
+        DateTime _horaFin = _horasFinAux.isEmpty
+            ? _horaInicio!.add(Duration(hours: _duracionAux))
+            : _horasFinAux[_horasFin.length - 1]
+                .add(Duration(hours: _duracionAux));
+        _horasFinAux.add(_horaFin);
+        _horasFin.add(
+          DropdownMenuItem<DateTime>(
+            value: _horaFin,
+            child: Text(DateFormat("hh:mm a").format(_horaFin)),
+          ),
+        );
+      } while (_fechaLimite.compareTo(_horasFinAux[_horasFin.length - 1]
+              .add(Duration(hours: _duracionAux))) ==
+          1);
+    });
+  }
+
+  void _seleccionarDuracion(int? value) {
+    setState(() => _duracion = value);
+    _mostrarFechasFin();
+  }
+
+  void _seleccionarHoraInicio(DateTime value) {
+    if (value != _horaInicio) {
+      setState(() => _horaInicio = value);
+      if (_duracion != null) _mostrarFechasFin();
+    }
+  }
 
   String? _validarCampo(valor, mensaje) =>
       valor!.trim().isEmpty ? mensaje : null;
@@ -134,10 +191,9 @@ class _EditarPropiedadWidgetState extends State<EditarPropiedadWidget> {
                 _imagenes.isEmpty
                     ? Container()
                     : ImageSlideshow(
-                        onPageChanged: (index) => setState(() {
-                          print("Imgen actual $index");
-                          _imagenActual = index;
-                        }),
+                        initialPage: 2,
+                        onPageChanged: (index) =>
+                            setState(() => _imagenActual = index),
                         children: _imagenes,
                       ),
                 SizedBox(height: _imagenes.isEmpty ? 0 : 20),
@@ -290,39 +346,24 @@ class _EditarPropiedadWidgetState extends State<EditarPropiedadWidget> {
                     ),
                   ],
                 ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: CheckboxListTile(
-                        contentPadding:
-                            const EdgeInsets.only(left: 0, right: 10),
-                        title: const Text("Agua"),
-                        value: _agua,
-                        onChanged: (bool? value) =>
-                            setState(() => _agua = value!),
-                      ),
-                    ),
-                    Expanded(
-                      child: CheckboxListTile(
-                        contentPadding:
-                            const EdgeInsets.only(left: 10, right: 10),
-                        title: const Text("Luz"),
-                        value: _luz,
-                        onChanged: (bool? value) =>
-                            setState(() => _luz = value!),
-                      ),
-                    ),
-                    Expanded(
-                      child: CheckboxListTile(
-                        contentPadding:
-                            const EdgeInsets.only(left: 10, right: 0),
-                        title: const Text("Internet"),
-                        value: _internet,
-                        onChanged: (bool? value) =>
-                            setState(() => _internet = value!),
-                      ),
-                    ),
-                  ],
+                CheckboxListTile(
+                  contentPadding: const EdgeInsets.all(0),
+                  title: const Text("Agua"),
+                  value: _agua,
+                  onChanged: (bool? value) => setState(() => _agua = value!),
+                ),
+                CheckboxListTile(
+                  contentPadding: const EdgeInsets.all(0),
+                  title: const Text("Luz"),
+                  value: _luz,
+                  onChanged: (bool? value) => setState(() => _luz = value!),
+                ),
+                CheckboxListTile(
+                  contentPadding: const EdgeInsets.all(0),
+                  title: const Text("Internet"),
+                  value: _internet,
+                  onChanged: (bool? value) =>
+                      setState(() => _internet = value!),
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
@@ -332,6 +373,10 @@ class _EditarPropiedadWidgetState extends State<EditarPropiedadWidget> {
                     border: OutlineInputBorder(),
                     suffixIcon: Icon(Icons.bed),
                   ),
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly,
+                  ],
                   validator: (value) => _validarCampo(
                       value, "Introduzca el número de habitaciones"),
                 ),
@@ -371,7 +416,7 @@ class _EditarPropiedadWidgetState extends State<EditarPropiedadWidget> {
                   isExpanded: true,
                   onChanged: (String? value) =>
                       setState(() => _estadoInstalaciones = value!),
-                  items: estadosInstalaciones,
+                  items: _estadosInstalaciones,
                   decoration: const InputDecoration(
                     labelText: "Estado Instalaciones",
                     border: OutlineInputBorder(),
@@ -426,8 +471,6 @@ class _EditarPropiedadWidgetState extends State<EditarPropiedadWidget> {
                           border: OutlineInputBorder(),
                           suffixIcon: Icon(Icons.numbers),
                         ),
-                        validator: (value) => _validarCampo(
-                            value, "Introduzca el número exterior"),
                       ),
                     ),
                   ],
@@ -519,6 +562,121 @@ class _EditarPropiedadWidgetState extends State<EditarPropiedadWidget> {
                       _validarCampo(value, "Introduzca el precio"),
                 ),
                 const SizedBox(height: 30),
+                Row(
+                  children: [
+                    Text(
+                      "Horario Disponible para Citas",
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.red[600],
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
+                Row(
+                  children: [
+                    Text(
+                      "Dia(s)",
+                      style: textStylePregunta,
+                    ),
+                  ],
+                ),
+                CheckboxListTile(
+                  contentPadding: const EdgeInsets.all(0),
+                  title: const Text("Lunes"),
+                  value: _lunes,
+                  onChanged: (bool? value) => setState(() => _lunes = value!),
+                ),
+                CheckboxListTile(
+                  contentPadding: const EdgeInsets.all(0),
+                  title: const Text("Martes"),
+                  value: _martes,
+                  onChanged: (bool? value) => setState(() => _martes = value!),
+                ),
+                CheckboxListTile(
+                  contentPadding: const EdgeInsets.all(0),
+                  title: const Text("Miércoles"),
+                  value: _miercoles,
+                  onChanged: (bool? value) =>
+                      setState(() => _miercoles = value!),
+                ),
+                CheckboxListTile(
+                  contentPadding: const EdgeInsets.all(0),
+                  title: const Text("Jueves"),
+                  value: _jueves,
+                  onChanged: (bool? value) => setState(() => _jueves = value!),
+                ),
+                CheckboxListTile(
+                  contentPadding: const EdgeInsets.all(0),
+                  title: const Text("Viernes"),
+                  value: _viernes,
+                  onChanged: (bool? value) => setState(() => _viernes = value!),
+                ),
+                CheckboxListTile(
+                  contentPadding: const EdgeInsets.all(0),
+                  title: const Text("Sábado"),
+                  value: _sabado,
+                  onChanged: (bool? value) => setState(() => _sabado = value!),
+                ),
+                CheckboxListTile(
+                  contentPadding: const EdgeInsets.all(0),
+                  title: const Text("Domingo"),
+                  value: _domingo,
+                  onChanged: (bool? value) => setState(() => _domingo = value!),
+                ),
+                const SizedBox(height: 20),
+                Row(
+                  children: [
+                    Text(
+                      "Hora",
+                      style: textStylePregunta,
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
+                DateTimeFormField(
+                  initialValue: DateTime.parse("2022-07-05 08:00:00"),
+                  decoration: const InputDecoration(
+                      labelText: "Inicio",
+                      border: OutlineInputBorder(),
+                      suffixIcon: Icon(Icons.timer_outlined)),
+                  mode: DateTimeFieldPickerMode.time,
+                  validator: (date) =>
+                      date == null ? "Seleccione una fecha" : null,
+                  onDateSelected: _seleccionarHoraInicio,
+                ),
+                const SizedBox(height: 20),
+                DropdownButtonFormField(
+                  value: _duracion,
+                  isExpanded: true,
+                  onChanged: _seleccionarDuracion,
+                  items: _horaInicio != null ? _duraciones : null,
+                  decoration: const InputDecoration(
+                    labelText: "Duración",
+                    border: OutlineInputBorder(),
+                    suffixIcon: Icon(Icons.timelapse),
+                  ),
+                  validator: (value) =>
+                      value == null ? "Seleccione una opción" : null,
+                ),
+                const SizedBox(height: 20),
+                DropdownButtonFormField(
+                  value: _horaFin,
+                  isExpanded: true,
+                  onChanged: (DateTime? value) =>
+                      setState(() => _horaFin = value!),
+                  items: _horasFin,
+                  decoration: const InputDecoration(
+                    labelText: "Fin",
+                    border: OutlineInputBorder(),
+                    suffixIcon: Icon(Icons.timer_off_outlined),
+                  ),
+                  validator: (value) =>
+                      value == null ? "Seleccione una opción" : null,
+                ),
+                const SizedBox(height: 30),
                 ElevatedButton.icon(
                   onPressed: _editarPropiedad,
                   icon: const Icon(Icons.save),
@@ -593,6 +751,13 @@ class _EditarPropiedadWidgetState extends State<EditarPropiedadWidget> {
       _luz = true;
       _internet = true;
       _estadoInstalaciones = "Excelente";
+      _lunes = true;
+      _martes = true;
+      _miercoles = true;
+      _horaInicio = DateTime.parse("2022-07-05 08:00:00");
+      _duracion = 1;
+      _mostrarFechasFin();
+      _horaFin = DateTime.parse("2022-07-05 10:00:00");
     });
   }
 }

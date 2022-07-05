@@ -467,8 +467,6 @@ class _AgregarPropiedadWidgetState extends State<AgregarPropiedadWidget> {
                           border: OutlineInputBorder(),
                           suffixIcon: Icon(Icons.numbers),
                         ),
-                        validator: (value) => _validarCampo(
-                            value, "Introduzca el número exterior"),
                       ),
                     ),
                   ],
