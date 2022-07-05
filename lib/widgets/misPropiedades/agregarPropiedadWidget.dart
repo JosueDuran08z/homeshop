@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:homeshop/widgets/misPropiedades/misPropiedadesWidget.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 
 class AgregarPropiedadWidget extends StatefulWidget {
   AgregarPropiedadWidget({Key? key}) : super(key: key);
@@ -52,26 +53,56 @@ class _AgregarPropiedadWidgetState extends State<AgregarPropiedadWidget> {
       _sabado = false,
       _domingo = false;
   int? _duracion;
+  int _duracionAux = 0;
   final List<DropdownMenuItem<int>> _duraciones = [
     const DropdownMenuItem<int>(value: 1, child: Text("1 hora")),
     const DropdownMenuItem<int>(value: 2, child: Text("2 horas")),
     const DropdownMenuItem<int>(value: 3, child: Text("3 horas")),
   ];
+  DateTime? _horaInicio;
   DateTime? _horaFin;
-  final List<DropdownMenuItem<DateTime>> _horasFin = [];
+  List<DropdownMenuItem<DateTime>> _horasFin = <DropdownMenuItem<DateTime>>[];
   List<Image> _imagenes = <Image>[];
   int _imagenActual = 0;
 
-  void _seleccionarDuracion(int? value) {
+  void _mostrarFechasFin() {
     setState(() {
-      _duracion = value;
-      _horasFin.add(
-        DropdownMenuItem<DateTime>(
-          value: DateTime.parse("2001-07-21 12:00:00"),
-          child: Text("12:00:00 a.m."),
-        ),
-      );
+      _horaFin = null;
+      _horasFin = <DropdownMenuItem<DateTime>>[];
+      List<DateTime> _horasFinAux = [];
+      _duracionAux = _duracion!;
+      DateTime _hoy = DateTime.now();
+      DateTime _fechaLimite =
+          DateTime(_hoy.year, _hoy.month, _hoy.day, 23, 59, 0);
+
+      do {
+        DateTime _horaFin = _horasFinAux.isEmpty
+            ? _horaInicio!.add(Duration(hours: _duracionAux))
+            : _horasFinAux[_horasFin.length - 1]
+                .add(Duration(hours: _duracionAux));
+        _horasFinAux.add(_horaFin);
+        _horasFin.add(
+          DropdownMenuItem<DateTime>(
+            value: _horaFin,
+            child: Text(DateFormat("hh:mm a").format(_horaFin)),
+          ),
+        );
+      } while (_fechaLimite.compareTo(_horasFinAux[_horasFin.length - 1]
+              .add(Duration(hours: _duracionAux))) ==
+          1);
     });
+  }
+
+  void _seleccionarDuracion(int? value) {
+    setState(() => _duracion = value);
+    _mostrarFechasFin();
+  }
+
+  void _seleccionarHoraInicio(DateTime value) {
+    if (value != _horaInicio) {
+      setState(() => _horaInicio = value);
+      if (_duracion != null) _mostrarFechasFin();
+    }
   }
 
   String? _validarCampo(valor, mensaje) =>
@@ -157,10 +188,8 @@ class _AgregarPropiedadWidgetState extends State<AgregarPropiedadWidget> {
                     ? Container()
                     : ImageSlideshow(
                         initialPage: 2,
-                        onPageChanged: (index) => setState(() {
-                          print("Imgen actual $index");
-                          _imagenActual = index;
-                        }),
+                        onPageChanged: (index) =>
+                            setState(() => _imagenActual = index),
                         children: _imagenes,
                       ),
                 SizedBox(height: _imagenes.isEmpty ? 0 : 20),
@@ -613,14 +642,14 @@ class _AgregarPropiedadWidgetState extends State<AgregarPropiedadWidget> {
                   mode: DateTimeFieldPickerMode.time,
                   validator: (date) =>
                       date == null ? "Seleccione una fecha" : null,
-                  onDateSelected: (DateTime value) {},
+                  onDateSelected: _seleccionarHoraInicio,
                 ),
                 const SizedBox(height: 20),
                 DropdownButtonFormField(
                   value: _duracion,
                   isExpanded: true,
                   onChanged: _seleccionarDuracion,
-                  items: _duraciones,
+                  items: _horaInicio != null ? _duraciones : null,
                   decoration: const InputDecoration(
                     labelText: "Duración",
                     border: OutlineInputBorder(),
