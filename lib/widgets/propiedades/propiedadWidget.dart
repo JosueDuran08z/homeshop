@@ -10,6 +10,27 @@ class PropiedadWidget extends StatefulWidget {
 }
 
 class _PropiedadWidgetState extends State<PropiedadWidget> {
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  String? _diaCita;
+  final List<DropdownMenuItem<String>> _diasDisponiblesCita = [
+    const DropdownMenuItem<String>(value: "Lunes", child: Text("Lunes")),
+    const DropdownMenuItem<String>(value: "Martes", child: Text("Martes")),
+    const DropdownMenuItem<String>(
+        value: "Miércoles", child: Text("Miércoles")),
+    const DropdownMenuItem<String>(value: "Jueves", child: Text("Jueves")),
+    const DropdownMenuItem<String>(value: "Viernes", child: Text("Viernes")),
+  ];
+
+  String? _horaCita;
+  final List<DropdownMenuItem<String>> _horasDisponiblesCita = [
+    const DropdownMenuItem<String>(value: "08:00", child: Text("08:00 a.m.")),
+    const DropdownMenuItem<String>(value: "09:00", child: Text("09:00 a.m.")),
+    const DropdownMenuItem<String>(value: "10:00", child: Text("10:00 a.m.")),
+    const DropdownMenuItem<String>(value: "11:00", child: Text("11:00 a.m.")),
+    const DropdownMenuItem<String>(value: "12:00", child: Text("12:00 a.m.")),
+    const DropdownMenuItem<String>(value: "13:00", child: Text("01:00 p.m.")),
+  ];
+
   TextStyle textStyleTitulo = TextStyle(
     fontSize: 18,
     fontWeight: FontWeight.bold,
@@ -19,6 +40,22 @@ class _PropiedadWidgetState extends State<PropiedadWidget> {
     fontSize: 15,
     color: Colors.grey[700],
   );
+
+  void _agendarCita() {
+    if (formKey.currentState!.validate()) {
+      formKey.currentState!.save();
+      SnackBar snackbar = SnackBar(
+        content: const Text(
+          "!Cita agendada correctamente!",
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        backgroundColor: Colors.blue[600],
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackbar);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -180,29 +217,74 @@ class _PropiedadWidgetState extends State<PropiedadWidget> {
                     ],
                   ),
                   const SizedBox(height: 40),
-                  ElevatedButton.icon(
-                    onPressed: () {},
-                    icon: const Icon(Icons.calendar_month),
-                    label: const Text("Agendar cita"),
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.red[700],
-                      padding: const EdgeInsets.only(
-                        left: 20,
-                        top: 15,
-                        right: 20,
-                        bottom: 15,
+                  Row(
+                    children: [
+                      Text(
+                        "Agenda una Cita con el Vendedor",
+                        style: textStyleTitulo,
                       ),
-                      minimumSize: const Size.fromHeight(50),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                    ),
+                    ],
                   ),
+                  const SizedBox(height: 20),
+                  Form(
+                      key: formKey,
+                      child: Column(
+                        children: [
+                          DropdownButtonFormField(
+                            value: _diaCita,
+                            isExpanded: true,
+                            onChanged: (String? value) =>
+                                setState(() => _diaCita = value!),
+                            items: _diasDisponiblesCita,
+                            decoration: const InputDecoration(
+                              labelText: "Día",
+                              border: OutlineInputBorder(),
+                              suffixIcon: Icon(Icons.calendar_month),
+                            ),
+                            validator: (value) =>
+                                value == null ? "Seleccione un día" : null,
+                          ),
+                          const SizedBox(height: 20),
+                          DropdownButtonFormField(
+                            value: _horaCita,
+                            isExpanded: true,
+                            onChanged: (String? value) =>
+                                setState(() => _horaCita = value!),
+                            items: _horasDisponiblesCita,
+                            decoration: const InputDecoration(
+                              labelText: "Hora",
+                              border: OutlineInputBorder(),
+                              suffixIcon: Icon(Icons.timer),
+                            ),
+                            validator: (value) =>
+                                value == null ? "Seleccione una hora" : null,
+                          ),
+                          const SizedBox(height: 30),
+                          ElevatedButton.icon(
+                            onPressed: _agendarCita,
+                            icon: const Icon(Icons.calendar_month),
+                            label: const Text("Agendar cita"),
+                            style: ElevatedButton.styleFrom(
+                              primary: Colors.red[700],
+                              padding: const EdgeInsets.only(
+                                left: 20,
+                                top: 15,
+                                right: 20,
+                                bottom: 15,
+                              ),
+                              minimumSize: const Size.fromHeight(50),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                            ),
+                          ),
+                        ],
+                      )),
                   const SizedBox(height: 40),
                   Row(
                     children: [
                       Text(
-                        "Contacta al vendedor",
+                        "Contacta al Vendedor",
                         style: textStyleTitulo,
                       ),
                     ],
