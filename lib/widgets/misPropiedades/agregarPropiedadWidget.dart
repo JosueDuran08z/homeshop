@@ -83,6 +83,16 @@ class _AgregarPropiedadWidgetState extends State<AgregarPropiedadWidget> {
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
       Navigator.pop(context);
+      SnackBar snackbar = SnackBar(
+        content: const Text(
+          "!Propiedad agregada correctamente!",
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        backgroundColor: Colors.blue[600],
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackbar);
     }
   }
 

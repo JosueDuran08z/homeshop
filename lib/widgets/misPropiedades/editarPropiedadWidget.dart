@@ -87,6 +87,16 @@ class _EditarPropiedadWidgetState extends State<EditarPropiedadWidget> {
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
       Navigator.pop(context);
+      SnackBar snackbar = SnackBar(
+        content: const Text(
+          "!Propiedad editada correctamente!",
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        backgroundColor: Colors.blue[600],
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackbar);
     }
   }
 
