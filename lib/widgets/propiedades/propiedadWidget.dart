@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
+import 'package:intl/intl.dart';
 
 class PropiedadWidget extends StatefulWidget {
   PropiedadWidget(this.id, {Key? key}) : super(key: key);
@@ -12,7 +13,7 @@ class PropiedadWidget extends StatefulWidget {
 class _PropiedadWidgetState extends State<PropiedadWidget> {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   String? _diaCita;
-  final List<DropdownMenuItem<String>> _diasDisponiblesCita = [
+  List<DropdownMenuItem<String>> _diasDisponiblesCita = [
     const DropdownMenuItem<String>(value: "Lunes", child: Text("Lunes")),
     const DropdownMenuItem<String>(value: "Martes", child: Text("Martes")),
     const DropdownMenuItem<String>(
@@ -21,14 +22,32 @@ class _PropiedadWidgetState extends State<PropiedadWidget> {
     const DropdownMenuItem<String>(value: "Viernes", child: Text("Viernes")),
   ];
 
-  String? _horaCita;
-  final List<DropdownMenuItem<String>> _horasDisponiblesCita = [
-    const DropdownMenuItem<String>(value: "08:00", child: Text("08:00 a.m.")),
-    const DropdownMenuItem<String>(value: "09:00", child: Text("09:00 a.m.")),
-    const DropdownMenuItem<String>(value: "10:00", child: Text("10:00 a.m.")),
-    const DropdownMenuItem<String>(value: "11:00", child: Text("11:00 a.m.")),
-    const DropdownMenuItem<String>(value: "12:00", child: Text("12:00 a.m.")),
-    const DropdownMenuItem<String>(value: "13:00", child: Text("01:00 p.m.")),
+  DateTime? _horaCita;
+  List<DropdownMenuItem<DateTime>> _horasDisponiblesCita = [
+    DropdownMenuItem<DateTime>(
+        value: DateTime.parse("2022-07-05 08:00:00"),
+        child: Text(DateFormat("hh:mm a")
+            .format(DateTime.parse("2022-07-05 08:00:00")))),
+    DropdownMenuItem<DateTime>(
+        value: DateTime.parse("2022-07-05 09:00:00"),
+        child: Text(DateFormat("hh:mm a")
+            .format(DateTime.parse("2022-07-05 09:00:00")))),
+    DropdownMenuItem<DateTime>(
+        value: DateTime.parse("2022-07-05 10:00:00"),
+        child: Text(DateFormat("hh:mm a")
+            .format(DateTime.parse("2022-07-05 10:00:00")))),
+    DropdownMenuItem<DateTime>(
+        value: DateTime.parse("2022-07-05 11:00:00"),
+        child: Text(DateFormat("hh:mm a")
+            .format(DateTime.parse("2022-07-05 11:00:00")))),
+    DropdownMenuItem<DateTime>(
+        value: DateTime.parse("2022-07-05 12:00:00"),
+        child: Text(DateFormat("hh:mm a")
+            .format(DateTime.parse("2022-07-05 12:00:00")))),
+    DropdownMenuItem<DateTime>(
+        value: DateTime.parse("2022-07-05 13:00:00"),
+        child: Text(DateFormat("hh:mm a")
+            .format(DateTime.parse("2022-07-05 13:00:00")))),
   ];
 
   TextStyle textStyleTitulo = TextStyle(
@@ -54,6 +73,10 @@ class _PropiedadWidgetState extends State<PropiedadWidget> {
         backgroundColor: Colors.blue[600],
       );
       ScaffoldMessenger.of(context).showSnackBar(snackbar);
+      setState(() {
+        _diasDisponiblesCita = [];
+        _horasDisponiblesCita = [];
+      });
     }
   }
 
@@ -248,7 +271,7 @@ class _PropiedadWidgetState extends State<PropiedadWidget> {
                           DropdownButtonFormField(
                             value: _horaCita,
                             isExpanded: true,
-                            onChanged: (String? value) =>
+                            onChanged: (DateTime? value) =>
                                 setState(() => _horaCita = value!),
                             items: _horasDisponiblesCita,
                             decoration: const InputDecoration(
@@ -261,7 +284,9 @@ class _PropiedadWidgetState extends State<PropiedadWidget> {
                           ),
                           const SizedBox(height: 30),
                           ElevatedButton.icon(
-                            onPressed: _agendarCita,
+                            onPressed: _horasDisponiblesCita.isEmpty
+                                ? null
+                                : _agendarCita,
                             icon: const Icon(Icons.calendar_month),
                             label: const Text("Agendar cita"),
                             style: ElevatedButton.styleFrom(
