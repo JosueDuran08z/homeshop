@@ -13,7 +13,7 @@ class PropiedadWidget extends StatefulWidget {
 class _PropiedadWidgetState extends State<PropiedadWidget> {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   String? _diaCita;
-  final List<DropdownMenuItem<String>> _diasDisponiblesCita = [
+  List<DropdownMenuItem<String>> _diasDisponiblesCita = [
     const DropdownMenuItem<String>(value: "Lunes", child: Text("Lunes")),
     const DropdownMenuItem<String>(value: "Martes", child: Text("Martes")),
     const DropdownMenuItem<String>(
@@ -23,7 +23,7 @@ class _PropiedadWidgetState extends State<PropiedadWidget> {
   ];
 
   DateTime? _horaCita;
-  final List<DropdownMenuItem<DateTime>> _horasDisponiblesCita = [
+  List<DropdownMenuItem<DateTime>> _horasDisponiblesCita = [
     DropdownMenuItem<DateTime>(
         value: DateTime.parse("2022-07-05 08:00:00"),
         child: Text(DateFormat("hh:mm a")
@@ -73,6 +73,10 @@ class _PropiedadWidgetState extends State<PropiedadWidget> {
         backgroundColor: Colors.blue[600],
       );
       ScaffoldMessenger.of(context).showSnackBar(snackbar);
+      setState(() {
+        _diasDisponiblesCita = [];
+        _horasDisponiblesCita = [];
+      });
     }
   }
 
@@ -280,7 +284,9 @@ class _PropiedadWidgetState extends State<PropiedadWidget> {
                           ),
                           const SizedBox(height: 30),
                           ElevatedButton.icon(
-                            onPressed: _agendarCita,
+                            onPressed: _horasDisponiblesCita.isEmpty
+                                ? null
+                                : _agendarCita,
                             icon: const Icon(Icons.calendar_month),
                             label: const Text("Agendar cita"),
                             style: ElevatedButton.styleFrom(
