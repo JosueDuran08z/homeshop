@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
+import 'package:flutter_launch/flutter_launch.dart';
 import 'package:homeshop/widgets/propiedades/propiedadWidget.dart';
 
 class PropiedadesWidget extends StatefulWidget {
@@ -16,8 +17,17 @@ class _PropiedadesWidgetState extends State<PropiedadesWidget> {
     Navigator.push(context, route);
   }
 
-  void _abrirWhatsApp() {
-    print("Whatsapp");
+  void _abrirWhatsApp() async {
+    bool whatsapp = await FlutterLaunch.hasApp(name: "whatsapp");
+
+    if (whatsapp) {
+      await FlutterLaunch.launchWhatsapp(
+          phone: "524773002254",
+          message:
+              "Hola, me interesa la propiedad ubicada en Blvd. Universidad Tecnológica #225 Col. San Carlos CP. 37670");
+    } else {
+      print("Error");
+    }
   }
 
   @override

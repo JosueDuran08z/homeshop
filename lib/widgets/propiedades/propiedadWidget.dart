@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
+import 'package:flutter_launch/flutter_launch.dart';
 import 'package:intl/intl.dart';
 
 class PropiedadWidget extends StatefulWidget {
@@ -59,6 +60,17 @@ class _PropiedadWidgetState extends State<PropiedadWidget> {
     fontSize: 15,
     color: Colors.grey[700],
   );
+
+  void _abrirWhatsApp() async {
+    bool whatsapp = await FlutterLaunch.hasApp(name: "whatsapp");
+
+    if (whatsapp) {
+      await FlutterLaunch.launchWhatsapp(
+          phone: "4773002254", message: "Hola, me interesa esta propiedad");
+    } else {
+      print("Error");
+    }
+  }
 
   void _agendarCita() {
     if (formKey.currentState!.validate()) {
@@ -341,7 +353,7 @@ class _PropiedadWidgetState extends State<PropiedadWidget> {
                         ],
                       ),
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: _abrirWhatsApp,
                         child: Icon(
                           Icons.whatsapp,
                           size: 18,
