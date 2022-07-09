@@ -42,6 +42,7 @@ class _LoginWidgetState extends State<LoginWidget> {
         padding: const EdgeInsets.all(30),
         child: Column(
           children: [
+            const SizedBox(height: 30),
             const Text(
               "Iniciar Sesión",
               style: TextStyle(

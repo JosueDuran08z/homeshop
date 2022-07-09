@@ -22,9 +22,11 @@ class _AgregarPropiedadWidgetState extends State<AgregarPropiedadWidget> {
     fontSize: 15,
     color: Colors.grey[800],
   );
+
   String _tipoOperacion = "";
   String _cochera = "";
   bool _agua = false, _luz = false, _internet = false;
+
   late TextEditingController _habitacionesController,
       _pisosController,
       _baniosController,
@@ -38,6 +40,7 @@ class _AgregarPropiedadWidgetState extends State<AgregarPropiedadWidget> {
       _edadController,
       _descripcionController,
       _precioController;
+
   String? _estadoInstalaciones;
   final List<DropdownMenuItem<String>> _estadosInstalaciones = [
     const DropdownMenuItem<String>(
@@ -45,6 +48,7 @@ class _AgregarPropiedadWidgetState extends State<AgregarPropiedadWidget> {
     const DropdownMenuItem<String>(value: "Regular", child: Text("Regular")),
     const DropdownMenuItem<String>(value: "Malo", child: Text("Malo")),
   ];
+
   bool _lunes = false,
       _martes = false,
       _miercoles = false,

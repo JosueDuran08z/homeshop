@@ -44,12 +44,12 @@ class _RegistrarseWidgetState extends State<RegistrarseWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Registrarse")),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(30),
           child: Column(
             children: [
+              const SizedBox(height: 30),
               const Text(
                 "Registrarse",
                 style: TextStyle(
