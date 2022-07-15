@@ -46,7 +46,7 @@ class _RegistrarseWidgetState extends State<RegistrarseWidget> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(30),
+          padding: const EdgeInsets.all(20),
           child: Column(
             children: [
               const SizedBox(height: 30),
