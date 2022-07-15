@@ -80,138 +80,122 @@ class _GestionarWidgetState extends State<GestionarWidget> {
       padding: const EdgeInsets.all(20.0),
       child: Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          Column(
             children: [
-              Text(
-                "Gestionar Cuenta",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.red[600],
+              ElevatedButton.icon(
+                onPressed: _datosPersonales,
+                icon: const Icon(Icons.person_pin_outlined),
+                label: const Text("Datos Personales"),
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.red[700],
+                  padding: const EdgeInsets.only(
+                    left: 20,
+                    top: 15,
+                    right: 20,
+                    bottom: 15,
+                  ),
+                  minimumSize: const Size.fromHeight(50),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+              ElevatedButton.icon(
+                onPressed: _cambiarContrasena,
+                icon: const Icon(Icons.password),
+                label: const Text("Cambiar contraseña"),
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.red[700],
+                  padding: const EdgeInsets.only(
+                    left: 20,
+                    top: 15,
+                    right: 20,
+                    bottom: 15,
+                  ),
+                  minimumSize: const Size.fromHeight(50),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+              ElevatedButton.icon(
+                onPressed: _usuarios,
+                icon: const Icon(Icons.person),
+                label: const Text("Usuarios"),
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.red[700],
+                  padding: const EdgeInsets.only(
+                    left: 20,
+                    top: 15,
+                    right: 20,
+                    bottom: 15,
+                  ),
+                  minimumSize: const Size.fromHeight(50),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+              ElevatedButton.icon(
+                onPressed: _roles,
+                icon: const Icon(Icons.supervised_user_circle),
+                label: const Text("Roles"),
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.red[700],
+                  padding: const EdgeInsets.only(
+                    left: 20,
+                    top: 15,
+                    right: 20,
+                    bottom: 15,
+                  ),
+                  minimumSize: const Size.fromHeight(50),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+              ElevatedButton.icon(
+                onPressed: _roles,
+                icon: const Icon(Icons.verified_user),
+                label: const Text("Roles y usuarios"),
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.red[700],
+                  padding: const EdgeInsets.only(
+                    left: 20,
+                    top: 15,
+                    right: 20,
+                    bottom: 15,
+                  ),
+                  minimumSize: const Size.fromHeight(50),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+              ElevatedButton.icon(
+                onPressed: _cerrarSesion,
+                icon: const Icon(Icons.sensor_door),
+                label: const Text("Cerrar sesión"),
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.red[700],
+                  padding: const EdgeInsets.only(
+                    left: 20,
+                    top: 15,
+                    right: 20,
+                    bottom: 15,
+                  ),
+                  minimumSize: const Size.fromHeight(50),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
                 ),
               ),
             ],
-          ),
-          const SizedBox(height: 30),
-          Expanded(
-            child: Column(
-              children: [
-                ElevatedButton.icon(
-                  onPressed: _datosPersonales,
-                  icon: const Icon(Icons.person_pin_outlined),
-                  label: const Text("Datos Personales"),
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.red[700],
-                    padding: const EdgeInsets.only(
-                      left: 20,
-                      top: 15,
-                      right: 20,
-                      bottom: 15,
-                    ),
-                    minimumSize: const Size.fromHeight(50),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 20),
-                ElevatedButton.icon(
-                  onPressed: _cambiarContrasena,
-                  icon: const Icon(Icons.password),
-                  label: const Text("Cambiar contraseña"),
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.red[700],
-                    padding: const EdgeInsets.only(
-                      left: 20,
-                      top: 15,
-                      right: 20,
-                      bottom: 15,
-                    ),
-                    minimumSize: const Size.fromHeight(50),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 20),
-                ElevatedButton.icon(
-                  onPressed: _usuarios,
-                  icon: const Icon(Icons.person),
-                  label: const Text("Usuarios"),
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.red[700],
-                    padding: const EdgeInsets.only(
-                      left: 20,
-                      top: 15,
-                      right: 20,
-                      bottom: 15,
-                    ),
-                    minimumSize: const Size.fromHeight(50),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 20),
-                ElevatedButton.icon(
-                  onPressed: _roles,
-                  icon: const Icon(Icons.supervised_user_circle),
-                  label: const Text("Roles"),
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.red[700],
-                    padding: const EdgeInsets.only(
-                      left: 20,
-                      top: 15,
-                      right: 20,
-                      bottom: 15,
-                    ),
-                    minimumSize: const Size.fromHeight(50),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 20),
-                ElevatedButton.icon(
-                  onPressed: _roles,
-                  icon: const Icon(Icons.verified_user),
-                  label: const Text("Roles y usuarios"),
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.red[700],
-                    padding: const EdgeInsets.only(
-                      left: 20,
-                      top: 15,
-                      right: 20,
-                      bottom: 15,
-                    ),
-                    minimumSize: const Size.fromHeight(50),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 20),
-                ElevatedButton.icon(
-                  onPressed: _cerrarSesion,
-                  icon: const Icon(Icons.sensor_door),
-                  label: const Text("Cerrar sesión"),
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.red[700],
-                    padding: const EdgeInsets.only(
-                      left: 20,
-                      top: 15,
-                      right: 20,
-                      bottom: 15,
-                    ),
-                    minimumSize: const Size.fromHeight(50),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                  ),
-                ),
-              ],
-            ),
           ),
         ],
       ),
