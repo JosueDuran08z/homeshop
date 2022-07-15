@@ -5,7 +5,6 @@ import 'package:homeshop/widgets/login/loginWidget.dart';
 import 'package:homeshop/widgets/roles/rolesWidget.dart';
 import 'package:homeshop/widgets/usuarios/usuariosWidget.dart';
 
-
 class GestionarWidget extends StatefulWidget {
   const GestionarWidget({Key? key}) : super(key: key);
 
@@ -40,8 +39,8 @@ class _GestionarWidgetState extends State<GestionarWidget> {
   }
 
   void _roles() {
-    final route = MaterialPageRoute(
-        builder: (BuildContext context) => MisRolesWidget());
+    final route =
+        MaterialPageRoute(builder: (BuildContext context) => MisRolesWidget());
     Navigator.push(context, route);
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
@@ -52,8 +51,8 @@ class _GestionarWidgetState extends State<GestionarWidget> {
   }
 
   void _usuarios() {
-    final route = MaterialPageRoute(
-        builder: (BuildContext context) => UsuariosWidget());
+    final route =
+        MaterialPageRoute(builder: (BuildContext context) => UsuariosWidget());
     Navigator.push(context, route);
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
@@ -64,25 +63,24 @@ class _GestionarWidgetState extends State<GestionarWidget> {
   }
 
   void _cerrarSesion() {
-    final route = MaterialPageRoute(
-        builder: (BuildContext context) => LoginWidget());
+    final route =
+        MaterialPageRoute(builder: (BuildContext context) => LoginWidget());
     Navigator.push(context, route);
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
-      final route = MaterialPageRoute(
-          builder: (BuildContext context) => LoginWidget());
+      final route =
+          MaterialPageRoute(builder: (BuildContext context) => LoginWidget());
       Navigator.push(context, route);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const SizedBox(height: 45),
-        Padding(
-          padding: const EdgeInsets.only(left: 15, top: 20, right: 15),
-          child: Row(
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: Column(
+        children: [
+          Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
@@ -95,10 +93,8 @@ class _GestionarWidgetState extends State<GestionarWidget> {
               ),
             ],
           ),
-        ),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(30),
+          const SizedBox(height: 30),
+          Expanded(
             child: Column(
               children: [
                 ElevatedButton.icon(
@@ -217,8 +213,8 @@ class _GestionarWidgetState extends State<GestionarWidget> {
               ],
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

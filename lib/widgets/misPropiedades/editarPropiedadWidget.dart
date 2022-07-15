@@ -183,7 +183,7 @@ class _EditarPropiedadWidgetState extends State<EditarPropiedadWidget> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(30),
+          padding: const EdgeInsets.all(20),
           child: Form(
             key: formKey,
             child: Column(

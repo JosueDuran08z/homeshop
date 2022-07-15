@@ -99,36 +99,36 @@ class _PropiedadWidgetState extends State<PropiedadWidget> {
           title: const Text(
               "Blvd. Universidad Tecnológica #225 Col. San Carlos CP. 37670")),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            const SizedBox(height: 15),
-            ImageSlideshow(
-              children: [
-                Image.network(
-                  "https://img.remediosdigitales.com/8e8f64/lo-de-que-comprar-una-casa-es-la-mejor-inversion-hay-generaciones-que-ya-no-lo-ven-ni-de-lejos---1/1366_2000.jpg",
-                  fit: BoxFit.cover,
-                ),
-                Image.asset(
-                  "assets/icon/logo.png",
-                  fit: BoxFit.cover,
-                ),
-                Image.network(
-                  "https://img.remediosdigitales.com/8e8f64/lo-de-que-comprar-una-casa-es-la-mejor-inversion-hay-generaciones-que-ya-no-lo-ven-ni-de-lejos---1/1366_2000.jpg",
-                  fit: BoxFit.cover,
-                ),
-                Image.asset(
-                  "assets/icon/logo.png",
-                  fit: BoxFit.cover,
-                ),
-                Image.network(
-                  "https://img.remediosdigitales.com/8e8f64/lo-de-que-comprar-una-casa-es-la-mejor-inversion-hay-generaciones-que-ya-no-lo-ven-ni-de-lejos---1/1366_2000.jpg",
-                  fit: BoxFit.cover,
-                ),
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.all(15),
-              child: Column(
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            children: [
+              ImageSlideshow(
+                children: [
+                  Image.network(
+                    "https://img.remediosdigitales.com/8e8f64/lo-de-que-comprar-una-casa-es-la-mejor-inversion-hay-generaciones-que-ya-no-lo-ven-ni-de-lejos---1/1366_2000.jpg",
+                    fit: BoxFit.cover,
+                  ),
+                  Image.asset(
+                    "assets/icon/logo.png",
+                    fit: BoxFit.cover,
+                  ),
+                  Image.network(
+                    "https://img.remediosdigitales.com/8e8f64/lo-de-que-comprar-una-casa-es-la-mejor-inversion-hay-generaciones-que-ya-no-lo-ven-ni-de-lejos---1/1366_2000.jpg",
+                    fit: BoxFit.cover,
+                  ),
+                  Image.asset(
+                    "assets/icon/logo.png",
+                    fit: BoxFit.cover,
+                  ),
+                  Image.network(
+                    "https://img.remediosdigitales.com/8e8f64/lo-de-que-comprar-una-casa-es-la-mejor-inversion-hay-generaciones-que-ya-no-lo-ven-ni-de-lejos---1/1366_2000.jpg",
+                    fit: BoxFit.cover,
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20),
+              Column(
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -354,10 +354,6 @@ class _PropiedadWidgetState extends State<PropiedadWidget> {
                       ),
                       ElevatedButton(
                         onPressed: _abrirWhatsApp,
-                        child: Icon(
-                          Icons.whatsapp,
-                          size: 18,
-                        ),
                         style: ElevatedButton.styleFrom(
                           primary: Colors.green,
                           padding: const EdgeInsets.only(
@@ -370,13 +366,17 @@ class _PropiedadWidgetState extends State<PropiedadWidget> {
                             borderRadius: BorderRadius.circular(15),
                           ),
                         ),
+                        child: const Icon(
+                          Icons.whatsapp,
+                          size: 18,
+                        ),
                       )
                     ],
                   ),
                 ],
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         ),
       ),
     );

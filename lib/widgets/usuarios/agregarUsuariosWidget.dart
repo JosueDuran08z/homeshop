@@ -38,15 +38,11 @@ class _AgregarUsuariosWidgetState extends State<AgregarUsuariosWidget> {
     }
   }
 
-
   String? _roles;
   List<DropdownMenuItem<String>> roles = [
-    const DropdownMenuItem<String>(
-        value: "Vendedor", child: Text("Vendedor")),
+    const DropdownMenuItem<String>(value: "Vendedor", child: Text("Vendedor")),
     const DropdownMenuItem<String>(value: "Cliente", child: Text("Cliente")),
   ];
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +52,7 @@ class _AgregarUsuariosWidgetState extends State<AgregarUsuariosWidget> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(30),
+          padding: const EdgeInsets.all(20),
           child: Form(
             key: formKey,
             child: Column(
@@ -69,8 +65,7 @@ class _AgregarUsuariosWidgetState extends State<AgregarUsuariosWidget> {
                     suffixIcon: Icon(Icons.drive_file_rename_outline),
                   ),
                   validator: (value) =>
-                      _validarCampo(
-                          value, "Introduzca el nombre del usuario"),
+                      _validarCampo(value, "Introduzca el nombre del usuario"),
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
@@ -81,8 +76,7 @@ class _AgregarUsuariosWidgetState extends State<AgregarUsuariosWidget> {
                     suffixIcon: Icon(Icons.drive_file_rename_outline),
                   ),
                   validator: (value) =>
-                      _validarCampo(
-                          value, "Introduzca el apellido paterno"),
+                      _validarCampo(value, "Introduzca el apellido paterno"),
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
@@ -93,8 +87,7 @@ class _AgregarUsuariosWidgetState extends State<AgregarUsuariosWidget> {
                     suffixIcon: Icon(Icons.drive_file_rename_outline),
                   ),
                   validator: (value) =>
-                      _validarCampo(
-                          value, "Introduzca el apellido materno"),
+                      _validarCampo(value, "Introduzca el apellido materno"),
                 ),
                 const SizedBox(height: 20),
                 TableCalendar(
@@ -113,16 +106,13 @@ class _AgregarUsuariosWidgetState extends State<AgregarUsuariosWidget> {
                       todayTextStyle: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 12,
-                          color: Colors.red
-                      )
-                  ),
+                          color: Colors.red)),
                 ),
                 const SizedBox(height: 20),
                 DropdownButtonFormField(
                   value: _roles,
                   isExpanded: true,
-                  onChanged: (String? value) =>
-                      setState(() => _roles = value!),
+                  onChanged: (String? value) => setState(() => _roles = value!),
                   items: roles,
                   decoration: const InputDecoration(
                     labelText: "Roles",
@@ -130,7 +120,7 @@ class _AgregarUsuariosWidgetState extends State<AgregarUsuariosWidget> {
                     suffixIcon: Icon(Icons.star_rate),
                   ),
                   validator: (value) =>
-                  value == null ? "Seleccione una opción" : null,
+                      value == null ? "Seleccione una opción" : null,
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
@@ -170,7 +160,7 @@ class _AgregarUsuariosWidgetState extends State<AgregarUsuariosWidget> {
                   validator: (value) =>
                       _validarCampo(value, "Introduzca una contraseña"),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 30),
                 ElevatedButton.icon(
                   onPressed: _agregarUsuario,
                   icon: const Icon(Icons.add),
@@ -196,6 +186,7 @@ class _AgregarUsuariosWidgetState extends State<AgregarUsuariosWidget> {
       ),
     );
   }
+
   @override
   void initState() {
     super.initState();
@@ -207,6 +198,5 @@ class _AgregarUsuariosWidgetState extends State<AgregarUsuariosWidget> {
     _contraseniaController = TextEditingController();
     initializeDateFormatting();
     _diaSeleccionado = DateTime.now();
-
   }
 }

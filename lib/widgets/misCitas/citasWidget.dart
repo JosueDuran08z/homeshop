@@ -11,7 +11,6 @@ class CitasWidget extends StatefulWidget {
 }
 
 class _CitasWidgetState extends State<CitasWidget> {
-
   void _mostrarSnackbarEliminar(BuildContext context) {
     SnackBar snackbar = SnackBar(
       content: const Text(
@@ -71,8 +70,8 @@ class _CitasWidgetState extends State<CitasWidget> {
   }
 
   void _mostrarCita(id) {
-    final route = MaterialPageRoute(
-        builder: (BuildContext context) => CitaWidget(id));
+    final route =
+        MaterialPageRoute(builder: (BuildContext context) => CitaWidget(id));
     Navigator.push(context, route);
   }
 
@@ -80,7 +79,6 @@ class _CitasWidgetState extends State<CitasWidget> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const SizedBox(height: 45),
         Padding(
           padding: const EdgeInsets.only(left: 15, top: 20, right: 15),
           child: Row(
@@ -97,118 +95,121 @@ class _CitasWidgetState extends State<CitasWidget> {
             ],
           ),
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 20),
         Expanded(
-            child: ListView.builder(
-              padding: EdgeInsets.all(10),
-              itemCount: 10,
-              itemBuilder: (BuildContext context, int index) {
-                return GestureDetector(
-                  onTap: () => _mostrarCita(index),
-                  child: Card(
-                    child: Column(
-                      children: [
-                        ImageSlideshow(
+          child: ListView.builder(
+            padding: const EdgeInsets.only(
+              left: 10,
+              right: 10,
+              bottom: 10,
+            ),
+            itemCount: 10,
+            itemBuilder: (BuildContext context, int index) {
+              return GestureDetector(
+                onTap: () => _mostrarCita(index),
+                child: Card(
+                  child: Column(
+                    children: [
+                      ImageSlideshow(
+                        children: [
+                          Image.network(
+                            "https://img.remediosdigitales.com/8e8f64/lo-de-que-comprar-una-casa-es-la-mejor-inversion-hay-generaciones-que-ya-no-lo-ven-ni-de-lejos---1/1366_2000.jpg",
+                            fit: BoxFit.cover,
+                          ),
+                          Image.network(
+                            "https://th.bing.com/th/id/R.2c76042f56bf81ef78c51089192d5d10?rik=9Va9wLV7TzGRYw&pid=ImgRaw&r=0",
+                            fit: BoxFit.cover,
+                          ),
+                          Image.network(
+                            "https://img.remediosdigitales.com/8e8f64/lo-de-que-comprar-una-casa-es-la-mejor-inversion-hay-generaciones-que-ya-no-lo-ven-ni-de-lejos---1/1366_2000.jpg",
+                            fit: BoxFit.cover,
+                          ),
+                          Image.network(
+                            "https://th.bing.com/th/id/R.2c76042f56bf81ef78c51089192d5d10?rik=9Va9wLV7TzGRYw&pid=ImgRaw&r=0",
+                            fit: BoxFit.cover,
+                          ),
+                          Image.network(
+                            "https://img.remediosdigitales.com/8e8f64/lo-de-que-comprar-una-casa-es-la-mejor-inversion-hay-generaciones-que-ya-no-lo-ven-ni-de-lejos---1/1366_2000.jpg",
+                            fit: BoxFit.cover,
+                          ),
+                        ],
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          left: 20,
+                          top: 20,
+                          right: 10,
+                          bottom: 20,
+                        ),
+                        child: Column(
                           children: [
-                            Image.network(
-                              "https://img.remediosdigitales.com/8e8f64/lo-de-que-comprar-una-casa-es-la-mejor-inversion-hay-generaciones-que-ya-no-lo-ven-ni-de-lejos---1/1366_2000.jpg",
-                              fit: BoxFit.cover,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  child: new Text(
+                                    "Publicacion #2434",
+                                    style: TextStyle(color: Colors.red[700]),
+                                  ),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(15),
+                                    ),
+                                    border: Border.all(
+                                      color: Colors.red,
+                                    ),
+                                  ),
+                                  padding: EdgeInsets.only(
+                                    left: 10,
+                                    top: 5,
+                                    right: 10,
+                                    bottom: 5,
+                                  ),
+                                ),
+                                ElevatedButton(
+                                  onPressed: () =>
+                                      _mostrarModalEliminar(context, index + 1),
+                                  style: ElevatedButton.styleFrom(
+                                      primary: Colors.red[600],
+                                      padding: const EdgeInsets.only(
+                                        left: 10,
+                                        top: 5,
+                                        right: 10,
+                                        bottom: 5,
+                                      ),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(15),
+                                      )),
+                                  child: const Icon(
+                                    Icons.delete,
+                                    size: 18,
+                                  ),
+                                ),
+                              ],
                             ),
-                            Image.network(
-                              "https://th.bing.com/th/id/R.2c76042f56bf81ef78c51089192d5d10?rik=9Va9wLV7TzGRYw&pid=ImgRaw&r=0",
-                              fit: BoxFit.cover,
+                            const Text(
+                              "Cesar Martinez Cabrera",
+                              style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                            Image.network(
-                              "https://img.remediosdigitales.com/8e8f64/lo-de-que-comprar-una-casa-es-la-mejor-inversion-hay-generaciones-que-ya-no-lo-ven-ni-de-lejos---1/1366_2000.jpg",
-                              fit: BoxFit.cover,
-                            ),
-                            Image.network(
-                              "https://th.bing.com/th/id/R.2c76042f56bf81ef78c51089192d5d10?rik=9Va9wLV7TzGRYw&pid=ImgRaw&r=0",
-                              fit: BoxFit.cover,
-                            ),
-                            Image.network(
-                              "https://img.remediosdigitales.com/8e8f64/lo-de-que-comprar-una-casa-es-la-mejor-inversion-hay-generaciones-que-ya-no-lo-ven-ni-de-lejos---1/1366_2000.jpg",
-                              fit: BoxFit.cover,
-                            ),
+                            const SizedBox(height: 10),
+                            Text(
+                              "Fecha y hora: 20/02/2022 18:00",
+                              style: TextStyle(
+                                fontSize: 13,
+                              ),
+                            )
                           ],
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            left: 20,
-                            top: 20,
-                            right: 10,
-                            bottom: 20,
-                          ),
-                          child: Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Container(
-                                    child: new Text(
-                                      "Publicacion #2434",
-                                      style: TextStyle(color: Colors.red[700]),
-                                    ),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(15),
-                                      ),
-                                      border: Border.all(
-                                        color: Colors.red,
-                                      ),
-                                    ),
-                                    padding: EdgeInsets.only(
-                                      left: 10,
-                                      top: 5,
-                                      right: 10,
-                                      bottom: 5,
-                                    ),
-                                  ),
-                                  ElevatedButton(
-                                    onPressed: () => _mostrarModalEliminar(
-                                        context, index + 1),
-                                    style: ElevatedButton.styleFrom(
-                                        primary: Colors.red[600],
-                                        padding: const EdgeInsets.only(
-                                          left: 10,
-                                          top: 5,
-                                          right: 10,
-                                          bottom: 5,
-                                        ),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                          BorderRadius.circular(15),
-                                        )),
-                                    child: const Icon(
-                                      Icons.delete,
-                                      size: 18,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const Text(
-                                "Cesar Martinez Cabrera",
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              const SizedBox(height: 10),
-                              Text(
-                                "Fecha y hora: 20/02/2022 18:00",
-                                style: TextStyle(
-                                  fontSize: 13,
-                                ),
-                              )
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
+                      )
+                    ],
                   ),
-                );
-              },
-            ),
+                ),
+              );
+            },
+          ),
         )
       ],
     );

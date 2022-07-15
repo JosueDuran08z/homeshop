@@ -9,7 +9,8 @@ class EditarUsuariosWidget extends StatefulWidget {
   EditarUsuariosWidget(this.id, {Key? key}) : super(key: key);
   int id;
   @override
-  State<EditarUsuariosWidget> createState() => _EditarUsuariosWidgetState(this.id);
+  State<EditarUsuariosWidget> createState() =>
+      _EditarUsuariosWidgetState(this.id);
 }
 
 class _EditarUsuariosWidgetState extends State<EditarUsuariosWidget> {
@@ -31,10 +32,8 @@ class _EditarUsuariosWidgetState extends State<EditarUsuariosWidget> {
 
   String? _roles;
   List<DropdownMenuItem<String>> roles = [
-    const DropdownMenuItem<String>(
-        value: "Vendedor", child: Text("Vendedor")),
-    const DropdownMenuItem<String>(
-        value: "Cliente", child: Text("Cliente")),
+    const DropdownMenuItem<String>(value: "Vendedor", child: Text("Vendedor")),
+    const DropdownMenuItem<String>(value: "Cliente", child: Text("Cliente")),
   ];
 
   String? _validarCampo(valor, mensaje) =>
@@ -51,16 +50,15 @@ class _EditarUsuariosWidgetState extends State<EditarUsuariosWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Agregar usuario"),
+        title: const Text("Editar usuario"),
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(30),
+          padding: const EdgeInsets.all(20),
           child: Form(
             key: formKey,
             child: Column(
               children: [
-                const SizedBox(height: 20),
                 TextFormField(
                   controller: _nombreController,
                   decoration: const InputDecoration(
@@ -69,8 +67,7 @@ class _EditarUsuariosWidgetState extends State<EditarUsuariosWidget> {
                     suffixIcon: Icon(Icons.drive_file_rename_outline),
                   ),
                   validator: (value) =>
-                      _validarCampo(
-                          value, "Introduzca el nombre del usuario"),
+                      _validarCampo(value, "Introduzca el nombre del usuario"),
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
@@ -81,8 +78,7 @@ class _EditarUsuariosWidgetState extends State<EditarUsuariosWidget> {
                     suffixIcon: Icon(Icons.drive_file_rename_outline),
                   ),
                   validator: (value) =>
-                      _validarCampo(
-                          value, "Introduzca el apellido paterno"),
+                      _validarCampo(value, "Introduzca el apellido paterno"),
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
@@ -93,8 +89,7 @@ class _EditarUsuariosWidgetState extends State<EditarUsuariosWidget> {
                     suffixIcon: Icon(Icons.drive_file_rename_outline),
                   ),
                   validator: (value) =>
-                      _validarCampo(
-                          value, "Introduzca el apellido materno"),
+                      _validarCampo(value, "Introduzca el apellido materno"),
                 ),
                 const SizedBox(height: 20),
                 TableCalendar(
@@ -113,16 +108,13 @@ class _EditarUsuariosWidgetState extends State<EditarUsuariosWidget> {
                       todayTextStyle: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 12,
-                          color: Colors.red
-                      )
-                  ),
+                          color: Colors.red)),
                 ),
                 const SizedBox(height: 20),
                 DropdownButtonFormField(
                   value: _roles,
                   isExpanded: true,
-                  onChanged: (String? value) =>
-                      setState(() => _roles = value!),
+                  onChanged: (String? value) => setState(() => _roles = value!),
                   items: roles,
                   decoration: const InputDecoration(
                     labelText: "Roles",
@@ -130,7 +122,7 @@ class _EditarUsuariosWidgetState extends State<EditarUsuariosWidget> {
                     suffixIcon: Icon(Icons.star_rate),
                   ),
                   validator: (value) =>
-                  value == null ? "Seleccione una opción" : null,
+                      value == null ? "Seleccione una opción" : null,
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
@@ -170,7 +162,7 @@ class _EditarUsuariosWidgetState extends State<EditarUsuariosWidget> {
                   validator: (value) =>
                       _validarCampo(value, "Introduzca una contraseña"),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 30),
                 ElevatedButton.icon(
                   onPressed: _editarUsuario,
                   icon: const Icon(Icons.add),
@@ -204,11 +196,10 @@ class _EditarUsuariosWidgetState extends State<EditarUsuariosWidget> {
     _aPaternoController = TextEditingController(text: "2");
     _aMaternoController = TextEditingController(text: "1");
     _telefonoController = TextEditingController(text: "4778930949");
-    _correoController = TextEditingController(text: "cmartinezcabrera@gmailcom");
+    _correoController =
+        TextEditingController(text: "cmartinezcabrera@gmailcom");
     _contraseniaController = TextEditingController(text: "*************");
     initializeDateFormatting();
     _diaSeleccionado = DateTime.now();
-
-
   }
 }

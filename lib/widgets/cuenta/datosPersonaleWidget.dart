@@ -43,7 +43,7 @@ class _DatosPersonalesWidgetState extends State<DatosPersonalesWidget> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(30),
+          padding: const EdgeInsets.all(20),
           child: Form(
             key: formKey,
             child: Column(
@@ -56,8 +56,7 @@ class _DatosPersonalesWidgetState extends State<DatosPersonalesWidget> {
                     suffixIcon: Icon(Icons.drive_file_rename_outline),
                   ),
                   validator: (value) =>
-                      _validarCampo(
-                          value, "Introduzca el nombre del usuario"),
+                      _validarCampo(value, "Introduzca el nombre del usuario"),
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
@@ -68,8 +67,7 @@ class _DatosPersonalesWidgetState extends State<DatosPersonalesWidget> {
                     suffixIcon: Icon(Icons.drive_file_rename_outline),
                   ),
                   validator: (value) =>
-                      _validarCampo(
-                          value, "Introduzca el apellido paterno"),
+                      _validarCampo(value, "Introduzca el apellido paterno"),
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
@@ -80,8 +78,7 @@ class _DatosPersonalesWidgetState extends State<DatosPersonalesWidget> {
                     suffixIcon: Icon(Icons.drive_file_rename_outline),
                   ),
                   validator: (value) =>
-                      _validarCampo(
-                          value, "Introduzca el apellido materno"),
+                      _validarCampo(value, "Introduzca el apellido materno"),
                 ),
                 const SizedBox(height: 20),
                 DateTimeFormField(
@@ -92,10 +89,10 @@ class _DatosPersonalesWidgetState extends State<DatosPersonalesWidget> {
                     mode: DateTimeFieldPickerMode.date,
                     dateFormat: DateFormat("dd/MM/yyyy"),
                     validator: (date) =>
-                    date == null ? "Seleccione una fecha" : null,
+                        date == null ? "Seleccione una fecha" : null,
                     onDateSelected: (DateTime value) {
-                      setState(() => fechaNacimiento =
-                          value.toString().substring(0, 10));
+                      setState(() =>
+                          fechaNacimiento = value.toString().substring(0, 10));
                     }),
                 const SizedBox(height: 20),
                 TextFormField(
@@ -112,7 +109,7 @@ class _DatosPersonalesWidgetState extends State<DatosPersonalesWidget> {
                   validator: (value) =>
                       _validarCampo(value, "Introduzca un teléfono"),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 30),
                 ElevatedButton.icon(
                   onPressed: _actualizarDatosPersonales,
                   icon: const Icon(Icons.save),
@@ -132,13 +129,13 @@ class _DatosPersonalesWidgetState extends State<DatosPersonalesWidget> {
                   ),
                 ),
               ],
-
             ),
           ),
         ),
       ),
     );
   }
+
   @override
   void initState() {
     super.initState();

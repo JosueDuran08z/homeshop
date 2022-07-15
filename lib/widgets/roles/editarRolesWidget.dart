@@ -6,7 +6,7 @@ import 'package:homeshop/widgets/roles/rolesWidget.dart';
 import 'package:image_picker/image_picker.dart';
 
 class EditarRolWidget extends StatefulWidget {
-  EditarRolWidget(this.id,{Key? key}) : super(key: key);
+  EditarRolWidget(this.id, {Key? key}) : super(key: key);
   int id;
   @override
   State<EditarRolWidget> createState() => _EditarRolWidgetState(this.id);
@@ -35,7 +35,6 @@ class _EditarRolWidgetState extends State<EditarRolWidget> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,12 +43,11 @@ class _EditarRolWidgetState extends State<EditarRolWidget> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(30),
+          padding: const EdgeInsets.all(20),
           child: Form(
             key: formKey,
             child: Column(
               children: [
-                const SizedBox(height: 20),
                 TextFormField(
                   controller: _nombreController,
                   decoration: const InputDecoration(
@@ -60,7 +58,6 @@ class _EditarRolWidgetState extends State<EditarRolWidget> {
                   validator: (value) =>
                       _validarCampo(value, "Introduzca el nombre"),
                 ),
-
                 const SizedBox(height: 20),
                 TextFormField(
                   controller: _descripcionController,
@@ -73,7 +70,6 @@ class _EditarRolWidgetState extends State<EditarRolWidget> {
                   validator: (value) =>
                       _validarCampo(value, "Introduzca la descripción"),
                 ),
-
                 const SizedBox(height: 30),
                 ElevatedButton.icon(
                   onPressed: _editarRol,
@@ -105,7 +101,7 @@ class _EditarRolWidgetState extends State<EditarRolWidget> {
   void initState() {
     super.initState();
     _nombreController = TextEditingController(text: "Vendedor");
-    _descripcionController =
-        TextEditingController(text: "Este rol puede gestionar propiedades y ponerlas en venta");
+    _descripcionController = TextEditingController(
+        text: "Este rol puede gestionar propiedades y ponerlas en venta");
   }
 }

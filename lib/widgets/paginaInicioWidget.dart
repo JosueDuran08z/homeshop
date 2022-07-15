@@ -68,9 +68,9 @@ class _PaginaInicioWidgetState extends State<PaginaInicioWidget> {
             ),
           ),
           BottomNavigationBarItem(
-            label: "Gestionar",
+            label: "Mi Cuenta",
             icon: Icon(
-              Icons.settings,
+              Icons.person,
             ),
           ),
         ],

@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+
 class AgregarRolWidget extends StatefulWidget {
   const AgregarRolWidget({Key? key}) : super(key: key);
 
@@ -35,12 +36,11 @@ class _AgregarRolWidgetState extends State<AgregarRolWidget> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(30),
+          padding: const EdgeInsets.all(20),
           child: Form(
             key: formKey,
             child: Column(
               children: [
-                const SizedBox(height: 20),
                 TextFormField(
                   controller: _nombreController,
                   decoration: const InputDecoration(
@@ -63,7 +63,7 @@ class _AgregarRolWidgetState extends State<AgregarRolWidget> {
                   validator: (value) =>
                       _validarCampo(value, "Introduzca la descripción"),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 30),
                 ElevatedButton.icon(
                   onPressed: _agregarRol,
                   icon: const Icon(Icons.add),

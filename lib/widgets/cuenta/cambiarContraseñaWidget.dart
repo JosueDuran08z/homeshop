@@ -4,7 +4,8 @@ class CambiarContrasenaWidget extends StatefulWidget {
   const CambiarContrasenaWidget({Key? key}) : super(key: key);
 
   @override
-  State<CambiarContrasenaWidget> createState() => _CambiarContrasenaWidgetState();
+  State<CambiarContrasenaWidget> createState() =>
+      _CambiarContrasenaWidgetState();
 }
 
 class _CambiarContrasenaWidgetState extends State<CambiarContrasenaWidget> {
@@ -36,7 +37,7 @@ class _CambiarContrasenaWidgetState extends State<CambiarContrasenaWidget> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(30),
+          padding: const EdgeInsets.all(20),
           child: Form(
             key: formKey,
             child: Column(
@@ -49,8 +50,7 @@ class _CambiarContrasenaWidgetState extends State<CambiarContrasenaWidget> {
                     suffixIcon: Icon(Icons.password),
                   ),
                   validator: (value) =>
-                      _validarCampo(
-                          value, "Introduzca una nueva contraseña"),
+                      _validarCampo(value, "Introduzca una nueva contraseña"),
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
@@ -61,10 +61,9 @@ class _CambiarContrasenaWidgetState extends State<CambiarContrasenaWidget> {
                     suffixIcon: Icon(Icons.password),
                   ),
                   validator: (value) =>
-                      _validarCampo(
-                          value, "Repita la nueva contraseña"),
+                      _validarCampo(value, "Repita la nueva contraseña"),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 30),
                 ElevatedButton.icon(
                   onPressed: _agregarContrasena,
                   icon: const Icon(Icons.save),
@@ -90,6 +89,7 @@ class _CambiarContrasenaWidgetState extends State<CambiarContrasenaWidget> {
       ),
     );
   }
+
   @override
   void initState() {
     super.initState();

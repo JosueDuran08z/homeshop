@@ -87,7 +87,6 @@ class _MisPropiedadesWidgetState extends State<MisPropiedadesWidget> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const SizedBox(height: 35),
         Padding(
           padding: const EdgeInsets.only(left: 15, top: 20, right: 15),
           child: Row(
@@ -123,7 +122,7 @@ class _MisPropiedadesWidgetState extends State<MisPropiedadesWidget> {
             ],
           ),
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 20),
         Expanded(
           child: ListView.builder(
             padding: const EdgeInsets.only(
