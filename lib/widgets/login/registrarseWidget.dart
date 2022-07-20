@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:date_field/date_field.dart';
 import 'package:flutter/services.dart';
+import 'package:homeshop/models/Usuario.dart';
+import 'package:homeshop/repository/LoginRepository.dart';
 import 'package:homeshop/widgets/login/loginWidget.dart';
 import 'package:intl/intl.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class RegistrarseWidget extends StatefulWidget {
   RegistrarseWidget({Key? key}) : super(key: key);
@@ -12,6 +16,8 @@ class RegistrarseWidget extends StatefulWidget {
 }
 
 class _RegistrarseWidgetState extends State<RegistrarseWidget> {
+  late LoginRepository _loginRepository;
+  late Usuario _usuario;
   late TextEditingController _nombreController,
       _apePController,
       _apeMController,
@@ -22,7 +28,8 @@ class _RegistrarseWidgetState extends State<RegistrarseWidget> {
       _coloniaController,
       _codPostalController,
       _numIntController,
-      _numExtController;
+      _numExtController,
+      _razonSocialController;
   String? fechaNacimiento;
   String? tipoUsuario;
   TextStyle textLinkStyle = TextStyle(color: Colors.grey[700]);
@@ -39,14 +46,71 @@ class _RegistrarseWidgetState extends State<RegistrarseWidget> {
   String? perfilUsuario;
 
   void _registrar() {
-    /* final route = MaterialPageRoute(builder: (BuildContext context) => Login());
-    Navigator.push(context, route); */
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
-      final route =
-          MaterialPageRoute(builder: (BuildContext context) => LoginWidget());
-      Navigator.push(context, route);
+
+      try {
+        _usuario.email = _emailController.text.trim();
+        _usuario.contrasenia = _contraseniaController.text.trim();
+        _usuario.calle = _calleController.text.trim();
+        _usuario.numInterior = _numIntController.text.trim();
+        _usuario.numExterior = _numExtController.text.isEmpty
+            ? null
+            : _numExtController.text.trim();
+        _usuario.colonia = _coloniaController.text.trim();
+        _usuario.cp = int.parse(_codPostalController.text);
+        _usuario.telefono = int.parse(_telefonoController.text);
+
+        if (perfilUsuario == "particular") {
+          _usuario.persona.nombre = _nombreController.text.trim();
+          _usuario.persona.apePaterno = _apePController.text.trim();
+          _usuario.persona.apeMaterno =
+              _apeMController.text.isEmpty ? null : _apeMController.text.trim();
+          _usuario.persona.fechaNacimientoInsert = fechaNacimiento;
+        } else {
+          _usuario.empresa.razonSocial = _razonSocialController.text.trim();
+        }
+
+        Future<http.Response?> response =
+            _loginRepository.registrarse(_usuario, perfilUsuario!);
+
+        response.then((http.Response? response) {
+          var responseData = jsonDecode(response!.body);
+
+          if (response.statusCode == 201) {
+            final route = MaterialPageRoute(
+                builder: (BuildContext context) => LoginWidget());
+            Navigator.push(context, route);
+            mostrarSnackbar(responseData["mensaje"], Colors.blue[600]);
+          } else {
+            String mensaje = responseData["mensaje"];
+
+            if (response.statusCode == 409) {
+              mensaje = "$mensaje Ingrese uno nuevo.";
+            }
+
+            mostrarSnackbar(mensaje, Colors.red[900]);
+          }
+        });
+      } catch (e) {
+        mostrarSnackbar(
+            "¡Ocurrió un error inesperado! Vuelve a intentarlo más tarde.",
+            Colors.red[900]);
+      }
     }
+  }
+
+  void mostrarSnackbar(String mensaje, color) {
+    SnackBar snackbar = SnackBar(
+      content: Text(
+        mensaje,
+        style: const TextStyle(
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      backgroundColor: color,
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackbar);
   }
 
   void _cambiarPerfilUsuario(String? value) =>
@@ -170,25 +234,14 @@ class _RegistrarseWidgetState extends State<RegistrarseWidget> {
                             children: [
                               const SizedBox(height: 20),
                               TextFormField(
-                                controller: _calleController,
+                                controller: _razonSocialController,
                                 decoration: const InputDecoration(
                                   labelText: "Razón Social",
                                   border: OutlineInputBorder(),
                                   suffixIcon: Icon(Icons.map),
                                 ),
-                                validator: (value) =>
-                                    _validarCampo(value, "Introduzca la calle"),
-                              ),
-                              const SizedBox(height: 20),
-                              TextFormField(
-                                controller: _calleController,
-                                decoration: const InputDecoration(
-                                  labelText: "RFC",
-                                  border: OutlineInputBorder(),
-                                  suffixIcon: Icon(Icons.map),
-                                ),
-                                validator: (value) =>
-                                    _validarCampo(value, "Introduzca la calle"),
+                                validator: (value) => _validarCampo(
+                                    value, "Introduzca la razón social"),
                               ),
                             ],
                           ),
@@ -330,16 +383,19 @@ class _RegistrarseWidgetState extends State<RegistrarseWidget> {
   @override
   void initState() {
     super.initState();
-    _nombreController = TextEditingController();
-    _apePController = TextEditingController();
-    _apeMController = TextEditingController();
-    _emailController = TextEditingController();
-    _contraseniaController = TextEditingController();
-    _telefonoController = TextEditingController();
-    _calleController = TextEditingController();
-    _coloniaController = TextEditingController();
-    _codPostalController = TextEditingController();
-    _numIntController = TextEditingController();
+    _loginRepository = LoginRepository();
+    _usuario = Usuario();
+    _nombreController = TextEditingController(text: "Cristiano");
+    _apePController = TextEditingController(text: "dos Santos");
+    _apeMController = TextEditingController(text: "Aveiro");
+    _emailController = TextEditingController(text: "cr7@gmail.com");
+    _contraseniaController = TextEditingController(text: "123");
+    _telefonoController = TextEditingController(text: "477123457");
+    _calleController = TextEditingController(text: "Madeira");
+    _coloniaController = TextEditingController(text: "Sporting");
+    _codPostalController = TextEditingController(text: "77777");
+    _numIntController = TextEditingController(text: "cr9");
     _numExtController = TextEditingController();
+    _razonSocialController = TextEditingController(text: "Empresa Prueba");
   }
 }

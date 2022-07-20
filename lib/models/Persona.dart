@@ -1,6 +1,6 @@
 class Persona {
   int? idPersona;
-  String? nombre, apePaterno, apeMaterno;
+  String? nombre, apePaterno, apeMaterno, fechaNacimientoInsert;
   DateTime? fechaNacimiento;
 
   setPersona(responseData) {
