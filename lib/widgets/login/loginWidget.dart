@@ -1,6 +1,12 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:homeshop/models/Usuario.dart';
+import 'package:homeshop/repository/LoginRepository.dart';
 import 'package:homeshop/widgets/paginaInicioWidget.dart';
 import 'package:homeshop/widgets/login/registrarseWidget.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class LoginWidget extends StatefulWidget {
   LoginWidget({Key? key}) : super(key: key);
@@ -12,17 +18,36 @@ class LoginWidget extends StatefulWidget {
 class _LoginWidgetState extends State<LoginWidget> {
   late TextEditingController _usuarioController;
   late TextEditingController _contraseniaController;
+  late LoginRepository _loginRepository;
+  late Usuario _usuario;
+  String? _error;
+  late TextStyle _styleTextError;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   void _iniciarSesion() {
-    final route = MaterialPageRoute(
-        builder: (BuildContext context) => PaginaInicioWidget());
-    Navigator.push(context, route);
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
-      final route = MaterialPageRoute(
-          builder: (BuildContext context) => PaginaInicioWidget());
-      Navigator.push(context, route);
+
+      try {
+        Future<http.Response?> response = _loginRepository.login(
+            _usuarioController.text, _contraseniaController.text);
+
+        response.then((http.Response? response) {
+          var responseData = jsonDecode(response!.body);
+
+          if (response.statusCode == 200) {
+            _usuario.setUsuario(responseData);
+            final route = MaterialPageRoute(
+                builder: (BuildContext context) => PaginaInicioWidget());
+            Navigator.push(context, route);
+          } else {
+            setState(() => _error = responseData["mensaje"]);
+          }
+        });
+      } catch (e) {
+        setState(() =>
+            _error = "¡Ocurrió un error inesperado! Inténtalo más tarde.");
+      }
     }
   }
 
@@ -105,6 +130,17 @@ class _LoginWidgetState extends State<LoginWidget> {
                       ),
                     ),
                   ),
+                  _error != null
+                      ? Column(
+                          children: [
+                            const SizedBox(height: 20),
+                            Text(
+                              _error!,
+                              style: _styleTextError,
+                            )
+                          ],
+                        )
+                      : Container(),
                   const SizedBox(height: 30),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -138,6 +174,10 @@ class _LoginWidgetState extends State<LoginWidget> {
   @override
   void initState() {
     super.initState();
+    _usuario = Usuario();
+    _styleTextError =
+        TextStyle(fontWeight: FontWeight.bold, color: Colors.red[700]);
+    _loginRepository = LoginRepository();
     _usuarioController = TextEditingController();
     _contraseniaController = TextEditingController();
   }
