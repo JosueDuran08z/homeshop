@@ -20,7 +20,6 @@ class _LoginWidgetState extends State<LoginWidget> {
   late TextEditingController _contraseniaController;
   late LoginRepository _loginRepository;
   late Usuario _usuario;
-  String? _error;
   late TextStyle _styleTextError;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
@@ -41,14 +40,29 @@ class _LoginWidgetState extends State<LoginWidget> {
                 builder: (BuildContext context) => PaginaInicioWidget());
             Navigator.push(context, route);
           } else {
-            setState(() => _error = responseData["mensaje"]);
+            mostrarSnackbar(responseData["mensaje"], Colors.red[900]);
           }
         });
       } catch (e) {
-        setState(() =>
-            _error = "¡Ocurrió un error inesperado! Inténtalo más tarde.");
+        mostrarSnackbar(
+            "¡Ocurrió un error inesperado! Vuelve a intentarlo más tarde.",
+            Colors.red[900]);
       }
     }
+  }
+
+  void mostrarSnackbar(String mensaje, color) {
+    SnackBar snackbar = SnackBar(
+      content: Text(
+        mensaje,
+        style: const TextStyle(
+          fontWeight: FontWeight.bold,
+        ),
+        textAlign: TextAlign.center,
+      ),
+      backgroundColor: color,
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackbar);
   }
 
   void _mostrarRegistrarse() {
@@ -130,17 +144,6 @@ class _LoginWidgetState extends State<LoginWidget> {
                       ),
                     ),
                   ),
-                  _error != null
-                      ? Column(
-                          children: [
-                            const SizedBox(height: 20),
-                            Text(
-                              _error!,
-                              style: _styleTextError,
-                            )
-                          ],
-                        )
-                      : Container(),
                   const SizedBox(height: 30),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,

@@ -107,6 +107,7 @@ class _RegistrarseWidgetState extends State<RegistrarseWidget> {
         style: const TextStyle(
           fontWeight: FontWeight.bold,
         ),
+        textAlign: TextAlign.center,
       ),
       backgroundColor: color,
     );
