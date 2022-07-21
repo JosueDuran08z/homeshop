@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
+import 'package:homeshop/repository/InmuebleRepository.dart';
 import 'package:image_picker/image_picker.dart';
 
 class AgregarInmuebleWidget extends StatefulWidget {
@@ -11,14 +12,24 @@ class AgregarInmuebleWidget extends StatefulWidget {
 }
 
 class _AgregarInmuebleWidgetState extends State<AgregarInmuebleWidget> {
+  late InmuebleRepository _inmuebleRepository;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextStyle textStylePregunta = TextStyle(
     fontWeight: FontWeight.bold,
     fontSize: 15,
     color: Colors.grey[800],
   );
+  String? _tipoInmueble;
+  final List<DropdownMenuItem<String>> _tiposInmuebles = [
+    const DropdownMenuItem<String>(value: "casa", child: Text("Casa")),
+    const DropdownMenuItem<String>(
+        value: "departamento", child: Text("Departamento")),
+    const DropdownMenuItem<String>(value: "edificio", child: Text("Edificio")),
+    const DropdownMenuItem<String>(value: "terreno", child: Text("Terreno")),
+  ];
   String _tipoOperacion = "";
   String _cochera = "";
+  String _estacionamiento = "";
   bool _agua = false, _luz = false, _internet = false;
   late TextEditingController _habitacionesController,
       _pisosController,
@@ -73,6 +84,8 @@ class _AgregarInmuebleWidgetState extends State<AgregarInmuebleWidget> {
 
   void _cambiarOperacion(value) => setState(() => _tipoOperacion = value);
   void _cambiarValorCochera(value) => setState(() => _cochera = value);
+  void _cambiarValorEstacionamiento(value) =>
+      setState(() => _estacionamiento = value);
 
   void _agregarInmueble() {
     if (formKey.currentState!.validate()) {
@@ -235,285 +248,364 @@ class _AgregarInmuebleWidgetState extends State<AgregarInmuebleWidget> {
                   ],
                 ),
                 const SizedBox(height: 20),
-                Row(
-                  children: [
-                    Text(
-                      "¿Cuenta con Cochera?",
-                      style: textStylePregunta,
-                      textAlign: TextAlign.start,
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: ListTile(
-                        contentPadding: EdgeInsets.all(0),
-                        title: const Text("Sí"),
-                        leading: Radio(
-                          value: "Sí",
-                          groupValue: _cochera,
-                          onChanged: _cambiarValorCochera,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    Expanded(
-                      child: ListTile(
-                        contentPadding: EdgeInsets.all(0),
-                        title: const Text("No"),
-                        leading: Radio(
-                          value: "No",
-                          groupValue: _cochera,
-                          onChanged: _cambiarValorCochera,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                Row(
-                  children: [
-                    Text(
-                      "Servicios",
-                      style: textStylePregunta,
-                    ),
-                  ],
-                ),
-                CheckboxListTile(
-                  contentPadding: const EdgeInsets.all(0),
-                  title: const Text("Agua"),
-                  value: _agua,
-                  onChanged: (bool? value) => setState(() => _agua = value!),
-                ),
-                CheckboxListTile(
-                  contentPadding: const EdgeInsets.all(0),
-                  title: const Text("Luz"),
-                  value: _luz,
-                  onChanged: (bool? value) => setState(() => _luz = value!),
-                ),
-                CheckboxListTile(
-                  contentPadding: const EdgeInsets.all(0),
-                  title: const Text("Internet"),
-                  value: _internet,
-                  onChanged: (bool? value) =>
-                      setState(() => _internet = value!),
-                ),
-                const SizedBox(height: 20),
-                TextFormField(
-                  controller: _habitacionesController,
-                  decoration: const InputDecoration(
-                    labelText: "Habitaciones",
-                    border: OutlineInputBorder(),
-                    suffixIcon: Icon(Icons.bed),
-                  ),
-                  keyboardType: TextInputType.number,
-                  inputFormatters: [
-                    FilteringTextInputFormatter.digitsOnly,
-                  ],
-                  validator: (value) => _validarCampo(
-                      value, "Introduzca el número de habitaciones"),
-                ),
-                const SizedBox(height: 20),
-                TextFormField(
-                  controller: _pisosController,
-                  decoration: const InputDecoration(
-                    labelText: "Pisos",
-                    border: OutlineInputBorder(),
-                    suffixIcon: Icon(Icons.stairs),
-                  ),
-                  keyboardType: TextInputType.number,
-                  inputFormatters: [
-                    FilteringTextInputFormatter.digitsOnly,
-                  ],
-                  validator: (value) =>
-                      _validarCampo(value, "Introduzca el número de pisos"),
-                ),
-                const SizedBox(height: 20),
-                TextFormField(
-                  controller: _baniosController,
-                  decoration: const InputDecoration(
-                    labelText: "Baños",
-                    border: OutlineInputBorder(),
-                    suffixIcon: Icon(Icons.bathtub),
-                  ),
-                  keyboardType: TextInputType.number,
-                  inputFormatters: [
-                    FilteringTextInputFormatter.digitsOnly,
-                  ],
-                  validator: (value) =>
-                      _validarCampo(value, "Introduzca el número de baños"),
-                ),
-                const SizedBox(height: 20),
                 DropdownButtonFormField(
-                  value: _estadoInstalaciones,
+                  value: _tipoInmueble,
                   isExpanded: true,
                   onChanged: (String? value) =>
-                      setState(() => _estadoInstalaciones = value!),
-                  items: _estadosInstalaciones,
+                      setState(() => _tipoInmueble = value!),
+                  items: _tiposInmuebles,
                   decoration: const InputDecoration(
-                    labelText: "Estado Instalaciones",
-                    border: OutlineInputBorder(),
-                    suffixIcon: Icon(Icons.star_rate),
-                  ),
-                  validator: (value) =>
-                      value == null ? "Seleccione una opción" : null,
-                ),
-                const SizedBox(height: 20),
-                TextFormField(
-                  controller: _calleController,
-                  decoration: const InputDecoration(
-                    labelText: "Calle",
-                    border: OutlineInputBorder(),
-                    suffixIcon: Icon(Icons.map),
-                  ),
-                  validator: (value) =>
-                      _validarCampo(value, "Introduzca la calle"),
-                ),
-                const SizedBox(height: 20),
-                TextFormField(
-                  controller: _coloniaController,
-                  decoration: const InputDecoration(
-                    labelText: "Colonia",
+                    labelText: "Tipo de Inmueble",
                     border: OutlineInputBorder(),
                     suffixIcon: Icon(Icons.maps_home_work),
                   ),
-                  validator: (value) =>
-                      _validarCampo(value, "Introduzca la colonia"),
                 ),
-                const SizedBox(height: 20),
-                Row(
-                  children: [
-                    Expanded(
-                      child: TextFormField(
-                        controller: _numIntController,
-                        decoration: const InputDecoration(
-                          labelText: "# Interior",
-                          border: OutlineInputBorder(),
-                          suffixIcon: Icon(Icons.numbers),
-                        ),
-                        validator: (value) => _validarCampo(
-                            value, "Introduzca el número interior"),
-                      ),
-                    ),
-                    const SizedBox(width: 20),
-                    Expanded(
-                      child: TextFormField(
-                        controller: _numExtController,
-                        decoration: const InputDecoration(
-                          labelText: "# Exterior",
-                          border: OutlineInputBorder(),
-                          suffixIcon: Icon(Icons.numbers),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                TextFormField(
-                  controller: _codPostalController,
-                  decoration: const InputDecoration(
-                    labelText: "Código Postal",
-                    border: OutlineInputBorder(),
-                    suffixIcon: Icon(Icons.location_on_outlined),
-                  ),
-                  keyboardType: TextInputType.number,
-                  inputFormatters: [
-                    FilteringTextInputFormatter.digitsOnly,
-                  ],
-                  validator: (value) =>
-                      _validarCampo(value, "Introduzca el código postal"),
-                ),
-                const SizedBox(height: 20),
-                Row(
-                  children: [
-                    Expanded(
-                      child: TextFormField(
-                        controller: _largoController,
-                        decoration: const InputDecoration(
-                          labelText: "Largo (m)",
-                          border: OutlineInputBorder(),
-                          suffixIcon: Icon(Icons.arrow_upward),
-                        ),
-                        keyboardType: TextInputType.number,
-                        validator: (value) =>
-                            _validarCampo(value, "Introduzca el largo"),
-                      ),
-                    ),
-                    const SizedBox(width: 20),
-                    Expanded(
-                      child: TextFormField(
-                        controller: _anchoController,
-                        decoration: const InputDecoration(
-                          labelText: "Ancho (m)",
-                          border: OutlineInputBorder(),
-                          suffixIcon: Icon(Icons.arrow_back_outlined),
-                        ),
-                        keyboardType: TextInputType.number,
-                        validator: (value) =>
-                            _validarCampo(value, "Introduzca el ancho"),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                TextFormField(
-                  controller: _edadController,
-                  decoration: const InputDecoration(
-                    labelText: "Edad Inmueble",
-                    border: OutlineInputBorder(),
-                    suffixIcon: Icon(Icons.hourglass_bottom),
-                  ),
-                  keyboardType: TextInputType.number,
-                  inputFormatters: [
-                    FilteringTextInputFormatter.digitsOnly,
-                  ],
-                  validator: (value) =>
-                      _validarCampo(value, "Introduzca la edad del inmueble"),
-                ),
-                const SizedBox(height: 20),
-                TextFormField(
-                  controller: _descripcionController,
-                  decoration: const InputDecoration(
-                    labelText: "Descripción",
-                    border: OutlineInputBorder(),
-                    suffixIcon: Icon(Icons.description),
-                  ),
-                  maxLines: 4,
-                  validator: (value) =>
-                      _validarCampo(value, "Introduzca la descripción"),
-                ),
-                const SizedBox(height: 20),
-                TextFormField(
-                  controller: _precioController,
-                  decoration: const InputDecoration(
-                    labelText: "Precio",
-                    border: OutlineInputBorder(),
-                    suffixIcon: Icon(Icons.attach_money),
-                  ),
-                  keyboardType: TextInputType.number,
-                  validator: (value) =>
-                      _validarCampo(value, "Introduzca el precio"),
-                ),
-                const SizedBox(height: 30),
-                ElevatedButton.icon(
-                  onPressed: _agregarInmueble,
-                  icon: const Icon(Icons.add),
-                  label: const Text("Agregar Inmueble"),
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.red[700],
-                    padding: const EdgeInsets.only(
-                      left: 20,
-                      top: 15,
-                      right: 20,
-                      bottom: 15,
-                    ),
-                    minimumSize: const Size.fromHeight(50),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                  ),
-                ),
+                _tipoInmueble != null && _tipoInmueble != "terreno"
+                    ? Column(
+                        children: [
+                          const SizedBox(height: 20),
+                          Row(
+                            children: [
+                              Text(
+                                "¿Cuenta con ${_tipoInmueble == "casa" ? "Cochera" : "Estacionamiento"}?",
+                                style: textStylePregunta,
+                                textAlign: TextAlign.start,
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: ListTile(
+                                  contentPadding: EdgeInsets.all(0),
+                                  title: const Text("Sí"),
+                                  leading: Radio(
+                                    value: "Sí",
+                                    groupValue: _tipoInmueble == "casa"
+                                        ? _cochera
+                                        : _estacionamiento,
+                                    onChanged: _tipoInmueble == "casa"
+                                        ? _cambiarValorCochera
+                                        : _cambiarValorEstacionamiento,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 20),
+                              Expanded(
+                                child: ListTile(
+                                  contentPadding: EdgeInsets.all(0),
+                                  title: const Text("No"),
+                                  leading: Radio(
+                                    value: "No",
+                                    groupValue: _tipoInmueble == "casa"
+                                        ? _cochera
+                                        : _estacionamiento,
+                                    onChanged: _tipoInmueble == "casa"
+                                        ? _cambiarValorCochera
+                                        : _cambiarValorEstacionamiento,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      )
+                    : Container(),
+                _tipoInmueble != null
+                    ? Column(
+                        children: [
+                          const SizedBox(height: 20),
+                          Row(
+                            children: [
+                              Text(
+                                "Servicios",
+                                style: textStylePregunta,
+                              ),
+                            ],
+                          ),
+                          CheckboxListTile(
+                            contentPadding: const EdgeInsets.all(0),
+                            title: const Text("Agua"),
+                            value: _agua,
+                            onChanged: (bool? value) =>
+                                setState(() => _agua = value!),
+                          ),
+                          CheckboxListTile(
+                            contentPadding: const EdgeInsets.all(0),
+                            title: const Text("Luz"),
+                            value: _luz,
+                            onChanged: (bool? value) =>
+                                setState(() => _luz = value!),
+                          ),
+                          _tipoInmueble != null && _tipoInmueble != "terreno"
+                              ? CheckboxListTile(
+                                  contentPadding: const EdgeInsets.all(0),
+                                  title: const Text("Internet"),
+                                  value: _internet,
+                                  onChanged: (bool? value) =>
+                                      setState(() => _internet = value!),
+                                )
+                              : Container(),
+                        ],
+                      )
+                    : Container(),
+                _tipoInmueble != null && _tipoInmueble != "terreno"
+                    ? Column(
+                        children: [
+                          const SizedBox(height: 20),
+                          TextFormField(
+                            controller: _habitacionesController,
+                            decoration: const InputDecoration(
+                              labelText: "Habitaciones",
+                              border: OutlineInputBorder(),
+                              suffixIcon: Icon(Icons.bed),
+                            ),
+                            keyboardType: TextInputType.number,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly,
+                            ],
+                            validator: (value) => _validarCampo(
+                                value, "Introduzca el número de habitaciones"),
+                          ),
+                        ],
+                      )
+                    : Container(),
+                _tipoInmueble != null && _tipoInmueble != "terreno"
+                    ? Column(
+                        children: [
+                          const SizedBox(height: 20),
+                          TextFormField(
+                            controller: _pisosController,
+                            decoration: const InputDecoration(
+                              labelText: "Pisos",
+                              border: OutlineInputBorder(),
+                              suffixIcon: Icon(Icons.stairs),
+                            ),
+                            keyboardType: TextInputType.number,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly,
+                            ],
+                            validator: (value) => _validarCampo(
+                                value, "Introduzca el número de pisos"),
+                          ),
+                        ],
+                      )
+                    : Container(),
+                _tipoInmueble != null
+                    ? Column(
+                        children: [
+                          const SizedBox(height: 20),
+                          TextFormField(
+                            controller: _baniosController,
+                            decoration: const InputDecoration(
+                              labelText: "Baños",
+                              border: OutlineInputBorder(),
+                              suffixIcon: Icon(Icons.bathtub),
+                            ),
+                            keyboardType: TextInputType.number,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly,
+                            ],
+                            validator: (value) => _validarCampo(
+                                value, "Introduzca el número de baños"),
+                          ),
+                        ],
+                      )
+                    : Container(),
+                _tipoInmueble != null && _tipoInmueble != "terreno"
+                    ? Column(
+                        children: [
+                          const SizedBox(height: 20),
+                          DropdownButtonFormField(
+                            value: _estadoInstalaciones,
+                            isExpanded: true,
+                            onChanged: (String? value) =>
+                                setState(() => _estadoInstalaciones = value!),
+                            items: _estadosInstalaciones,
+                            decoration: const InputDecoration(
+                              labelText: "Estado Instalaciones",
+                              border: OutlineInputBorder(),
+                              suffixIcon: Icon(Icons.star_rate),
+                            ),
+                            validator: (value) =>
+                                value == null ? "Seleccione una opción" : null,
+                          ),
+                        ],
+                      )
+                    : Container(),
+                _tipoInmueble != null
+                    ? Column(
+                        children: [
+                          const SizedBox(height: 20),
+                          TextFormField(
+                            controller: _calleController,
+                            decoration: const InputDecoration(
+                              labelText: "Calle",
+                              border: OutlineInputBorder(),
+                              suffixIcon: Icon(Icons.map),
+                            ),
+                            validator: (value) =>
+                                _validarCampo(value, "Introduzca la calle"),
+                          ),
+                          const SizedBox(height: 20),
+                          TextFormField(
+                            controller: _coloniaController,
+                            decoration: const InputDecoration(
+                              labelText: "Colonia",
+                              border: OutlineInputBorder(),
+                              suffixIcon: Icon(Icons.maps_home_work),
+                            ),
+                            validator: (value) =>
+                                _validarCampo(value, "Introduzca la colonia"),
+                          ),
+                          const SizedBox(height: 20),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: TextFormField(
+                                  controller: _numIntController,
+                                  decoration: const InputDecoration(
+                                    labelText: "# Interior",
+                                    border: OutlineInputBorder(),
+                                    suffixIcon: Icon(Icons.numbers),
+                                  ),
+                                  validator: (value) => _validarCampo(
+                                      value, "Introduzca el número interior"),
+                                ),
+                              ),
+                              const SizedBox(width: 20),
+                              Expanded(
+                                child: TextFormField(
+                                  controller: _numExtController,
+                                  decoration: const InputDecoration(
+                                    labelText: "# Exterior",
+                                    border: OutlineInputBorder(),
+                                    suffixIcon: Icon(Icons.numbers),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 20),
+                          TextFormField(
+                            controller: _codPostalController,
+                            decoration: const InputDecoration(
+                              labelText: "Código Postal",
+                              border: OutlineInputBorder(),
+                              suffixIcon: Icon(Icons.location_on_outlined),
+                            ),
+                            keyboardType: TextInputType.number,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly,
+                            ],
+                            validator: (value) => _validarCampo(
+                                value, "Introduzca el código postal"),
+                          ),
+                          const SizedBox(height: 20),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: TextFormField(
+                                  controller: _largoController,
+                                  decoration: const InputDecoration(
+                                    labelText: "Largo (m)",
+                                    border: OutlineInputBorder(),
+                                    suffixIcon: Icon(Icons.arrow_upward),
+                                  ),
+                                  keyboardType: TextInputType.number,
+                                  validator: (value) => _validarCampo(
+                                      value, "Introduzca el largo"),
+                                ),
+                              ),
+                              const SizedBox(width: 20),
+                              Expanded(
+                                child: TextFormField(
+                                  controller: _anchoController,
+                                  decoration: const InputDecoration(
+                                    labelText: "Ancho (m)",
+                                    border: OutlineInputBorder(),
+                                    suffixIcon: Icon(Icons.arrow_back_outlined),
+                                  ),
+                                  keyboardType: TextInputType.number,
+                                  validator: (value) => _validarCampo(
+                                      value, "Introduzca el ancho"),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      )
+                    : Container(),
+                _tipoInmueble != null && _tipoInmueble != "terreno"
+                    ? Column(
+                        children: [
+                          const SizedBox(height: 20),
+                          TextFormField(
+                            controller: _edadController,
+                            decoration: const InputDecoration(
+                              labelText: "Edad Inmueble",
+                              border: OutlineInputBorder(),
+                              suffixIcon: Icon(Icons.hourglass_bottom),
+                            ),
+                            keyboardType: TextInputType.number,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly,
+                            ],
+                            validator: (value) => _validarCampo(
+                                value, "Introduzca la edad del inmueble"),
+                          ),
+                        ],
+                      )
+                    : Container(),
+                _tipoInmueble != null
+                    ? Column(
+                        children: [
+                          const SizedBox(height: 20),
+                          TextFormField(
+                            controller: _descripcionController,
+                            decoration: const InputDecoration(
+                              labelText: "Descripción",
+                              border: OutlineInputBorder(),
+                              suffixIcon: Icon(Icons.description),
+                            ),
+                            maxLines: 4,
+                            validator: (value) => _validarCampo(
+                                value, "Introduzca la descripción"),
+                          ),
+                          const SizedBox(height: 20),
+                          TextFormField(
+                            controller: _precioController,
+                            decoration: const InputDecoration(
+                              labelText: "Precio",
+                              border: OutlineInputBorder(),
+                              suffixIcon: Icon(Icons.attach_money),
+                            ),
+                            keyboardType: TextInputType.number,
+                            validator: (value) =>
+                                _validarCampo(value, "Introduzca el precio"),
+                          ),
+                          const SizedBox(height: 30),
+                          ElevatedButton.icon(
+                            onPressed: _agregarInmueble,
+                            icon: const Icon(Icons.add),
+                            label: const Text("Agregar Inmueble"),
+                            style: ElevatedButton.styleFrom(
+                              primary: Colors.red[700],
+                              padding: const EdgeInsets.only(
+                                left: 20,
+                                top: 15,
+                                right: 20,
+                                bottom: 15,
+                              ),
+                              minimumSize: const Size.fromHeight(50),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
+                    : Container(),
               ],
             ),
           ),
@@ -525,6 +617,7 @@ class _AgregarInmuebleWidgetState extends State<AgregarInmuebleWidget> {
   @override
   void initState() {
     super.initState();
+    _inmuebleRepository = InmuebleRepository();
     _habitacionesController = TextEditingController();
     _pisosController = TextEditingController();
     _baniosController = TextEditingController();

@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:homeshop/models/Inmueble.dart';
 import 'package:http/http.dart' as http;
 
-class LoginRepository {
+class InmuebleRepository {
   Future<http.Response?> obtenerTodos() async {
     String url = "http://localhost:5000/inmueble/";
     final response = await http.get(Uri.parse(url));

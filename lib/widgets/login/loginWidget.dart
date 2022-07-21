@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:homeshop/models/Usuario.dart';
 import 'package:homeshop/repository/LoginRepository.dart';
+import 'package:homeshop/widgets/misInmuebles/agregarInmuebleWidget.dart';
 import 'package:homeshop/widgets/paginaInicioWidget.dart';
 import 'package:homeshop/widgets/login/registrarseWidget.dart';
 import 'dart:convert';
@@ -37,7 +38,7 @@ class _LoginWidgetState extends State<LoginWidget> {
           if (response.statusCode == 200) {
             _usuario.setUsuario(responseData);
             final route = MaterialPageRoute(
-                builder: (BuildContext context) => PaginaInicioWidget());
+                builder: (BuildContext context) => AgregarInmuebleWidget());
             Navigator.push(context, route);
           } else {
             mostrarSnackbar(responseData["mensaje"], Colors.red[900]);
