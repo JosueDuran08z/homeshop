@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
@@ -9,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:typed_data';
 
 class AgregarInmuebleWidget extends StatefulWidget {
   AgregarInmuebleWidget({Key? key}) : super(key: key);
@@ -73,25 +73,17 @@ class _AgregarInmuebleWidgetState extends State<AgregarInmuebleWidget> {
   }
 
   void _agregarImagen() {
-    _seleccionarImagen().then((imagen) {
+    _seleccionarImagen().then((imagen) async {
+      File imageFile = File(imagen!.path);
+      Uint8List imagebytes = await imageFile.readAsBytes();
+      String base64string =
+          base64.encode(imagebytes); //convert bytes to base64 string
+      print(base64string);
+      Image image = Image.file(imageFile, fit: BoxFit.cover);
+
       setState(() {
-        _imagenes.add(
-          Image.file(
-            File(imagen!.path),
-            fit: BoxFit.cover,
-          ),
-        );
-        /* _imagenes.add(Image.network(
-          _imagenes.length % 2 == 0
-              ? "https://img.remediosdigitales.com/8e8f64/lo-de-que-comprar-una-casa-es-la-mejor-inversion-hay-generaciones-que-ya-no-lo-ven-ni-de-lejos---1/1366_2000.jpg"
-              : "https://th.bing.com/th/id/R.2c76042f56bf81ef78c51089192d5d10?rik=9Va9wLV7TzGRYw&pid=ImgRaw&r=0",
-          fit: BoxFit.cover,
-        )); */
+        _imagenes.add(image);
       });
-    }).catchError((e) {
-      _mostrarSnackbar(
-          "¡Ocurrió un error inesperado! Vuelve a intentarlo más tarde.",
-          Colors.red[900]);
     });
   }
 
