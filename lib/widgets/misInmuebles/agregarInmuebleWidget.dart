@@ -61,6 +61,7 @@ class _AgregarInmuebleWidgetState extends State<AgregarInmuebleWidget> {
     const DropdownMenuItem<String>(value: "Malo", child: Text("Malo")),
   ];
   List<Image> _imagenes = <Image>[];
+  List<String?> _imagenesBase64 = <String?>[];
   int _imagenActual = 0;
 
   String? _validarCampo(valor, mensaje) =>
@@ -75,14 +76,17 @@ class _AgregarInmuebleWidgetState extends State<AgregarInmuebleWidget> {
   void _agregarImagen() {
     _seleccionarImagen().then((imagen) async {
       File imageFile = File(imagen!.path);
-      Uint8List imagebytes = await imageFile.readAsBytes();
-      String base64string =
-          base64.encode(imagebytes); //convert bytes to base64 string
-      print(base64string);
       Image image = Image.file(imageFile, fit: BoxFit.cover);
+      Uint8List imagebytes = await imageFile.readAsBytes();
+      String base64String = base64.encode(imagebytes);
+      _imagenesBase64.add(base64String);
+
+      Uint8List _bytesImage;
+      _bytesImage = Base64Decoder().convert(base64String);
+      Image image1 = Image.memory(_bytesImage, fit: BoxFit.cover);
 
       setState(() {
-        _imagenes.add(image);
+        _imagenes.add(image1);
       });
     });
   }
@@ -94,12 +98,6 @@ class _AgregarInmuebleWidgetState extends State<AgregarInmuebleWidget> {
   void _cambiarValorConstruccion(value) =>
       setState(() => _enConstruccion = value);
 
-  String convertirImageABase64(Image imagen) {
-    String resultado = "imagen1";
-
-    return resultado;
-  }
-
   void _agregarInmueble() {
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
@@ -110,15 +108,11 @@ class _AgregarInmuebleWidgetState extends State<AgregarInmuebleWidget> {
         _inmueble.numExterior = _numExtController.text.trim();
         _inmueble.colonia = _coloniaController.text.trim();
         _inmueble.cp = int.parse(_codPostalController.text);
-        _inmueble.imagen1 = "convertirImageABase64(_imagenes[0])";
-        _inmueble.imagen2 =
-            _imagenes.length > 1 ? convertirImageABase64(_imagenes[1]) : null;
-        _inmueble.imagen3 =
-            _imagenes.length > 2 ? convertirImageABase64(_imagenes[2]) : null;
-        _inmueble.imagen4 =
-            _imagenes.length > 3 ? convertirImageABase64(_imagenes[3]) : null;
-        _inmueble.imagen5 =
-            _imagenes.length > 4 ? convertirImageABase64(_imagenes[4]) : null;
+        _inmueble.imagen1 = _imagenesBase64[0];
+        _inmueble.imagen2 = _imagenes.length > 1 ? _imagenesBase64[1] : null;
+        _inmueble.imagen3 = _imagenes.length > 2 ? _imagenesBase64[2] : null;
+        _inmueble.imagen4 = _imagenes.length > 3 ? _imagenesBase64[3] : null;
+        _inmueble.imagen5 = _imagenes.length > 4 ? _imagenesBase64[4] : null;
         _inmueble.banios = int.parse(_baniosController.text);
         _inmueble.ancho = double.parse(_largoController.text);
         _inmueble.largo = double.parse(_largoController.text);
@@ -193,19 +187,30 @@ class _AgregarInmuebleWidgetState extends State<AgregarInmuebleWidget> {
   }
 
   void _editarImagen() {
-    _seleccionarImagen().then((imagen) {
+    _seleccionarImagen().then((imagen) async {
+      File imageFile = File(imagen!.path);
+      Image image = Image.file(imageFile, fit: BoxFit.cover);
+      Uint8List imagebytes = await imageFile.readAsBytes();
+      String base64String = base64.encode(imagebytes);
+      _imagenesBase64[_imagenActual] = base64String;
+
+      Uint8List _bytesImage;
+      _bytesImage = Base64Decoder().convert(base64String);
+      Image image1 = Image.memory(_bytesImage, fit: BoxFit.cover);
+
       setState(() {
-        /* _imagenes[_imagenActual] = Image.file(
-          File(imagen!.path),
-          fit: BoxFit.cover,
-        ); */
-        _imagenes[_imagenActual] =
-            Image.asset("assets/icon/logo.png", fit: BoxFit.cover);
+        _imagenes[_imagenActual] = image1;
       });
-    }).catchError((e) => print("Error"));
+    }).catchError((e) {
+      _mostrarSnackbar(
+          "¡Ocurrió un error inesperado! Vuelve a intentarlo más tarde.",
+          Colors.red[900]);
+    });
   }
 
   void _eliminarImagen() => setState(() {
+        if (_imagenActual == -1) _imagenActual = 0;
+        _imagenesBase64.removeAt(_imagenActual);
         _imagenes.removeAt(_imagenActual);
         _imagenActual = _imagenes.isEmpty ? 0 : _imagenActual - 1;
       });
