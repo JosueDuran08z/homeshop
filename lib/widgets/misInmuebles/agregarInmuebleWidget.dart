@@ -8,6 +8,7 @@ import 'package:homeshop/repository/InmuebleRepository.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AgregarInmuebleWidget extends StatefulWidget {
   AgregarInmuebleWidget({Key? key}) : super(key: key);
@@ -18,6 +19,7 @@ class AgregarInmuebleWidget extends StatefulWidget {
 
 class _AgregarInmuebleWidgetState extends State<AgregarInmuebleWidget> {
   late Inmueble _inmueble;
+  late Future<SharedPreferences> _prefs;
   late InmuebleRepository _inmuebleRepository;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextStyle textStylePregunta = TextStyle(
@@ -162,7 +164,6 @@ class _AgregarInmuebleWidgetState extends State<AgregarInmuebleWidget> {
           _inmueble.terreno.enConstruccion =
               _enConstruccion == "Sí" ? true : false;
         }
-        _inmueble.usuario.idUsuario = 1;
 
         Future<http.Response?> response =
             _inmuebleRepository.agregar(_inmueble, _tipoInmueble!);
@@ -756,6 +757,9 @@ class _AgregarInmuebleWidgetState extends State<AgregarInmuebleWidget> {
   void initState() {
     super.initState();
     _inmueble = Inmueble();
+    _prefs = SharedPreferences.getInstance();
+    _prefs
+        .then((pref) => _inmueble.usuario.idUsuario = pref.getInt("idUsuario"));
     _inmuebleRepository = InmuebleRepository();
     _habitacionesController = TextEditingController(text: "5");
     _pisosController = TextEditingController(text: "2");

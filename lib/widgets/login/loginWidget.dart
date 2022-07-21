@@ -8,6 +8,7 @@ import 'package:homeshop/widgets/paginaInicioWidget.dart';
 import 'package:homeshop/widgets/login/registrarseWidget.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginWidget extends StatefulWidget {
   LoginWidget({Key? key}) : super(key: key);
@@ -37,6 +38,10 @@ class _LoginWidgetState extends State<LoginWidget> {
 
           if (response.statusCode == 200) {
             _usuario.setUsuario(responseData);
+            final Future<SharedPreferences> _prefs =
+                SharedPreferences.getInstance();
+            _prefs.then(
+                (value) => value.setInt("idUsuario", _usuario.idUsuario!));
             final route = MaterialPageRoute(
                 builder: (BuildContext context) => AgregarInmuebleWidget());
             Navigator.push(context, route);
