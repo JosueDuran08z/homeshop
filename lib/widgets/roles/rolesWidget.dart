@@ -115,7 +115,7 @@ class _MisRolesWidgetState extends State<MisRolesWidget> {
                       borderRadius: BorderRadius.circular(15),
                     ),
                   ),
-                  child: Icon(
+                  child: const Icon(
                     Icons.add,
                     size: 18,
                   ),

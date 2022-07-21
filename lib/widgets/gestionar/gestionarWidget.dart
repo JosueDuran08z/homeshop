@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:homeshop/widgets/cuenta/cambiarContrase%C3%B1aWidget.dart';
 import 'package:homeshop/widgets/cuenta/datosPersonaleWidget.dart';
+import 'package:homeshop/widgets/horarios/horariosWidget.dart';
 import 'package:homeshop/widgets/login/loginWidget.dart';
 import 'package:homeshop/widgets/roles/rolesWidget.dart';
 import 'package:homeshop/widgets/usuarios/usuariosWidget.dart';
@@ -54,12 +55,12 @@ class _GestionarWidgetState extends State<GestionarWidget> {
     final route =
         MaterialPageRoute(builder: (BuildContext context) => UsuariosWidget());
     Navigator.push(context, route);
-    if (formKey.currentState!.validate()) {
-      formKey.currentState!.save();
-      final route = MaterialPageRoute(
-          builder: (BuildContext context) => UsuariosWidget());
-      Navigator.push(context, route);
-    }
+  }
+
+  void _misHorarios() {
+    final route =
+        MaterialPageRoute(builder: (BuildContext context) => HorariosWidget());
+    Navigator.push(context, route);
   }
 
   void _cerrarSesion() {
@@ -159,9 +160,9 @@ class _GestionarWidgetState extends State<GestionarWidget> {
               ),
               const SizedBox(height: 20),
               ElevatedButton.icon(
-                onPressed: _roles,
-                icon: const Icon(Icons.verified_user),
-                label: const Text("Roles y usuarios"),
+                onPressed: _misHorarios,
+                icon: const Icon(Icons.calendar_month),
+                label: const Text("Mis Horarios"),
                 style: ElevatedButton.styleFrom(
                   primary: Colors.red[700],
                   padding: const EdgeInsets.only(
