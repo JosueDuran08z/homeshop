@@ -1,25 +1,20 @@
 import 'dart:io';
 
+import 'package:date_field/date_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
-import 'package:homeshop/widgets/misPropiedades/misPropiedadesWidget.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:date_field/date_field.dart';
 
-class EditarPropiedadWidget extends StatefulWidget {
-  EditarPropiedadWidget(this.id, {Key? key}) : super(key: key);
-  int id;
+class AgregarInmuebleWidget extends StatefulWidget {
+  AgregarInmuebleWidget({Key? key}) : super(key: key);
+
   @override
-  State<EditarPropiedadWidget> createState() =>
-      _EditarPropiedadWidgetState(this.id);
+  State<AgregarInmuebleWidget> createState() => _AgregarInmuebleWidgetState();
 }
 
-class _EditarPropiedadWidgetState extends State<EditarPropiedadWidget> {
-  _EditarPropiedadWidgetState(this.id);
-  int id;
-
+class _AgregarInmuebleWidgetState extends State<AgregarInmuebleWidget> {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextStyle textStylePregunta = TextStyle(
     fontWeight: FontWeight.bold,
@@ -140,13 +135,13 @@ class _EditarPropiedadWidgetState extends State<EditarPropiedadWidget> {
   void _cambiarOperacion(value) => setState(() => _tipoOperacion = value);
   void _cambiarValorCochera(value) => setState(() => _cochera = value);
 
-  void _editarPropiedad() {
+  void _agregarInmueble() {
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
       Navigator.pop(context);
       SnackBar snackbar = SnackBar(
         content: const Text(
-          "!Propiedad editada correctamente!",
+          "!Inmueble agregado correctamente!",
           style: TextStyle(
             fontWeight: FontWeight.bold,
           ),
@@ -179,7 +174,7 @@ class _EditarPropiedadWidgetState extends State<EditarPropiedadWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Editar Propiedad"),
+        title: const Text("Agregar Inmueble"),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -526,7 +521,7 @@ class _EditarPropiedadWidgetState extends State<EditarPropiedadWidget> {
                 TextFormField(
                   controller: _edadController,
                   decoration: const InputDecoration(
-                    labelText: "Edad Propiedad",
+                    labelText: "Edad Inmueble",
                     border: OutlineInputBorder(),
                     suffixIcon: Icon(Icons.hourglass_bottom),
                   ),
@@ -534,8 +529,8 @@ class _EditarPropiedadWidgetState extends State<EditarPropiedadWidget> {
                   inputFormatters: [
                     FilteringTextInputFormatter.digitsOnly,
                   ],
-                  validator: (value) => _validarCampo(
-                      value, "Introduzca la edad de la propiedad"),
+                  validator: (value) =>
+                      _validarCampo(value, "Introduzca la edad del inmueble"),
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
@@ -637,7 +632,6 @@ class _EditarPropiedadWidgetState extends State<EditarPropiedadWidget> {
                 ),
                 const SizedBox(height: 20),
                 DateTimeFormField(
-                  initialValue: DateTime.parse("2022-07-05 08:00:00"),
                   decoration: const InputDecoration(
                       labelText: "Inicio",
                       border: OutlineInputBorder(),
@@ -678,9 +672,9 @@ class _EditarPropiedadWidgetState extends State<EditarPropiedadWidget> {
                 ),
                 const SizedBox(height: 30),
                 ElevatedButton.icon(
-                  onPressed: _editarPropiedad,
-                  icon: const Icon(Icons.save),
-                  label: const Text("Guardar Cambios"),
+                  onPressed: _agregarInmueble,
+                  icon: const Icon(Icons.add),
+                  label: const Text("Agregar Inmueble"),
                   style: ElevatedButton.styleFrom(
                     primary: Colors.red[700],
                     padding: const EdgeInsets.only(
@@ -706,58 +700,18 @@ class _EditarPropiedadWidgetState extends State<EditarPropiedadWidget> {
   @override
   void initState() {
     super.initState();
-    _habitacionesController = TextEditingController(text: "2");
-    _pisosController = TextEditingController(text: "2");
-    _baniosController = TextEditingController(text: "1");
-    _calleController = TextEditingController(text: "San Juan");
-    _coloniaController = TextEditingController(text: "Valle del Sahuan");
-    _codPostalController = TextEditingController(text: "37589");
-    _numIntController = TextEditingController(text: "114 A");
+    _habitacionesController = TextEditingController();
+    _pisosController = TextEditingController();
+    _baniosController = TextEditingController();
+    _calleController = TextEditingController();
+    _coloniaController = TextEditingController();
+    _codPostalController = TextEditingController();
+    _numIntController = TextEditingController();
     _numExtController = TextEditingController();
-    _largoController = TextEditingController(text: "20");
-    _anchoController = TextEditingController(text: "10");
-    _edadController = TextEditingController(text: "20");
-    _descripcionController =
-        TextEditingController(text: "Es una casa muy bonita.");
-    _precioController = TextEditingController(text: "500000");
-
-    _cambiarOperacion("Venta");
-    _cambiarValorCochera("Sí");
-
-    setState(() {
-      _imagenes = [
-        Image.network(
-          "https://img.remediosdigitales.com/8e8f64/lo-de-que-comprar-una-casa-es-la-mejor-inversion-hay-generaciones-que-ya-no-lo-ven-ni-de-lejos---1/1366_2000.jpg",
-          fit: BoxFit.cover,
-        ),
-        Image.network(
-          "https://th.bing.com/th/id/R.2c76042f56bf81ef78c51089192d5d10?rik=9Va9wLV7TzGRYw&pid=ImgRaw&r=0",
-          fit: BoxFit.cover,
-        ),
-        Image.network(
-          "https://img.remediosdigitales.com/8e8f64/lo-de-que-comprar-una-casa-es-la-mejor-inversion-hay-generaciones-que-ya-no-lo-ven-ni-de-lejos---1/1366_2000.jpg",
-          fit: BoxFit.cover,
-        ),
-        Image.network(
-          "https://th.bing.com/th/id/R.2c76042f56bf81ef78c51089192d5d10?rik=9Va9wLV7TzGRYw&pid=ImgRaw&r=0",
-          fit: BoxFit.cover,
-        ),
-        Image.network(
-          "https://img.remediosdigitales.com/8e8f64/lo-de-que-comprar-una-casa-es-la-mejor-inversion-hay-generaciones-que-ya-no-lo-ven-ni-de-lejos---1/1366_2000.jpg",
-          fit: BoxFit.cover,
-        )
-      ];
-      _agua = true;
-      _luz = true;
-      _internet = true;
-      _estadoInstalaciones = "Excelente";
-      _lunes = true;
-      _martes = true;
-      _miercoles = true;
-      _horaInicio = DateTime.parse("2022-07-05 08:00:00");
-      _duracion = 1;
-      _mostrarFechasFin();
-      _horaFin = DateTime.parse("2022-07-05 10:00:00");
-    });
+    _largoController = TextEditingController();
+    _anchoController = TextEditingController();
+    _edadController = TextEditingController();
+    _descripcionController = TextEditingController();
+    _precioController = TextEditingController();
   }
 }

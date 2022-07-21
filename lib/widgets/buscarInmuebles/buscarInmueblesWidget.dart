@@ -2,15 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:homeshop/widgets/paginaInicioWidget.dart';
 
-class BuscarPropiedadesWidget extends StatefulWidget {
-  BuscarPropiedadesWidget({Key? key}) : super(key: key);
+class BuscarInmueblesWidget extends StatefulWidget {
+  BuscarInmueblesWidget({Key? key}) : super(key: key);
 
   @override
-  State<BuscarPropiedadesWidget> createState() =>
-      _BuscarPropiedadesWidgetState();
+  State<BuscarInmueblesWidget> createState() => _BuscarInmueblesWidgetState();
 }
 
-class _BuscarPropiedadesWidgetState extends State<BuscarPropiedadesWidget> {
+class _BuscarInmueblesWidgetState extends State<BuscarInmueblesWidget> {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   late TextEditingController _precioController,
       _habitacionesController,
@@ -20,7 +19,7 @@ class _BuscarPropiedadesWidgetState extends State<BuscarPropiedadesWidget> {
   String? _validarCampo(valor, mensaje) =>
       valor!.trim().isEmpty ? mensaje : null;
 
-  void _buscarPropiedad() {
+  void _buscarInmuebles() {
     final route = MaterialPageRoute(
         builder: (BuildContext context) => PaginaInicioWidget());
     Navigator.push(context, route);
@@ -42,7 +41,7 @@ class _BuscarPropiedadesWidgetState extends State<BuscarPropiedadesWidget> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "Buscar Propiedades",
+                "Buscar Inmuebles",
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -110,9 +109,9 @@ class _BuscarPropiedadesWidgetState extends State<BuscarPropiedadesWidget> {
                   ),
                   const SizedBox(height: 30),
                   ElevatedButton.icon(
-                    onPressed: _buscarPropiedad,
+                    onPressed: _buscarInmuebles,
                     icon: const Icon(Icons.search),
-                    label: const Text("Buscar Propiedades"),
+                    label: const Text("Buscar Inmuebleses"),
                     style: ElevatedButton.styleFrom(
                       primary: Colors.red[700],
                       padding: const EdgeInsets.only(

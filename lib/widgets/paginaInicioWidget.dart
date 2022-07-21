@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:homeshop/widgets/buscarPropiedades/buscarPropiedadesWidget.dart';
+import 'package:homeshop/widgets/buscarInmuebles/buscarInmueblesWidget.dart';
 import 'package:homeshop/widgets/gestionar/gestionarWidget.dart';
 import 'package:homeshop/widgets/gestionar/miCuenta.dart';
+import 'package:homeshop/widgets/inmuebles/inmueblesWidget.dart';
 import 'package:homeshop/widgets/misCitas/citasWidget.dart';
-import 'package:homeshop/widgets/misPropiedades/misPropiedadesWidget.dart';
-import 'package:homeshop/widgets/propiedades/propiedadesWidget.dart';
+import 'package:homeshop/widgets/misInmuebles/misInmueblesWidget.dart';
 
 class PaginaInicioWidget extends StatefulWidget {
   PaginaInicioWidget({Key? key}) : super(key: key);
@@ -16,10 +16,10 @@ class PaginaInicioWidget extends StatefulWidget {
 class _PaginaInicioWidgetState extends State<PaginaInicioWidget> {
   int paginaActual = 0;
   List<Widget> paginas = [
-    PropiedadesWidget(),
-    BuscarPropiedadesWidget(),
+    InmueblesWidget(),
+    BuscarInmueblesWidget(),
     CitasWidget(),
-    MisPropiedadesWidget(),
+    MisInmueblesWidget(),
     GestionarWidget(),
     MiCuentaWidget(),
   ];
@@ -38,7 +38,7 @@ class _PaginaInicioWidgetState extends State<PaginaInicioWidget> {
         unselectedFontSize: 10,
         items: [
           BottomNavigationBarItem(
-            label: "Propiedades",
+            label: "Inmuebles",
             icon: Icon(
               Icons.home,
             ),
@@ -56,7 +56,7 @@ class _PaginaInicioWidgetState extends State<PaginaInicioWidget> {
             ),
           ),
           BottomNavigationBarItem(
-            label: "Mis Propiedades",
+            label: "Mis Inmuebles",
             icon: Icon(
               Icons.edit,
             ),

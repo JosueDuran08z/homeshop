@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
-import 'package:homeshop/widgets/misPropiedades/agregarPropiedadWidget.dart';
-import 'package:homeshop/widgets/misPropiedades/editarPropiedadWidget.dart';
-import 'package:homeshop/widgets/propiedades/propiedadWidget.dart';
 import 'package:homeshop/widgets/roles/agregarRolesWidget.dart';
 import 'package:homeshop/widgets/roles/editarRolesWidget.dart';
 
@@ -22,8 +18,7 @@ class _MisRolesWidgetState extends State<MisRolesWidget> {
 
   void _editarRol(idRol) {
     final route = MaterialPageRoute(
-        builder: (BuildContext context) =>
-            EditarRolWidget(idRol + 1));
+        builder: (BuildContext context) => EditarRolWidget(idRol + 1));
     Navigator.push(context, route);
   }
 
@@ -87,151 +82,150 @@ class _MisRolesWidgetState extends State<MisRolesWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
-        appBar: AppBar(
+    return Scaffold(
+      appBar: AppBar(
         title: const Text("Roles"),
-    ),
-    body: Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 15, top: 20, right: 15),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Mis Roles",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.red[600],
-                ),
-              ),
-              ElevatedButton(
-                onPressed: _agregarRol,
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.blue[600],
-                  padding: const EdgeInsets.only(
-                    left: 10,
-                    top: 5,
-                    right: 10,
-                    bottom: 5,
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
+      ),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 15, top: 20, right: 15),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Mis Roles",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.red[600],
                   ),
                 ),
-                child: Icon(
-                  Icons.add,
-                  size: 18,
+                ElevatedButton(
+                  onPressed: _agregarRol,
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.blue[600],
+                    padding: const EdgeInsets.only(
+                      left: 10,
+                      top: 5,
+                      right: 10,
+                      bottom: 5,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                  ),
+                  child: Icon(
+                    Icons.add,
+                    size: 18,
+                  ),
                 ),
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(height: 20),
-        Expanded(
-          child: ListView.builder(
-            padding: const EdgeInsets.only(
-              left: 10,
-              right: 10,
-              bottom: 10,
+              ],
             ),
-            itemCount: 10,
-            itemBuilder: (BuildContext context, int index) {
-              return Card(
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        left: 20,
-                        top: 20,
-                        right: 10,
-                        bottom: 20,
-                      ),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text(
-                                "\Vendedor",
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              Row(
-                                children: [
-
-                                  ElevatedButton(
-                                    onPressed: () => _editarRol(index),
-                                    style: ElevatedButton.styleFrom(
-                                        primary: Colors.blue[600],
-                                        padding: const EdgeInsets.only(
-                                          left: 10,
-                                          top: 5,
-                                          right: 10,
-                                          bottom: 5,
-                                        ),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                          BorderRadius.circular(15),
-                                        )),
-                                    child: Icon(
-                                      Icons.edit,
-                                      size: 18,
-                                    ),
-                                  ),
-                                  const SizedBox(width: 10),
-                                  ElevatedButton(
-                                    onPressed: () => _mostrarModalEliminar(
-                                        context, index + 1),
-                                    style: ElevatedButton.styleFrom(
-                                        primary: Colors.red[600],
-                                        padding: const EdgeInsets.only(
-                                          left: 10,
-                                          top: 5,
-                                          right: 10,
-                                          bottom: 5,
-                                        ),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                          BorderRadius.circular(15),
-                                        )),
-                                    child: const Icon(
-                                      Icons.delete,
-                                      size: 18,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                          Column(
-                            children: [
-                              Row(
-                                children: [
-                                  const  Text(
-                                    "Este rol puede gestionar propiedades",
-                                    style: TextStyle(
-                                      fontSize: 13,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              );
-            },
           ),
-        ),
-      ],
-    ),
+          const SizedBox(height: 20),
+          Expanded(
+            child: ListView.builder(
+              padding: const EdgeInsets.only(
+                left: 10,
+                right: 10,
+                bottom: 10,
+              ),
+              itemCount: 10,
+              itemBuilder: (BuildContext context, int index) {
+                return Card(
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          left: 20,
+                          top: 20,
+                          right: 10,
+                          bottom: 20,
+                        ),
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text(
+                                  "\Vendedor",
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Row(
+                                  children: [
+                                    ElevatedButton(
+                                      onPressed: () => _editarRol(index),
+                                      style: ElevatedButton.styleFrom(
+                                          primary: Colors.blue[600],
+                                          padding: const EdgeInsets.only(
+                                            left: 10,
+                                            top: 5,
+                                            right: 10,
+                                            bottom: 5,
+                                          ),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                          )),
+                                      child: Icon(
+                                        Icons.edit,
+                                        size: 18,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 10),
+                                    ElevatedButton(
+                                      onPressed: () => _mostrarModalEliminar(
+                                          context, index + 1),
+                                      style: ElevatedButton.styleFrom(
+                                          primary: Colors.red[600],
+                                          padding: const EdgeInsets.only(
+                                            left: 10,
+                                            top: 5,
+                                            right: 10,
+                                            bottom: 5,
+                                          ),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                          )),
+                                      child: const Icon(
+                                        Icons.delete,
+                                        size: 18,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    const Text(
+                                      "Este rol puede gestionar propiedades",
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

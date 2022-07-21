@@ -3,15 +3,15 @@ import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:flutter_launch/flutter_launch.dart';
 import 'package:intl/intl.dart';
 
-class PropiedadWidget extends StatefulWidget {
-  PropiedadWidget(this.id, {Key? key}) : super(key: key);
+class InmuebleWidget extends StatefulWidget {
+  InmuebleWidget(this.id, {Key? key}) : super(key: key);
   int id;
 
   @override
-  State<PropiedadWidget> createState() => _PropiedadWidgetState();
+  State<InmuebleWidget> createState() => _InmuebleWidgetState();
 }
 
-class _PropiedadWidgetState extends State<PropiedadWidget> {
+class _InmuebleWidgetState extends State<InmuebleWidget> {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   String? _diaCita;
   List<DropdownMenuItem<String>> _diasDisponiblesCita = [
@@ -66,7 +66,7 @@ class _PropiedadWidgetState extends State<PropiedadWidget> {
 
     if (whatsapp) {
       await FlutterLaunch.launchWhatsapp(
-          phone: "4773002254", message: "Hola, me interesa esta propiedad");
+          phone: "4773002254", message: "Hola, me interesa este inmueble");
     } else {
       print("Error");
     }

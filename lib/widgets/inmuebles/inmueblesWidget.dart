@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:flutter_launch/flutter_launch.dart';
-import 'package:homeshop/widgets/propiedades/propiedadWidget.dart';
+import 'package:homeshop/widgets/inmuebles/inmuebleWidget.dart';
 
-class PropiedadesWidget extends StatefulWidget {
-  PropiedadesWidget({Key? key}) : super(key: key);
+class InmueblesWidget extends StatefulWidget {
+  InmueblesWidget({Key? key}) : super(key: key);
 
   @override
-  State<PropiedadesWidget> createState() => _PropiedadesWidgetState();
+  State<InmueblesWidget> createState() => _InmueblesWidgetState();
 }
 
-class _PropiedadesWidgetState extends State<PropiedadesWidget> {
-  void _mostrarPropiedad(id) {
+class _InmueblesWidgetState extends State<InmueblesWidget> {
+  void _mostrarInmueble(id) {
     final route = MaterialPageRoute(
-        builder: (BuildContext context) => PropiedadWidget(id));
+        builder: (BuildContext context) => InmuebleWidget(id));
     Navigator.push(context, route);
   }
 
@@ -24,7 +24,7 @@ class _PropiedadesWidgetState extends State<PropiedadesWidget> {
       await FlutterLaunch.launchWhatsapp(
           phone: "524773002254",
           message:
-              "Hola, me interesa la propiedad ubicada en Blvd. Universidad Tecnológica #225 Col. San Carlos CP. 37670");
+              "Hola, me interesa el inmueble ubicado en Blvd. Universidad Tecnológica #225 Col. San Carlos CP. 37670");
     } else {
       print("Error");
     }
@@ -37,7 +37,7 @@ class _PropiedadesWidgetState extends State<PropiedadesWidget> {
       itemCount: 10,
       itemBuilder: (BuildContext context, int index) {
         return GestureDetector(
-          onTap: () => _mostrarPropiedad(index),
+          onTap: () => _mostrarInmueble(index),
           child: Card(
             child: Column(
               children: [

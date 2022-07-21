@@ -1,34 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
-import 'package:homeshop/widgets/misPropiedades/agregarPropiedadWidget.dart';
-import 'package:homeshop/widgets/misPropiedades/editarPropiedadWidget.dart';
-import 'package:homeshop/widgets/propiedades/propiedadWidget.dart';
+import 'package:homeshop/widgets/misInmuebles/agregarInmuebleWidget.dart';
+import 'package:homeshop/widgets/misInmuebles/editarInmuebleWidget.dart';
 
-class MisPropiedadesWidget extends StatefulWidget {
-  MisPropiedadesWidget({Key? key}) : super(key: key);
+class MisInmueblesWidget extends StatefulWidget {
+  MisInmueblesWidget({Key? key}) : super(key: key);
 
   @override
-  State<MisPropiedadesWidget> createState() => _MisPropiedadesWidgetState();
+  State<MisInmueblesWidget> createState() => _MisInmueblesWidgetState();
 }
 
-class _MisPropiedadesWidgetState extends State<MisPropiedadesWidget> {
-  void _agregarPropiedad() {
+class _MisInmueblesWidgetState extends State<MisInmueblesWidget> {
+  void _agregarInmueble() {
     final route = MaterialPageRoute(
-        builder: (BuildContext context) => AgregarPropiedadWidget());
+        builder: (BuildContext context) => AgregarInmuebleWidget());
     Navigator.push(context, route);
   }
 
-  void _editarPropiedad(idPropiedad) {
+  void _editarInmueble(idInmueble) {
     final route = MaterialPageRoute(
         builder: (BuildContext context) =>
-            EditarPropiedadWidget(idPropiedad + 1));
+            EditarInmuebleWidget(idInmueble + 1));
     Navigator.push(context, route);
   }
 
   void _mostrarSnackbarEliminar(BuildContext context) {
     SnackBar snackbar = SnackBar(
       content: const Text(
-        "!Propiedad eliminada correctamente!",
+        "!Inmueble eliminado correctamente!",
         style: TextStyle(
           fontWeight: FontWeight.bold,
         ),
@@ -38,13 +37,13 @@ class _MisPropiedadesWidgetState extends State<MisPropiedadesWidget> {
     ScaffoldMessenger.of(context).showSnackBar(snackbar);
   }
 
-  void _mostrarModalEliminar(BuildContext context, int idPropiedad) {
+  void _mostrarModalEliminar(BuildContext context, int idInmueble) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           content: const Text(
-            "¿Estás seguro que deseas eliminar esta propiedad?",
+            "¿Estás seguro que deseas eliminar este inmueble?",
             textAlign: TextAlign.justify,
             style: TextStyle(
               fontSize: 15,
@@ -62,7 +61,7 @@ class _MisPropiedadesWidgetState extends State<MisPropiedadesWidget> {
               ),
             ),
             TextButton(
-              onPressed: () => _eliminarPropiedad(context, idPropiedad),
+              onPressed: () => _eliminarInmueble(context, idInmueble),
               child: Text(
                 "Aceptar",
                 style: TextStyle(
@@ -77,8 +76,8 @@ class _MisPropiedadesWidgetState extends State<MisPropiedadesWidget> {
     );
   }
 
-  void _eliminarPropiedad(context, int idPropiedad) {
-    print(idPropiedad);
+  void _eliminarInmueble(context, int idInmueble) {
+    print(idInmueble);
     Navigator.pop(context);
     _mostrarSnackbarEliminar(context);
   }
@@ -93,7 +92,7 @@ class _MisPropiedadesWidgetState extends State<MisPropiedadesWidget> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "Mis Propiedades",
+                "Mis Inmuebles",
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -101,7 +100,7 @@ class _MisPropiedadesWidgetState extends State<MisPropiedadesWidget> {
                 ),
               ),
               ElevatedButton(
-                onPressed: _agregarPropiedad,
+                onPressed: _agregarInmueble,
                 style: ElevatedButton.styleFrom(
                   primary: Colors.blue[600],
                   padding: const EdgeInsets.only(
@@ -201,7 +200,7 @@ class _MisPropiedadesWidgetState extends State<MisPropiedadesWidget> {
                               Row(
                                 children: [
                                   ElevatedButton(
-                                    onPressed: () => _editarPropiedad(index),
+                                    onPressed: () => _editarInmueble(index),
                                     style: ElevatedButton.styleFrom(
                                         primary: Colors.blue[600],
                                         padding: const EdgeInsets.only(
