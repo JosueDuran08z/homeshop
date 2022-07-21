@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:homeshop/config/Config.dart';
 import 'package:homeshop/models/Usuario.dart';
 import 'package:http/http.dart' as http;
 
@@ -13,7 +14,8 @@ class LoginRepository {
       "contrasenia": contrasenia
     };
     var body = jsonEncode(parametros);
-    String url = "http://localhost:5000/login/";
+
+    String url = "$HOST/login/";
     final response =
         await http.post(Uri.parse(url), headers: headers, body: body);
 
@@ -54,7 +56,7 @@ class LoginRepository {
 
     var body = jsonEncode(parametros);
     String url =
-        "http://localhost:5000/login/registrar-${perfil == "particular" ? "persona" : "empresa"}";
+        "$HOST/login/registrar-${perfil == "particular" ? "persona" : "empresa"}";
     final response =
         await http.post(Uri.parse(url), headers: headers, body: body);
 
