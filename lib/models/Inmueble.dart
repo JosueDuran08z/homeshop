@@ -63,4 +63,83 @@ class Inmueble {
       terreno.setTerreno(responseData["terreno"]);
     }
   }
+
+  Map<String, dynamic> getMap() {
+    return {
+      "descripcion": descripcion,
+      "calle": calle,
+      "numInterior": numInterior,
+      "numExterior": numExterior,
+      "colonia": colonia,
+      "cp": cp,
+      "imagen1": imagen1,
+      "imagen2": imagen2,
+      "imagen3": imagen3,
+      "imagen4": imagen4,
+      "imagen5": imagen5,
+      "banios": banios,
+      "ancho": ancho,
+      "largo": largo,
+      "agua": agua,
+      "luz": luz,
+      "operacion": operacion,
+      "precio": precio,
+      "idUsuario": usuario.idUsuario
+    };
+  }
+
+  Map<String, dynamic> getMapCasa() {
+    return {
+      "cochera": casa.cochera,
+      "internet": casa.internet,
+      "habitaciones": casa.habitaciones,
+      "pisos": casa.pisos,
+      "edad": casa.edad,
+      "estadoInstalaciones": casa.estadoInstalaciones,
+    };
+  }
+
+  Map<String, dynamic> getMapDepartamento() {
+    return {
+      "estacionamiento": departamento.estacionamiento,
+      "internet": departamento.internet,
+      "habitaciones": departamento.habitaciones,
+      "pisos": departamento.pisos,
+      "edad": departamento.edad,
+      "estadoInstalaciones": departamento.estadoInstalaciones,
+    };
+  }
+
+  Map<String, dynamic> getMapEdificio() {
+    return {
+      "estacionamiento": edificio.estacionamiento,
+      "internet": edificio.internet,
+      "habitaciones": edificio.habitaciones,
+      "pisos": edificio.pisos,
+      "edad": edificio.edad,
+      "estadoInstalaciones": edificio.estadoInstalaciones,
+    };
+  }
+
+  Map<String, dynamic> getMapTerreno() {
+    return {"enConstruccion": terreno.enConstruccion};
+  }
+
+  Map<String, dynamic> getMapAgregar(String tipo) {
+    Map<String, dynamic> inmuebleMap = getMap();
+    Map<String, dynamic> tipoMap;
+
+    if (tipo == "casa") {
+      tipoMap = getMapCasa();
+    } else if (tipo == "departamento") {
+      tipoMap = getMapDepartamento();
+    } else if (tipo == "edificio") {
+      tipoMap = getMapEdificio();
+    } else {
+      tipoMap = getMapTerreno();
+    }
+
+    inmuebleMap.addAll(tipoMap);
+    return inmuebleMap;
+  }
 }
