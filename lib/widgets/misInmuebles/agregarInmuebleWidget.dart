@@ -1,8 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
+import 'package:homeshop/models/Inmueble.dart';
 import 'package:homeshop/repository/InmuebleRepository.dart';
 import 'package:image_picker/image_picker.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class AgregarInmuebleWidget extends StatefulWidget {
   AgregarInmuebleWidget({Key? key}) : super(key: key);
@@ -12,6 +17,7 @@ class AgregarInmuebleWidget extends StatefulWidget {
 }
 
 class _AgregarInmuebleWidgetState extends State<AgregarInmuebleWidget> {
+  late Inmueble _inmueble;
   late InmuebleRepository _inmuebleRepository;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextStyle textStylePregunta = TextStyle(
@@ -30,6 +36,7 @@ class _AgregarInmuebleWidgetState extends State<AgregarInmuebleWidget> {
   String _tipoOperacion = "";
   String _cochera = "";
   String _estacionamiento = "";
+  String _enConstruccion = "";
   bool _agua = false, _luz = false, _internet = false;
   late TextEditingController _habitacionesController,
       _pisosController,
@@ -66,42 +73,130 @@ class _AgregarInmuebleWidgetState extends State<AgregarInmuebleWidget> {
   void _agregarImagen() {
     _seleccionarImagen().then((imagen) {
       setState(() {
-        /* _imagenes.add(
+        _imagenes.add(
           Image.file(
             File(imagen!.path),
             fit: BoxFit.cover,
           ),
-        ); */
-        _imagenes.add(Image.network(
+        );
+        /* _imagenes.add(Image.network(
           _imagenes.length % 2 == 0
               ? "https://img.remediosdigitales.com/8e8f64/lo-de-que-comprar-una-casa-es-la-mejor-inversion-hay-generaciones-que-ya-no-lo-ven-ni-de-lejos---1/1366_2000.jpg"
               : "https://th.bing.com/th/id/R.2c76042f56bf81ef78c51089192d5d10?rik=9Va9wLV7TzGRYw&pid=ImgRaw&r=0",
           fit: BoxFit.cover,
-        ));
+        )); */
       });
-    }).catchError((e) => print("Error"));
+    }).catchError((e) {
+      _mostrarSnackbar(
+          "¡Ocurrió un error inesperado! Vuelve a intentarlo más tarde.",
+          Colors.red[900]);
+    });
   }
 
   void _cambiarOperacion(value) => setState(() => _tipoOperacion = value);
   void _cambiarValorCochera(value) => setState(() => _cochera = value);
   void _cambiarValorEstacionamiento(value) =>
       setState(() => _estacionamiento = value);
+  void _cambiarValorConstruccion(value) =>
+      setState(() => _enConstruccion = value);
+
+  String convertirImageABase64(Image imagen) {
+    String resultado = "imagen1";
+
+    return resultado;
+  }
 
   void _agregarInmueble() {
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
-      Navigator.pop(context);
-      SnackBar snackbar = SnackBar(
-        content: const Text(
-          "!Inmueble agregado correctamente!",
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        backgroundColor: Colors.blue[600],
-      );
-      ScaffoldMessenger.of(context).showSnackBar(snackbar);
+      try {
+        _inmueble.descripcion = _descripcionController.text.trim();
+        _inmueble.calle = _calleController.text.trim();
+        _inmueble.numInterior = _numIntController.text.trim();
+        _inmueble.numExterior = _numExtController.text.trim();
+        _inmueble.colonia = _coloniaController.text.trim();
+        _inmueble.cp = int.parse(_codPostalController.text);
+        _inmueble.imagen1 = "convertirImageABase64(_imagenes[0])";
+        _inmueble.imagen2 =
+            _imagenes.length > 1 ? convertirImageABase64(_imagenes[1]) : null;
+        _inmueble.imagen3 =
+            _imagenes.length > 2 ? convertirImageABase64(_imagenes[2]) : null;
+        _inmueble.imagen4 =
+            _imagenes.length > 3 ? convertirImageABase64(_imagenes[3]) : null;
+        _inmueble.imagen5 =
+            _imagenes.length > 4 ? convertirImageABase64(_imagenes[4]) : null;
+        _inmueble.banios = int.parse(_baniosController.text);
+        _inmueble.ancho = double.parse(_largoController.text);
+        _inmueble.largo = double.parse(_largoController.text);
+        _inmueble.agua = _agua;
+        _inmueble.luz = _luz;
+        _inmueble.operacion = _tipoOperacion;
+        _inmueble.precio = double.parse(_precioController.text);
+
+        if (_tipoInmueble == "casa") {
+          _inmueble.casa.cochera = _cochera == "Sí" ? true : false;
+          _inmueble.casa.internet = _internet;
+          _inmueble.casa.habitaciones = int.parse(_habitacionesController.text);
+          _inmueble.casa.pisos = int.parse(_pisosController.text);
+          _inmueble.casa.edad = int.parse(_edadController.text);
+          _inmueble.casa.estadoInstalaciones = _estadoInstalaciones;
+        } else if (_tipoInmueble == "departamento") {
+          _inmueble.departamento.estacionamiento =
+              _estacionamiento == "Sí" ? true : false;
+          _inmueble.departamento.internet = _internet;
+          _inmueble.departamento.habitaciones =
+              int.parse(_habitacionesController.text);
+          _inmueble.departamento.pisos = int.parse(_pisosController.text);
+          _inmueble.departamento.edad = int.parse(_edadController.text);
+          _inmueble.departamento.estadoInstalaciones = _estadoInstalaciones;
+        } else if (_tipoInmueble == "edificio") {
+          _inmueble.edificio.estacionamiento =
+              _estacionamiento == "Sí" ? true : false;
+          _inmueble.edificio.internet = _internet;
+          _inmueble.edificio.habitaciones =
+              int.parse(_habitacionesController.text);
+          _inmueble.edificio.pisos = int.parse(_pisosController.text);
+          _inmueble.edificio.edad = int.parse(_edadController.text);
+          _inmueble.edificio.estadoInstalaciones = _estadoInstalaciones;
+        } else {
+          _inmueble.terreno.enConstruccion =
+              _enConstruccion == "Sí" ? true : false;
+        }
+        _inmueble.usuario.idUsuario = 1;
+
+        Future<http.Response?> response =
+            _inmuebleRepository.agregar(_inmueble, _tipoInmueble!);
+
+        response.then((http.Response? response) {
+          var responseData = jsonDecode(response!.body);
+
+          if (response.statusCode == 201) {
+            Navigator.pop(context);
+            _mostrarSnackbar(responseData["mensaje"], Colors.blue[600]);
+          } else {
+            _mostrarSnackbar(responseData["mensaje"], Colors.red[900]);
+          }
+        });
+      } catch (e) {
+        _mostrarSnackbar(
+            "¡Ocurrió un error inesperado! Vuelve a intentarlo más tarde.",
+            Colors.red[900]);
+      }
     }
+  }
+
+  void _mostrarSnackbar(String mensaje, color) {
+    SnackBar snackbar = SnackBar(
+      content: Text(
+        mensaje,
+        style: const TextStyle(
+          fontWeight: FontWeight.bold,
+        ),
+        textAlign: TextAlign.center,
+      ),
+      backgroundColor: color,
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackbar);
   }
 
   void _editarImagen() {
@@ -277,7 +372,7 @@ class _AgregarInmuebleWidgetState extends State<AgregarInmuebleWidget> {
                             children: [
                               Expanded(
                                 child: ListTile(
-                                  contentPadding: EdgeInsets.all(0),
+                                  contentPadding: const EdgeInsets.all(0),
                                   title: const Text("Sí"),
                                   leading: Radio(
                                     value: "Sí",
@@ -293,7 +388,7 @@ class _AgregarInmuebleWidgetState extends State<AgregarInmuebleWidget> {
                               const SizedBox(height: 20),
                               Expanded(
                                 child: ListTile(
-                                  contentPadding: EdgeInsets.all(0),
+                                  contentPadding: const EdgeInsets.all(0),
                                   title: const Text("No"),
                                   leading: Radio(
                                     value: "No",
@@ -387,6 +482,49 @@ class _AgregarInmuebleWidgetState extends State<AgregarInmuebleWidget> {
                             ],
                             validator: (value) => _validarCampo(
                                 value, "Introduzca el número de pisos"),
+                          ),
+                        ],
+                      )
+                    : Container(),
+                _tipoInmueble == "terreno"
+                    ? Column(
+                        children: [
+                          const SizedBox(height: 20),
+                          Row(
+                            children: [
+                              Text(
+                                "¿Está en construcción?",
+                                style: textStylePregunta,
+                                textAlign: TextAlign.start,
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: ListTile(
+                                  contentPadding: const EdgeInsets.all(0),
+                                  title: const Text("Sí"),
+                                  leading: Radio(
+                                    value: "Sí",
+                                    groupValue: _enConstruccion,
+                                    onChanged: _cambiarValorConstruccion,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 20),
+                              Expanded(
+                                child: ListTile(
+                                  contentPadding: const EdgeInsets.all(0),
+                                  title: const Text("No"),
+                                  leading: Radio(
+                                    value: "No",
+                                    groupValue: _enConstruccion,
+                                    onChanged: _cambiarValorConstruccion,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       )
@@ -617,19 +755,21 @@ class _AgregarInmuebleWidgetState extends State<AgregarInmuebleWidget> {
   @override
   void initState() {
     super.initState();
+    _inmueble = Inmueble();
     _inmuebleRepository = InmuebleRepository();
-    _habitacionesController = TextEditingController();
-    _pisosController = TextEditingController();
-    _baniosController = TextEditingController();
-    _calleController = TextEditingController();
-    _coloniaController = TextEditingController();
-    _codPostalController = TextEditingController();
-    _numIntController = TextEditingController();
+    _habitacionesController = TextEditingController(text: "5");
+    _pisosController = TextEditingController(text: "2");
+    _baniosController = TextEditingController(text: "3");
+    _calleController = TextEditingController(text: "Eta");
+    _coloniaController = TextEditingController(text: "Valle del Sahuan");
+    _codPostalController = TextEditingController(text: "35000");
+    _numIntController = TextEditingController(text: "125");
     _numExtController = TextEditingController();
-    _largoController = TextEditingController();
-    _anchoController = TextEditingController();
-    _edadController = TextEditingController();
-    _descripcionController = TextEditingController();
-    _precioController = TextEditingController();
+    _largoController = TextEditingController(text: "23");
+    _anchoController = TextEditingController(text: "10");
+    _edadController = TextEditingController(text: "15");
+    _descripcionController =
+        TextEditingController(text: "Ninguna descripción interesante");
+    _precioController = TextEditingController(text: "650000");
   }
 }
