@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:homeshop/widgets/horarios/agregarHorario.dart';
+import 'package:homeshop/widgets/horarios/agregarHorarioWidget.dart';
 
 class HorariosWidget extends StatefulWidget {
   HorariosWidget({Key? key}) : super(key: key);
