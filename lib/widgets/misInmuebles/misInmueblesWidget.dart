@@ -244,7 +244,7 @@ class _MisInmueblesWidgetState extends State<MisInmueblesWidget> {
                             padding: const EdgeInsets.only(
                               left: 20,
                               top: 20,
-                              right: 10,
+                              right: 20,
                               bottom: 20,
                             ),
                             child: Column(
@@ -266,8 +266,7 @@ class _MisInmueblesWidgetState extends State<MisInmueblesWidget> {
                                           Radius.circular(15),
                                         ),
                                         border: Border.all(
-                                          color:
-                                              Color.fromARGB(255, 229, 57, 53),
+                                          color: Colors.red[600]!,
                                         ),
                                       ),
                                       padding: const EdgeInsets.only(
@@ -285,84 +284,122 @@ class _MisInmueblesWidgetState extends State<MisInmueblesWidget> {
                                             TextStyle(color: Colors.red[600]),
                                       ),
                                     ),
-                                    if (_inmuebles[i].estatus == "Venta" ||
-                                        _inmuebles[i].estatus == "Renta")
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: const BorderRadius.all(
+                                          Radius.circular(15),
+                                        ),
+                                        border: Border.all(
+                                          color: Colors.grey[800]!,
+                                        ),
+                                      ),
+                                      padding: const EdgeInsets.only(
+                                        left: 10,
+                                        top: 5,
+                                        right: 10,
+                                        bottom: 5,
+                                      ),
+                                      child: Text(
+                                        _inmuebles[i].casa != null
+                                            ? "Casa"
+                                            : _inmuebles[i].departamento != null
+                                                ? "Departamento"
+                                                : _inmuebles[i].edificio != null
+                                                    ? "Edificio"
+                                                    : _inmuebles[i].terreno !=
+                                                            null
+                                                        ? "Terreno"
+                                                        : "",
+                                        style:
+                                            TextStyle(color: Colors.grey[800]),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 10),
+                                Text(
+                                  "${_inmuebles[i].calle} ${_inmuebles[i].numInterior} ${_inmuebles[i].numExterior ?? ""} ${_inmuebles[i].colonia} C.P. ${_inmuebles[i].cp}",
+                                  style: const TextStyle(
+                                    fontSize: 13,
+                                  ),
+                                ),
+                                if (_inmuebles[i].estatus == "Venta" ||
+                                    _inmuebles[i].estatus == "Renta")
+                                  Column(
+                                    children: [
+                                      const SizedBox(height: 20),
                                       Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
                                         children: [
-                                          ElevatedButton(
+                                          ElevatedButton.icon(
+                                            label: const Text("Editar"),
                                             onPressed: () =>
                                                 _editarInmueble(i + 1),
                                             style: ElevatedButton.styleFrom(
                                                 primary: Colors.blue[800],
-                                                padding: const EdgeInsets.only(
-                                                  left: 10,
-                                                  top: 5,
-                                                  right: 10,
-                                                  bottom: 5,
-                                                ),
+                                                padding:
+                                                    const EdgeInsets.all(15),
                                                 shape: RoundedRectangleBorder(
                                                   borderRadius:
                                                       BorderRadius.circular(15),
                                                 )),
-                                            child: const Icon(
+                                            icon: const Icon(
                                               Icons.edit,
                                               size: 18,
                                             ),
                                           ),
                                           const SizedBox(width: 10),
-                                          ElevatedButton(
+                                          ElevatedButton.icon(
+                                            label: const Text("Eliminar"),
                                             onPressed: () => _mostrarModal(
                                                 context, i + 1, true),
                                             style: ElevatedButton.styleFrom(
-                                                primary: Colors.red[600],
-                                                padding: const EdgeInsets.only(
-                                                  left: 10,
-                                                  top: 5,
-                                                  right: 10,
-                                                  bottom: 5,
-                                                ),
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(15),
-                                                )),
-                                            child: const Icon(
+                                              primary: Colors.red[600],
+                                              padding: const EdgeInsets.all(15),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(15),
+                                              ),
+                                            ),
+                                            icon: const Icon(
                                               Icons.delete,
                                               size: 18,
                                             ),
                                           ),
                                         ],
                                       ),
-                                    if (_inmuebles[i].estatus == "Eliminado")
-                                      Row(children: [
-                                        ElevatedButton.icon(
-                                          icon: const Icon(Icons.check_circle),
-                                          label: const Text("Activar"),
-                                          onPressed: () => _mostrarModal(
-                                              context, i + 1, false),
-                                          style: ElevatedButton.styleFrom(
-                                            primary: Colors.green[700],
-                                            padding: const EdgeInsets.only(
-                                              left: 10,
-                                              top: 5,
-                                              right: 10,
-                                              bottom: 5,
+                                    ],
+                                  ),
+                                if (_inmuebles[i].estatus == "Eliminado")
+                                  Column(
+                                    children: [
+                                      const SizedBox(height: 20),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          ElevatedButton.icon(
+                                            icon: const Icon(
+                                              Icons.check_circle,
+                                              size: 18,
                                             ),
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(15),
+                                            label: const Text("Activar"),
+                                            onPressed: () => _mostrarModal(
+                                                context, i + 1, false),
+                                            style: ElevatedButton.styleFrom(
+                                              primary: Colors.green[700],
+                                              padding: const EdgeInsets.all(15),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(15),
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      ]),
-                                  ],
-                                ),
-                                const SizedBox(height: 10),
-                                Text(
-                                  "${_inmuebles[i].calle} ${_inmuebles[i].numInterior} ${_inmuebles[i].numExterior != null ? _inmuebles[i].numExterior : ""} ${_inmuebles[i].colonia} C.P. ${_inmuebles[i].cp}",
-                                  style: const TextStyle(
-                                    fontSize: 13,
+                                        ],
+                                      ),
+                                    ],
                                   ),
-                                )
                               ],
                             ),
                           )
