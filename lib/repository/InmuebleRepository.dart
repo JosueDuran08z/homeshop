@@ -24,4 +24,24 @@ class InmuebleRepository {
 
     return response;
   }
+
+  Future<http.Response?> eliminar(int idInmueble) async {
+    Map<String, String> headers = {
+      "Content-Type": "application/json; charset=UTF-8"
+    };
+    String url = "$HOST/inmueble/eliminar/$idInmueble";
+    final response = await http.post(Uri.parse(url), headers: headers);
+
+    return response;
+  }
+
+  Future<http.Response?> activar(int idInmueble) async {
+    Map<String, String> headers = {
+      "Content-Type": "application/json; charset=UTF-8"
+    };
+    String url = "$HOST/inmueble/activar/$idInmueble";
+    final response = await http.post(Uri.parse(url), headers: headers);
+
+    return response;
+  }
 }
