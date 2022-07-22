@@ -51,8 +51,10 @@ class _MisInmueblesWidgetState extends State<MisInmueblesWidget> {
               inmueble.imagen5Decodificada =
                   base64Decoder.convert(inmueble.imagen5!);
             }
-            setState(() => _inmuebles.add(inmueble));
+            _inmuebles.add(inmueble);
           });
+
+          setState(() => _inmuebles);
         } else {
           _mostrarSnackbar(responseData["mensaje"], Colors.red[900]);
         }
@@ -300,13 +302,21 @@ class _MisInmueblesWidgetState extends State<MisInmueblesWidget> {
                                         bottom: 5,
                                       ),
                                       child: Text(
-                                        _inmuebles[i].casa != null
+                                        _inmuebles[i].casa.idCasa != null
                                             ? "Casa"
-                                            : _inmuebles[i].departamento != null
+                                            : _inmuebles[i]
+                                                        .departamento
+                                                        .idDepartamento !=
+                                                    null
                                                 ? "Departamento"
-                                                : _inmuebles[i].edificio != null
+                                                : _inmuebles[i]
+                                                            .edificio
+                                                            .idEficio !=
+                                                        null
                                                     ? "Edificio"
-                                                    : _inmuebles[i].terreno !=
+                                                    : _inmuebles[i]
+                                                                .terreno
+                                                                .idTerreno !=
                                                             null
                                                         ? "Terreno"
                                                         : "",
