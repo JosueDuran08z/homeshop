@@ -99,6 +99,11 @@ class _AgregarInmuebleWidgetState extends State<AgregarInmuebleWidget> {
       setState(() => _enConstruccion = value);
 
   void _agregarInmueble() {
+    if (_imagenes.isEmpty) {
+      _mostrarSnackbar("!Seleccione por lo menos una imagen!", Colors.red[900]);
+      return;
+    }
+
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
       try {
