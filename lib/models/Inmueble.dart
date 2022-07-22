@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:homeshop/models/Casa.dart';
 import 'package:homeshop/models/Departamento.dart';
 import 'package:homeshop/models/Edificio.dart';
@@ -5,7 +7,7 @@ import 'package:homeshop/models/Terreno.dart';
 import 'package:homeshop/models/Usuario.dart';
 
 class Inmueble {
-  int? idInmueble, cp, banios, estatus;
+  int? idInmueble, cp, banios;
   bool? agua, luz;
   String? descripcion,
       calle,
@@ -17,13 +19,19 @@ class Inmueble {
       imagen3,
       imagen4,
       imagen5,
-      operacion;
+      operacion,
+      estatus;
   double? ancho, largo, dimension, precio;
   Usuario usuario = Usuario();
   Casa casa = Casa();
   Departamento departamento = Departamento();
   Edificio edificio = Edificio();
   Terreno terreno = Terreno();
+  Uint8List? imagen1Decodificada,
+      imagen2Decodificada,
+      imagen3Decodificada,
+      imagen4Decodificada,
+      imagen5Decodificada;
 
   setInmueble(responseData) {
     idInmueble = responseData["idInmueble"];

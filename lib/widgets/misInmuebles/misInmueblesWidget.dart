@@ -1,7 +1,13 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
+import 'package:homeshop/models/Inmueble.dart';
+import 'package:homeshop/repository/InmuebleRepository.dart';
 import 'package:homeshop/widgets/misInmuebles/agregarInmuebleWidget.dart';
 import 'package:homeshop/widgets/misInmuebles/editarInmuebleWidget.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class MisInmueblesWidget extends StatefulWidget {
   MisInmueblesWidget({Key? key}) : super(key: key);
@@ -11,6 +17,54 @@ class MisInmueblesWidget extends StatefulWidget {
 }
 
 class _MisInmueblesWidgetState extends State<MisInmueblesWidget> {
+  late InmuebleRepository _inmuebleRepository;
+  late List<Inmueble> _inmuebles;
+
+  void _obtenerInmuebles() {
+    try {
+      Future<http.Response?> response = _inmuebleRepository.obtenerTodos();
+
+      response.then((http.Response? response) {
+        var responseData = jsonDecode(response!.body);
+        const Base64Decoder base64Decoder = Base64Decoder();
+
+        responseData.forEach((inmuebleData) {
+          Inmueble inmueble = Inmueble();
+          inmueble.setInmueble(inmuebleData);
+
+          inmueble.imagen1Decodificada =
+              const Base64Decoder().convert(inmueble.imagen1!);
+          if (inmueble.imagen2 != null) {
+            inmueble.imagen2Decodificada =
+                base64Decoder.convert(inmueble.imagen2!);
+          }
+          if (inmueble.imagen3 != null) {
+            inmueble.imagen3Decodificada =
+                base64Decoder.convert(inmueble.imagen3!);
+          }
+          if (inmueble.imagen4 != null) {
+            inmueble.imagen4Decodificada =
+                base64Decoder.convert(inmueble.imagen4!);
+          }
+          if (inmueble.imagen5 != null) {
+            inmueble.imagen5Decodificada =
+                base64Decoder.convert(inmueble.imagen5!);
+          }
+          setState(() => _inmuebles.add(inmueble));
+        });
+
+        if (response.statusCode == 200) {
+        } else {
+          _mostrarSnackbar(responseData["mensaje"], Colors.red[900]);
+        }
+      });
+    } catch (e) {
+      _mostrarSnackbar(
+          "¡Ocurrió un error inesperado! Vuelve a intentarlo más tarde.",
+          Colors.red[900]);
+    }
+  }
+
   void _agregarInmueble() {
     final route = MaterialPageRoute(
         builder: (BuildContext context) => AgregarInmuebleWidget());
@@ -24,15 +78,16 @@ class _MisInmueblesWidgetState extends State<MisInmueblesWidget> {
     Navigator.push(context, route);
   }
 
-  void _mostrarSnackbarEliminar(BuildContext context) {
+  void _mostrarSnackbar(String mensaje, color) {
     SnackBar snackbar = SnackBar(
-      content: const Text(
-        "!Inmueble eliminado correctamente!",
-        style: TextStyle(
+      content: Text(
+        mensaje,
+        style: const TextStyle(
           fontWeight: FontWeight.bold,
         ),
+        textAlign: TextAlign.center,
       ),
-      backgroundColor: Colors.blue[600],
+      backgroundColor: color,
     );
     ScaffoldMessenger.of(context).showSnackBar(snackbar);
   }
@@ -66,7 +121,7 @@ class _MisInmueblesWidgetState extends State<MisInmueblesWidget> {
                 "Aceptar",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  color: Colors.blue[600],
+                  color: Colors.blue[800],
                 ),
               ),
             ),
@@ -77,9 +132,8 @@ class _MisInmueblesWidgetState extends State<MisInmueblesWidget> {
   }
 
   void _eliminarInmueble(context, int idInmueble) {
-    print(idInmueble);
     Navigator.pop(context);
-    _mostrarSnackbarEliminar(context);
+    _mostrarSnackbar("¡Inmueble eliminado con éxito!", Colors.green[700]);
   }
 
   @override
@@ -102,7 +156,7 @@ class _MisInmueblesWidgetState extends State<MisInmueblesWidget> {
               ElevatedButton(
                 onPressed: _agregarInmueble,
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.blue[600],
+                  primary: Colors.blue[800],
                   padding: const EdgeInsets.only(
                     left: 10,
                     top: 5,
@@ -129,33 +183,27 @@ class _MisInmueblesWidgetState extends State<MisInmueblesWidget> {
               right: 10,
               bottom: 10,
             ),
-            itemCount: 10,
-            itemBuilder: (BuildContext context, int index) {
+            itemCount: _inmuebles.length,
+            itemBuilder: (BuildContext context, int i) {
               return Card(
                 child: Column(
                   children: [
                     ImageSlideshow(
                       children: [
-                        Image.network(
-                          "https://img.remediosdigitales.com/8e8f64/lo-de-que-comprar-una-casa-es-la-mejor-inversion-hay-generaciones-que-ya-no-lo-ven-ni-de-lejos---1/1366_2000.jpg",
-                          fit: BoxFit.cover,
-                        ),
-                        Image.network(
-                          "https://th.bing.com/th/id/R.2c76042f56bf81ef78c51089192d5d10?rik=9Va9wLV7TzGRYw&pid=ImgRaw&r=0",
-                          fit: BoxFit.cover,
-                        ),
-                        Image.network(
-                          "https://img.remediosdigitales.com/8e8f64/lo-de-que-comprar-una-casa-es-la-mejor-inversion-hay-generaciones-que-ya-no-lo-ven-ni-de-lejos---1/1366_2000.jpg",
-                          fit: BoxFit.cover,
-                        ),
-                        Image.network(
-                          "https://th.bing.com/th/id/R.2c76042f56bf81ef78c51089192d5d10?rik=9Va9wLV7TzGRYw&pid=ImgRaw&r=0",
-                          fit: BoxFit.cover,
-                        ),
-                        Image.network(
-                          "https://img.remediosdigitales.com/8e8f64/lo-de-que-comprar-una-casa-es-la-mejor-inversion-hay-generaciones-que-ya-no-lo-ven-ni-de-lejos---1/1366_2000.jpg",
-                          fit: BoxFit.cover,
-                        ),
+                        Image.memory(_inmuebles[i].imagen1Decodificada!,
+                            fit: BoxFit.cover),
+                        if (_inmuebles[i].imagen2Decodificada != null)
+                          Image.memory(_inmuebles[i].imagen2Decodificada!,
+                              fit: BoxFit.cover),
+                        if (_inmuebles[i].imagen3Decodificada != null)
+                          Image.memory(_inmuebles[i].imagen3Decodificada!,
+                              fit: BoxFit.cover),
+                        if (_inmuebles[i].imagen4Decodificada != null)
+                          Image.memory(_inmuebles[i].imagen4Decodificada!,
+                              fit: BoxFit.cover),
+                        if (_inmuebles[i].imagen5Decodificada != null)
+                          Image.memory(_inmuebles[i].imagen5Decodificada!,
+                              fit: BoxFit.cover),
                       ],
                     ),
                     Padding(
@@ -170,9 +218,9 @@ class _MisInmueblesWidgetState extends State<MisInmueblesWidget> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              const Text(
-                                "\$ 500,000",
-                                style: TextStyle(
+                              Text(
+                                "\$ ${_inmuebles[i].precio}",
+                                style: const TextStyle(
                                   fontSize: 15,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -193,16 +241,16 @@ class _MisInmueblesWidgetState extends State<MisInmueblesWidget> {
                                   bottom: 5,
                                 ),
                                 child: Text(
-                                  "En Venta",
+                                  "En ${_inmuebles[i].estatus}",
                                   style: TextStyle(color: Colors.red[600]),
                                 ),
                               ),
                               Row(
                                 children: [
                                   ElevatedButton(
-                                    onPressed: () => _editarInmueble(index),
+                                    onPressed: () => _editarInmueble(i + 1),
                                     style: ElevatedButton.styleFrom(
-                                        primary: Colors.blue[600],
+                                        primary: Colors.blue[800],
                                         padding: const EdgeInsets.only(
                                           left: 10,
                                           top: 5,
@@ -220,8 +268,8 @@ class _MisInmueblesWidgetState extends State<MisInmueblesWidget> {
                                   ),
                                   const SizedBox(width: 10),
                                   ElevatedButton(
-                                    onPressed: () => _mostrarModalEliminar(
-                                        context, index + 1),
+                                    onPressed: () =>
+                                        _mostrarModalEliminar(context, i + 1),
                                     style: ElevatedButton.styleFrom(
                                         primary: Colors.red[600],
                                         padding: const EdgeInsets.only(
@@ -245,7 +293,7 @@ class _MisInmueblesWidgetState extends State<MisInmueblesWidget> {
                           ),
                           const SizedBox(height: 10),
                           Text(
-                            "Blvd. Universidad Tecnológica #225 Col. San Carlos CP. 37670",
+                            "${_inmuebles[i].calle} ${_inmuebles[i].numInterior} ${_inmuebles[i].numExterior != null ? _inmuebles[i].numExterior : ""} ${_inmuebles[i].colonia} C.P. ${_inmuebles[i].cp}",
                             style: TextStyle(
                               fontSize: 13,
                             ),
@@ -261,5 +309,14 @@ class _MisInmueblesWidgetState extends State<MisInmueblesWidget> {
         ),
       ],
     );
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _inmuebleRepository = InmuebleRepository();
+    _inmuebles = <Inmueble>[];
+    _obtenerInmuebles();
   }
 }
