@@ -4,6 +4,7 @@ import 'package:homeshop/widgets/gestionar/gestionarWidget.dart';
 import 'package:homeshop/widgets/gestionar/miCuenta.dart';
 import 'package:homeshop/widgets/inmuebles/inmueblesWidget.dart';
 import 'package:homeshop/widgets/misCitas/citasWidget.dart';
+import 'package:homeshop/widgets/misInmuebles/editarInmuebleWidget.dart';
 import 'package:homeshop/widgets/misInmuebles/misInmueblesWidget.dart';
 
 class PaginaInicioWidget extends StatefulWidget {
@@ -19,7 +20,7 @@ class _PaginaInicioWidgetState extends State<PaginaInicioWidget> {
     InmueblesWidget(),
     BuscarInmueblesWidget(),
     CitasWidget(),
-    MisInmueblesWidget(),
+    EditarInmuebleWidget(1),
     GestionarWidget(),
     MiCuentaWidget(),
   ];

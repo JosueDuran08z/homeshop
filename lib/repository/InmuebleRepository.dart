@@ -12,6 +12,13 @@ class InmuebleRepository {
     return response;
   }
 
+  Future<http.Response?> obtenerPorId(int idInmueble) async {
+    String url = "$HOST/inmueble/$idInmueble";
+    final response = await http.get(Uri.parse(url));
+
+    return response;
+  }
+
   Future<http.Response?> agregar(Inmueble inmueble, String tipo) async {
     Map<String, String> headers = {
       "Content-Type": "application/json; charset=UTF-8"
