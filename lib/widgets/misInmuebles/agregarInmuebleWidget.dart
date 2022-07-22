@@ -159,7 +159,7 @@ class _AgregarInmuebleWidgetState extends State<AgregarInmuebleWidget> {
 
           if (response.statusCode == 201) {
             Navigator.pop(context);
-            _mostrarSnackbar(responseData["mensaje"], Colors.blue[600]);
+            _mostrarSnackbar(responseData["mensaje"], Colors.blue[800]);
           } else {
             _mostrarSnackbar(responseData["mensaje"], Colors.red[900]);
           }
@@ -245,7 +245,7 @@ class _AgregarInmuebleWidgetState extends State<AgregarInmuebleWidget> {
                           ElevatedButton(
                             onPressed: _editarImagen,
                             style: ElevatedButton.styleFrom(
-                              primary: Colors.blue[600],
+                              primary: Colors.blue[800],
                               padding: const EdgeInsets.only(
                                 left: 10,
                                 top: 5,
@@ -290,7 +290,7 @@ class _AgregarInmuebleWidgetState extends State<AgregarInmuebleWidget> {
                         icon: const Icon(Icons.add),
                         label: const Text("Añadir Imagen"),
                         style: ElevatedButton.styleFrom(
-                          primary: Colors.blue[600],
+                          primary: Colors.blue[800],
                           padding: const EdgeInsets.only(
                             left: 20,
                             top: 15,
