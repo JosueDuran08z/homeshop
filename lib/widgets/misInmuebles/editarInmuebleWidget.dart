@@ -151,6 +151,33 @@ class _EditarInmuebleWidgetState extends State<EditarInmuebleWidget> {
       _anchoController.text = _inmueble.ancho!.toString();
       _descripcionController.text = _inmueble.descripcion!;
       _precioController.text = _inmueble.precio!.toString();
+
+      Base64Decoder base64Decoder = const Base64Decoder();
+
+      _imagenesBase64 = [
+        _inmueble.imagen1,
+        if (_inmueble.imagen2 != null) _inmueble.imagen2,
+        if (_inmueble.imagen3 != null) _inmueble.imagen3,
+        if (_inmueble.imagen4 != null) _inmueble.imagen4,
+        if (_inmueble.imagen5 != null) _inmueble.imagen5
+      ];
+
+      _imagenes = [
+        Image.memory(base64Decoder.convert(_inmueble.imagen1!),
+            fit: BoxFit.cover),
+        if (_inmueble.imagen2 != null)
+          Image.memory(base64Decoder.convert(_inmueble.imagen2!),
+              fit: BoxFit.cover),
+        if (_inmueble.imagen3 != null)
+          Image.memory(base64Decoder.convert(_inmueble.imagen3!),
+              fit: BoxFit.cover),
+        if (_inmueble.imagen4 != null)
+          Image.memory(base64Decoder.convert(_inmueble.imagen4!),
+              fit: BoxFit.cover),
+        if (_inmueble.imagen5 != null)
+          Image.memory(base64Decoder.convert(_inmueble.imagen5!),
+              fit: BoxFit.cover),
+      ];
     });
   }
 
@@ -313,7 +340,7 @@ class _EditarInmuebleWidgetState extends State<EditarInmuebleWidget> {
               children: [
                 if (_imagenes.isNotEmpty)
                   ImageSlideshow(
-                    initialPage: 2,
+                    initialPage: _imagenActual,
                     onPageChanged: (index) =>
                         setState(() => _imagenActual = index),
                     children: _imagenes,
@@ -838,30 +865,5 @@ class _EditarInmuebleWidgetState extends State<EditarInmuebleWidget> {
     _edadController = TextEditingController();
     _descripcionController = TextEditingController();
     _precioController = TextEditingController();
-
-    setState(() {
-      _imagenes = [
-        Image.network(
-          "https://img.remediosdigitales.com/8e8f64/lo-de-que-comprar-una-casa-es-la-mejor-inversion-hay-generaciones-que-ya-no-lo-ven-ni-de-lejos---1/1366_2000.jpg",
-          fit: BoxFit.cover,
-        ),
-        Image.network(
-          "https://th.bing.com/th/id/R.2c76042f56bf81ef78c51089192d5d10?rik=9Va9wLV7TzGRYw&pid=ImgRaw&r=0",
-          fit: BoxFit.cover,
-        ),
-        Image.network(
-          "https://img.remediosdigitales.com/8e8f64/lo-de-que-comprar-una-casa-es-la-mejor-inversion-hay-generaciones-que-ya-no-lo-ven-ni-de-lejos---1/1366_2000.jpg",
-          fit: BoxFit.cover,
-        ),
-        Image.network(
-          "https://th.bing.com/th/id/R.2c76042f56bf81ef78c51089192d5d10?rik=9Va9wLV7TzGRYw&pid=ImgRaw&r=0",
-          fit: BoxFit.cover,
-        ),
-        Image.network(
-          "https://img.remediosdigitales.com/8e8f64/lo-de-que-comprar-una-casa-es-la-mejor-inversion-hay-generaciones-que-ya-no-lo-ven-ni-de-lejos---1/1366_2000.jpg",
-          fit: BoxFit.cover,
-        )
-      ];
-    });
   }
 }
