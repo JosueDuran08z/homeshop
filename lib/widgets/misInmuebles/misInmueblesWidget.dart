@@ -195,170 +195,189 @@ class _MisInmueblesWidgetState extends State<MisInmueblesWidget> {
           ),
         ),
         const SizedBox(height: 20),
-        Expanded(
-          child: ListView.builder(
-            padding: const EdgeInsets.only(
-              left: 10,
-              right: 10,
-              bottom: 10,
-            ),
-            itemCount: _inmuebles.length,
-            itemBuilder: (BuildContext context, int i) {
-              return Card(
-                child: Column(
-                  children: [
-                    ImageSlideshow(
-                      children: [
-                        Image.memory(_inmuebles[i].imagen1Decodificada!,
-                            fit: BoxFit.cover),
-                        if (_inmuebles[i].imagen2Decodificada != null)
-                          Image.memory(_inmuebles[i].imagen2Decodificada!,
-                              fit: BoxFit.cover),
-                        if (_inmuebles[i].imagen3Decodificada != null)
-                          Image.memory(_inmuebles[i].imagen3Decodificada!,
-                              fit: BoxFit.cover),
-                        if (_inmuebles[i].imagen4Decodificada != null)
-                          Image.memory(_inmuebles[i].imagen4Decodificada!,
-                              fit: BoxFit.cover),
-                        if (_inmuebles[i].imagen5Decodificada != null)
-                          Image.memory(_inmuebles[i].imagen5Decodificada!,
-                              fit: BoxFit.cover),
-                      ],
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        left: 20,
-                        top: 20,
-                        right: 10,
-                        bottom: 20,
-                      ),
+        _inmuebles.isEmpty
+            ? Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const CircularProgressIndicator(),
+                  const SizedBox(height: 10),
+                  Text(
+                    "Cargando inmuebles...",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15,
+                        color: Colors.grey[800]),
+                  )
+                ],
+              )
+            : Expanded(
+                child: ListView.builder(
+                  padding: const EdgeInsets.only(
+                    left: 10,
+                    right: 10,
+                    bottom: 10,
+                  ),
+                  itemCount: _inmuebles.length,
+                  itemBuilder: (BuildContext context, int i) {
+                    return Card(
                       child: Column(
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          ImageSlideshow(
                             children: [
-                              Text(
-                                "\$ ${_inmuebles[i].precio}",
-                                style: const TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: const BorderRadius.all(
-                                    Radius.circular(15),
-                                  ),
-                                  border: Border.all(
-                                    color: Color.fromARGB(255, 229, 57, 53),
-                                  ),
-                                ),
-                                padding: const EdgeInsets.only(
-                                  left: 10,
-                                  top: 5,
-                                  right: 10,
-                                  bottom: 5,
-                                ),
-                                child: Text(
-                                  _inmuebles[i].estatus == "Venta" ||
-                                          _inmuebles[i].estatus == "Renta"
-                                      ? "En ${_inmuebles[i].estatus}"
-                                      : _inmuebles[i].estatus!,
-                                  style: TextStyle(color: Colors.red[600]),
-                                ),
-                              ),
-                              if (_inmuebles[i].estatus == "Venta" ||
-                                  _inmuebles[i].estatus == "Renta")
+                              Image.memory(_inmuebles[i].imagen1Decodificada!,
+                                  fit: BoxFit.cover),
+                              if (_inmuebles[i].imagen2Decodificada != null)
+                                Image.memory(_inmuebles[i].imagen2Decodificada!,
+                                    fit: BoxFit.cover),
+                              if (_inmuebles[i].imagen3Decodificada != null)
+                                Image.memory(_inmuebles[i].imagen3Decodificada!,
+                                    fit: BoxFit.cover),
+                              if (_inmuebles[i].imagen4Decodificada != null)
+                                Image.memory(_inmuebles[i].imagen4Decodificada!,
+                                    fit: BoxFit.cover),
+                              if (_inmuebles[i].imagen5Decodificada != null)
+                                Image.memory(_inmuebles[i].imagen5Decodificada!,
+                                    fit: BoxFit.cover),
+                            ],
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              left: 20,
+                              top: 20,
+                              right: 10,
+                              bottom: 20,
+                            ),
+                            child: Column(
+                              children: [
                                 Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
-                                    ElevatedButton(
-                                      onPressed: () => _editarInmueble(i + 1),
-                                      style: ElevatedButton.styleFrom(
-                                          primary: Colors.blue[800],
-                                          padding: const EdgeInsets.only(
-                                            left: 10,
-                                            top: 5,
-                                            right: 10,
-                                            bottom: 5,
-                                          ),
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(15),
-                                          )),
-                                      child: const Icon(
-                                        Icons.edit,
-                                        size: 18,
+                                    Text(
+                                      "\$ ${_inmuebles[i].precio}",
+                                      style: const TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                    const SizedBox(width: 10),
-                                    ElevatedButton(
-                                      onPressed: () =>
-                                          _mostrarModal(context, i + 1, true),
-                                      style: ElevatedButton.styleFrom(
-                                          primary: Colors.red[600],
-                                          padding: const EdgeInsets.only(
-                                            left: 10,
-                                            top: 5,
-                                            right: 10,
-                                            bottom: 5,
-                                          ),
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(15),
-                                          )),
-                                      child: const Icon(
-                                        Icons.delete,
-                                        size: 18,
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: const BorderRadius.all(
+                                          Radius.circular(15),
+                                        ),
+                                        border: Border.all(
+                                          color:
+                                              Color.fromARGB(255, 229, 57, 53),
+                                        ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              if (_inmuebles[i].estatus == "Eliminado")
-                                Row(children: [
-                                  ElevatedButton.icon(
-                                    icon: const Icon(Icons.check_circle),
-                                    label: const Text("Activar"),
-                                    onPressed: () =>
-                                        _mostrarModal(context, i + 1, false),
-                                    style: ElevatedButton.styleFrom(
-                                      primary: Colors.green[700],
                                       padding: const EdgeInsets.only(
                                         left: 10,
                                         top: 5,
                                         right: 10,
                                         bottom: 5,
                                       ),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(15),
+                                      child: Text(
+                                        _inmuebles[i].estatus == "Venta" ||
+                                                _inmuebles[i].estatus == "Renta"
+                                            ? "En ${_inmuebles[i].estatus}"
+                                            : _inmuebles[i].estatus!,
+                                        style:
+                                            TextStyle(color: Colors.red[600]),
                                       ),
                                     ),
+                                    if (_inmuebles[i].estatus == "Venta" ||
+                                        _inmuebles[i].estatus == "Renta")
+                                      Row(
+                                        children: [
+                                          ElevatedButton(
+                                            onPressed: () =>
+                                                _editarInmueble(i + 1),
+                                            style: ElevatedButton.styleFrom(
+                                                primary: Colors.blue[800],
+                                                padding: const EdgeInsets.only(
+                                                  left: 10,
+                                                  top: 5,
+                                                  right: 10,
+                                                  bottom: 5,
+                                                ),
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(15),
+                                                )),
+                                            child: const Icon(
+                                              Icons.edit,
+                                              size: 18,
+                                            ),
+                                          ),
+                                          const SizedBox(width: 10),
+                                          ElevatedButton(
+                                            onPressed: () => _mostrarModal(
+                                                context, i + 1, true),
+                                            style: ElevatedButton.styleFrom(
+                                                primary: Colors.red[600],
+                                                padding: const EdgeInsets.only(
+                                                  left: 10,
+                                                  top: 5,
+                                                  right: 10,
+                                                  bottom: 5,
+                                                ),
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(15),
+                                                )),
+                                            child: const Icon(
+                                              Icons.delete,
+                                              size: 18,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    if (_inmuebles[i].estatus == "Eliminado")
+                                      Row(children: [
+                                        ElevatedButton.icon(
+                                          icon: const Icon(Icons.check_circle),
+                                          label: const Text("Activar"),
+                                          onPressed: () => _mostrarModal(
+                                              context, i + 1, false),
+                                          style: ElevatedButton.styleFrom(
+                                            primary: Colors.green[700],
+                                            padding: const EdgeInsets.only(
+                                              left: 10,
+                                              top: 5,
+                                              right: 10,
+                                              bottom: 5,
+                                            ),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(15),
+                                            ),
+                                          ),
+                                        ),
+                                      ]),
+                                  ],
+                                ),
+                                const SizedBox(height: 10),
+                                Text(
+                                  "${_inmuebles[i].calle} ${_inmuebles[i].numInterior} ${_inmuebles[i].numExterior != null ? _inmuebles[i].numExterior : ""} ${_inmuebles[i].colonia} C.P. ${_inmuebles[i].cp}",
+                                  style: const TextStyle(
+                                    fontSize: 13,
                                   ),
-                                ]),
-                            ],
-                          ),
-                          const SizedBox(height: 10),
-                          Text(
-                            "${_inmuebles[i].calle} ${_inmuebles[i].numInterior} ${_inmuebles[i].numExterior != null ? _inmuebles[i].numExterior : ""} ${_inmuebles[i].colonia} C.P. ${_inmuebles[i].cp}",
-                            style: const TextStyle(
-                              fontSize: 13,
+                                )
+                              ],
                             ),
                           )
                         ],
                       ),
-                    )
-                  ],
+                    );
+                  },
                 ),
-              );
-            },
-          ),
-        ),
+              ),
       ],
     );
   }
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _inmuebleRepository = InmuebleRepository();
     _inmuebles = <Inmueble>[];

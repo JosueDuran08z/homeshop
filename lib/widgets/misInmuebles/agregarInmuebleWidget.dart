@@ -21,7 +21,6 @@ class _AgregarInmuebleWidgetState extends State<AgregarInmuebleWidget> {
   late Inmueble _inmueble;
   late Future<SharedPreferences> _prefs;
   late InmuebleRepository _inmuebleRepository;
-  late CircularProgressIndicator _cargando;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextStyle textStylePregunta = TextStyle(
     fontWeight: FontWeight.bold,
@@ -750,7 +749,6 @@ class _AgregarInmuebleWidgetState extends State<AgregarInmuebleWidget> {
     _prefs
         .then((pref) => _inmueble.usuario.idUsuario = pref.getInt("idUsuario"));
     _inmuebleRepository = InmuebleRepository();
-    _cargando = CircularProgressIndicator();
     _habitacionesController = TextEditingController(text: "5");
     _pisosController = TextEditingController(text: "2");
     _baniosController = TextEditingController(text: "3");
