@@ -25,22 +25,34 @@ class InmuebleRepository {
     return response;
   }
 
-  Future<http.Response?> eliminar(int idInmueble) async {
+  Future<http.Response?> cambiarEstatus(
+      int idInmueble, String operacion) async {
     Map<String, String> headers = {
       "Content-Type": "application/json; charset=UTF-8"
     };
-    String url = "$HOST/inmueble/eliminar/$idInmueble";
-    final response = await http.post(Uri.parse(url), headers: headers);
 
-    return response;
-  }
+    String ruta = "";
 
-  Future<http.Response?> activar(int idInmueble) async {
-    Map<String, String> headers = {
-      "Content-Type": "application/json; charset=UTF-8"
+    if (operacion == "eliminar")
+      ruta = operacion;
+    else if (operacion == "activar")
+      ruta = operacion;
+    else
+      ruta = "cambiar-estatus";
+
+    String url = "$HOST/inmueble/$ruta/$idInmueble";
+    Map<String, dynamic> parametros = {
+      "estatus": operacion == "rentar" ? "Rentado" : "Vendido"
     };
-    String url = "$HOST/inmueble/activar/$idInmueble";
-    final response = await http.post(Uri.parse(url), headers: headers);
+    var body = jsonEncode(parametros);
+
+    final response;
+
+    if (operacion == "vender" || operacion == "rentar") {
+      response = await http.post(Uri.parse(url), headers: headers, body: body);
+    } else {
+      response = await http.post(Uri.parse(url), headers: headers);
+    }
 
     return response;
   }

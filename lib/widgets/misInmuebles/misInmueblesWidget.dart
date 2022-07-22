@@ -93,13 +93,25 @@ class _MisInmueblesWidgetState extends State<MisInmueblesWidget> {
     ScaffoldMessenger.of(context).showSnackBar(snackbar);
   }
 
-  void _mostrarModal(BuildContext context, int idInmueble, bool eliminar) {
+  void _mostrarModal(BuildContext context, int idInmueble,
+      {bool? eliminar, bool? activar, bool? vender, bool? rentar}) {
+    String operacion = "";
+
+    if (eliminar != null)
+      operacion = "eliminar";
+    else if (activar != null)
+      operacion = "activar";
+    else if (vender != null)
+      operacion = "vender";
+    else
+      operacion = "rentar";
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           content: Text(
-            "¿Estás seguro que deseas ${eliminar ? "eliminar" : "activar"} este inmueble?",
+            "¿Está seguro que desea ${operacion == "activar" ? "volver a publicar" : operacion} este inmueble?",
             textAlign: TextAlign.justify,
             style: const TextStyle(
               fontSize: 15,
@@ -118,7 +130,7 @@ class _MisInmueblesWidgetState extends State<MisInmueblesWidget> {
             ),
             TextButton(
               onPressed: () =>
-                  _eliminarActivarInmueble(context, idInmueble, eliminar),
+                  _cambiarEstatusInmueble(context, idInmueble, operacion),
               child: Text(
                 "Aceptar",
                 style: TextStyle(
@@ -133,11 +145,10 @@ class _MisInmueblesWidgetState extends State<MisInmueblesWidget> {
     );
   }
 
-  void _eliminarActivarInmueble(context, int idInmueble, bool eliminar) {
+  void _cambiarEstatusInmueble(context, int idInmueble, String operacion) {
     try {
-      Future<http.Response?> response = eliminar
-          ? _inmuebleRepository.eliminar(idInmueble)
-          : _inmuebleRepository.activar(idInmueble);
+      Future<http.Response?> response =
+          _inmuebleRepository.cambiarEstatus(idInmueble, operacion);
 
       response.then((http.Response? response) {
         var responseData = jsonDecode(response!.body);
@@ -363,7 +374,8 @@ class _MisInmueblesWidgetState extends State<MisInmueblesWidget> {
                                           ElevatedButton.icon(
                                             label: const Text("Eliminar"),
                                             onPressed: () => _mostrarModal(
-                                                context, i + 1, true),
+                                                context, i + 1,
+                                                eliminar: true),
                                             style: ElevatedButton.styleFrom(
                                               primary: Colors.red[600],
                                               padding: const EdgeInsets.all(15),
@@ -381,22 +393,26 @@ class _MisInmueblesWidgetState extends State<MisInmueblesWidget> {
                                       ),
                                     ],
                                   ),
-                                if (_inmuebles[i].estatus == "Eliminado")
-                                  Column(
-                                    children: [
-                                      const SizedBox(height: 20),
+                                Column(
+                                  children: [
+                                    const SizedBox(height: 20),
+                                    if (_inmuebles[i].estatus == "Eliminado" ||
+                                        _inmuebles[i].estatus == "Vendido" ||
+                                        _inmuebles[i].estatus == "Rentado")
                                       Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
                                         children: [
                                           ElevatedButton.icon(
                                             icon: const Icon(
-                                              Icons.check_circle,
+                                              Icons.refresh,
                                               size: 18,
                                             ),
-                                            label: const Text("Activar"),
+                                            label:
+                                                const Text("Volver a publicar"),
                                             onPressed: () => _mostrarModal(
-                                                context, i + 1, false),
+                                                context, i + 1,
+                                                activar: true),
                                             style: ElevatedButton.styleFrom(
                                               primary: Colors.green[700],
                                               padding: const EdgeInsets.all(15),
@@ -408,8 +424,35 @@ class _MisInmueblesWidgetState extends State<MisInmueblesWidget> {
                                           ),
                                         ],
                                       ),
-                                    ],
-                                  ),
+                                    if (_inmuebles[i].estatus != "Eliminado" &&
+                                        _inmuebles[i].estatus != "Vendido" &&
+                                        _inmuebles[i].estatus != "Rentado")
+                                      ElevatedButton.icon(
+                                        label: Text(
+                                            _inmuebles[i].estatus == "Venta"
+                                                ? "Vender"
+                                                : "Rentar"),
+                                        onPressed: () =>
+                                            _inmuebles[i].estatus == "Venta"
+                                                ? _mostrarModal(context, i + 1,
+                                                    vender: true)
+                                                : _mostrarModal(context, i + 1,
+                                                    rentar: true),
+                                        style: ElevatedButton.styleFrom(
+                                          primary: Colors.green[700],
+                                          padding: const EdgeInsets.all(15),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                          ),
+                                        ),
+                                        icon: const Icon(
+                                          Icons.real_estate_agent_outlined,
+                                          size: 18,
+                                        ),
+                                      ),
+                                  ],
+                                ),
                               ],
                             ),
                           )
