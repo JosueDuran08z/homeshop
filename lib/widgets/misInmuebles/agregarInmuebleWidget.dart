@@ -159,7 +159,7 @@ class _AgregarInmuebleWidgetState extends State<AgregarInmuebleWidget> {
 
           if (response.statusCode == 201) {
             Navigator.pop(context);
-            _mostrarSnackbar(responseData["mensaje"], Colors.blue[800]);
+            _mostrarSnackbar(responseData["mensaje"], Colors.green[700]);
           } else {
             _mostrarSnackbar(responseData["mensaje"], Colors.red[900]);
           }
@@ -317,7 +317,7 @@ class _AgregarInmuebleWidgetState extends State<AgregarInmuebleWidget> {
                   children: [
                     Expanded(
                       child: ListTile(
-                        contentPadding: EdgeInsets.all(0),
+                        contentPadding: const EdgeInsets.all(0),
                         title: const Text("Renta"),
                         leading: Radio(
                           value: "Renta",
@@ -329,7 +329,7 @@ class _AgregarInmuebleWidgetState extends State<AgregarInmuebleWidget> {
                     const SizedBox(height: 20),
                     Expanded(
                       child: ListTile(
-                        contentPadding: EdgeInsets.all(0),
+                        contentPadding: const EdgeInsets.all(0),
                         title: const Text("Venta"),
                         leading: Radio(
                           value: "Venta",
