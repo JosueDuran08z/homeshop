@@ -74,8 +74,7 @@ class _MisInmueblesWidgetState extends State<MisInmueblesWidget> {
 
   void _editarInmueble(idInmueble) {
     final route = MaterialPageRoute(
-        builder: (BuildContext context) =>
-            EditarInmuebleWidget(idInmueble + 1));
+        builder: (BuildContext context) => EditarInmuebleWidget(idInmueble));
     Navigator.push(context, route);
   }
 
@@ -322,7 +321,7 @@ class _MisInmueblesWidgetState extends State<MisInmueblesWidget> {
                                                 ? "Departamento"
                                                 : _inmuebles[i]
                                                             .edificio
-                                                            .idEficio !=
+                                                            .idEdificio !=
                                                         null
                                                     ? "Edificio"
                                                     : _inmuebles[i]

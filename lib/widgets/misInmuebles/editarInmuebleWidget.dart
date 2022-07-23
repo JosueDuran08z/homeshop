@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:homeshop/models/Inmueble.dart';
 import 'package:homeshop/repository/InmuebleRepository.dart';
+import 'package:homeshop/widgets/paginaInicioWidget.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:typed_data';
 import 'dart:convert';
@@ -122,7 +123,7 @@ class _EditarInmuebleWidgetState extends State<EditarInmuebleWidget> {
         _pisosController.text = _inmueble.departamento.pisos!.toString();
         _estadoInstalaciones = _inmueble.departamento.estadoInstalaciones!;
         _edadController.text = _inmueble.departamento.edad!.toString();
-      } else if (_inmueble.edificio.idEficio != null) {
+      } else if (_inmueble.edificio.idEdificio != null) {
         _tipoInmueble = "edificio";
         _estacionamiento = _inmueble.edificio.estacionamiento! ? "Sí" : "No";
         _internet = _inmueble.edificio.internet!;
@@ -262,13 +263,16 @@ class _EditarInmuebleWidgetState extends State<EditarInmuebleWidget> {
         }
 
         Future<http.Response?> response =
-            _inmuebleRepository.agregar(_inmueble, _tipoInmueble!);
+            _inmuebleRepository.editar(_inmueble, _tipoInmueble!);
 
         response.then((http.Response? response) {
           var responseData = jsonDecode(response!.body);
 
-          if (response.statusCode == 201) {
-            Navigator.pop(context);
+          if (response.statusCode == 200) {
+            final route = MaterialPageRoute(
+                builder: (BuildContext context) =>
+                    PaginaInicioWidget(paginaInicio: 3));
+            Navigator.push(context, route);
             _mostrarSnackbar(responseData["mensaje"], Colors.green[700]);
           } else {
             _mostrarSnackbar(responseData["mensaje"], Colors.red[900]);

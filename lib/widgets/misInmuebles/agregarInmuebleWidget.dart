@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:homeshop/models/Inmueble.dart';
 import 'package:homeshop/repository/InmuebleRepository.dart';
+import 'package:homeshop/widgets/paginaInicioWidget.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -163,7 +164,10 @@ class _AgregarInmuebleWidgetState extends State<AgregarInmuebleWidget> {
           var responseData = jsonDecode(response!.body);
 
           if (response.statusCode == 201) {
-            Navigator.pop(context);
+            final route = MaterialPageRoute(
+                builder: (BuildContext context) =>
+                    PaginaInicioWidget(paginaInicio: 3));
+            Navigator.push(context, route);
             _mostrarSnackbar(responseData["mensaje"], Colors.green[700]);
           } else {
             _mostrarSnackbar(responseData["mensaje"], Colors.red[900]);

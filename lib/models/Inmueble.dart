@@ -74,6 +74,7 @@ class Inmueble {
 
   Map<String, dynamic> getMap() {
     return {
+      "idInmueble": idInmueble,
       "descripcion": descripcion,
       "calle": calle,
       "numInterior": numInterior,
@@ -98,6 +99,7 @@ class Inmueble {
 
   Map<String, dynamic> getMapCasa() {
     return {
+      "idCasa": casa.idCasa,
       "cochera": casa.cochera,
       "internet": casa.internet,
       "habitaciones": casa.habitaciones,
@@ -109,6 +111,7 @@ class Inmueble {
 
   Map<String, dynamic> getMapDepartamento() {
     return {
+      "idDepartamento": departamento.idDepartamento,
       "estacionamiento": departamento.estacionamiento,
       "internet": departamento.internet,
       "habitaciones": departamento.habitaciones,
@@ -120,6 +123,7 @@ class Inmueble {
 
   Map<String, dynamic> getMapEdificio() {
     return {
+      "idEdificio": edificio.idEdificio,
       "estacionamiento": edificio.estacionamiento,
       "internet": edificio.internet,
       "habitaciones": edificio.habitaciones,
@@ -130,7 +134,10 @@ class Inmueble {
   }
 
   Map<String, dynamic> getMapTerreno() {
-    return {"enConstruccion": terreno.enConstruccion};
+    return {
+      "idTerreno": terreno.idTerreno,
+      "enConstruccion": terreno.enConstruccion
+    };
   }
 
   Map<String, dynamic> getMapAgregar(String tipo) {
@@ -145,6 +152,24 @@ class Inmueble {
       tipoMap = getMapEdificio();
     } else {
       tipoMap = getMapTerreno();
+    }
+
+    inmuebleMap.addAll(tipoMap);
+    return inmuebleMap;
+  }
+
+  Map<String, dynamic> getMapEditar(String tipo) {
+    Map<String, dynamic> inmuebleMap = getMap();
+    Map<String, Map<String, dynamic>> tipoMap;
+
+    if (tipo == "casa") {
+      tipoMap = {"casa": getMapCasa()};
+    } else if (tipo == "departamento") {
+      tipoMap = {"departamento": getMapDepartamento()};
+    } else if (tipo == "edificio") {
+      tipoMap = {"edificio": getMapEdificio()};
+    } else {
+      tipoMap = {"terreno": getMapTerreno()};
     }
 
     inmuebleMap.addAll(tipoMap);

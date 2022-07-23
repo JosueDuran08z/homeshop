@@ -32,6 +32,21 @@ class InmuebleRepository {
     return response;
   }
 
+  Future<http.Response?> editar(Inmueble inmueble, String tipo) async {
+    Map<String, String> headers = {
+      "Content-Type": "application/json; charset=UTF-8"
+    };
+    Map<String, dynamic> parametros = inmueble.getMapEditar(tipo);
+    Map<String, String> tipoInmueble = {"tipoInmueble": tipo};
+    parametros.addAll(tipoInmueble);
+    var body = jsonEncode(parametros);
+    String url = "$HOST/inmueble/editar/${inmueble.idInmueble}";
+    final response =
+        await http.post(Uri.parse(url), headers: headers, body: body);
+
+    return response;
+  }
+
   Future<http.Response?> cambiarEstatus(
       int idInmueble, String operacion) async {
     Map<String, String> headers = {

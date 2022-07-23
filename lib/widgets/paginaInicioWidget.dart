@@ -8,19 +8,23 @@ import 'package:homeshop/widgets/misInmuebles/editarInmuebleWidget.dart';
 import 'package:homeshop/widgets/misInmuebles/misInmueblesWidget.dart';
 
 class PaginaInicioWidget extends StatefulWidget {
-  PaginaInicioWidget({Key? key}) : super(key: key);
+  PaginaInicioWidget({Key? key, this.paginaInicio}) : super(key: key);
+  int? paginaInicio;
 
   @override
-  State<PaginaInicioWidget> createState() => _PaginaInicioWidgetState();
+  State<PaginaInicioWidget> createState() =>
+      _PaginaInicioWidgetState(paginaInicio);
 }
 
 class _PaginaInicioWidgetState extends State<PaginaInicioWidget> {
-  int paginaActual = 0;
+  _PaginaInicioWidgetState(this.paginaInicio);
+  int? paginaInicio;
+  late int paginaActual;
   List<Widget> paginas = [
     InmueblesWidget(),
     BuscarInmueblesWidget(),
     CitasWidget(),
-    EditarInmuebleWidget(1),
+    MisInmueblesWidget(),
     GestionarWidget(),
     MiCuentaWidget(),
   ];
@@ -77,5 +81,12 @@ class _PaginaInicioWidgetState extends State<PaginaInicioWidget> {
         ],
       ),
     );
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setState(() => paginaActual = paginaInicio ?? 0);
   }
 }

@@ -1,10 +1,10 @@
 class Edificio {
-  int? idEficio, habitaciones, pisos, edad;
+  int? idEdificio, habitaciones, pisos, edad;
   bool? estacionamiento, internet;
   String? estadoInstalaciones;
 
   setEdificio(responseData) {
-    idEficio = responseData["idEficio"];
+    idEdificio = responseData["idEdificio"];
     habitaciones = responseData["habitaciones"];
     pisos = responseData["pisos"];
     edad = responseData["edad"];
