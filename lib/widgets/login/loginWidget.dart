@@ -38,8 +38,15 @@ class _LoginWidgetState extends State<LoginWidget> {
             _usuario.setUsuario(responseData);
             final Future<SharedPreferences> _prefs =
                 SharedPreferences.getInstance();
-            _prefs.then(
-                (value) => value.setInt("idUsuario", _usuario.idUsuario!));
+            _prefs.then((value) {
+              value.setInt("idUsuario", _usuario.idUsuario!);
+              List<String> roles = <String>[];
+
+              for (var rol in _usuario.roles) {
+                roles.add(rol.nombre!);
+              }
+              value.setStringList("roles", roles);
+            });
             final route = MaterialPageRoute(
                 builder: (BuildContext context) => PaginaInicioWidget());
             Navigator.push(context, route);
