@@ -21,6 +21,7 @@ class _MisInmueblesWidgetState extends State<MisInmueblesWidget> {
   late Future<SharedPreferences> _prefs;
   late InmuebleRepository _inmuebleRepository;
   late List<Inmueble> _inmuebles;
+  late bool _sinInmuebles;
 
   void _obtenerInmuebles() async {
     try {
@@ -58,7 +59,8 @@ class _MisInmueblesWidgetState extends State<MisInmueblesWidget> {
             _inmuebles.add(inmueble);
           });
 
-          setState(() => _inmuebles);
+          setState(
+              () => _inmuebles.isEmpty ? _sinInmuebles = true : _inmuebles);
         } else {
           _mostrarSnackbar(responseData["mensaje"], Colors.red[900]);
         }
@@ -211,7 +213,22 @@ class _MisInmueblesWidgetState extends State<MisInmueblesWidget> {
           ),
         ),
         const SizedBox(height: 20),
-        _inmuebles.isEmpty
+        if (_sinInmuebles)
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.error, size: 70, color: Colors.grey[600]),
+              const SizedBox(height: 10),
+              Text(
+                "No hay inmuebles por mostrar",
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15,
+                    color: Colors.grey[800]),
+              ),
+            ],
+          ),
+        _inmuebles.isEmpty && !_sinInmuebles
             ? Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -475,6 +492,7 @@ class _MisInmueblesWidgetState extends State<MisInmueblesWidget> {
     _prefs = SharedPreferences.getInstance();
     _inmuebleRepository = InmuebleRepository();
     _inmuebles = <Inmueble>[];
+    _sinInmuebles = false;
     _obtenerInmuebles();
   }
 }
