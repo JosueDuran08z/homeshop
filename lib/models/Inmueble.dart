@@ -1,5 +1,4 @@
 import 'dart:typed_data';
-
 import 'package:homeshop/models/Casa.dart';
 import 'package:homeshop/models/Departamento.dart';
 import 'package:homeshop/models/Edificio.dart';
@@ -23,6 +22,7 @@ class Inmueble {
       estatus;
   double? ancho, largo, dimension, precio;
   Usuario usuario = Usuario();
+  Usuario agente = Usuario();
   Casa casa = Casa();
   Departamento departamento = Departamento();
   Edificio edificio = Edificio();
@@ -70,6 +70,10 @@ class Inmueble {
     if (responseData["terreno"] != null) {
       terreno.setTerreno(responseData["terreno"]);
     }
+
+    if (responseData["agente"] != null) {
+      agente.setAgente(responseData["agente"]);
+    }
   }
 
   Map<String, dynamic> getMap() {
@@ -93,7 +97,8 @@ class Inmueble {
       "luz": luz,
       "operacion": operacion,
       "precio": precio,
-      "idUsuario": usuario.idUsuario
+      "idUsuario": usuario.idUsuario,
+      "idAgente": agente.agente.idAgente
     };
   }
 

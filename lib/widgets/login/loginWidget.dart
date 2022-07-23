@@ -21,7 +21,6 @@ class _LoginWidgetState extends State<LoginWidget> {
   late TextEditingController _contraseniaController;
   late LoginRepository _loginRepository;
   late Usuario _usuario;
-  late TextStyle _styleTextError;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   void _iniciarSesion() {
@@ -185,8 +184,6 @@ class _LoginWidgetState extends State<LoginWidget> {
   void initState() {
     super.initState();
     _usuario = Usuario();
-    _styleTextError =
-        TextStyle(fontWeight: FontWeight.bold, color: Colors.red[700]);
     _loginRepository = LoginRepository();
     _usuarioController = TextEditingController(text: "emmpresa01@gmail.com");
     _contraseniaController = TextEditingController(text: "123");

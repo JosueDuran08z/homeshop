@@ -1,3 +1,4 @@
+import 'package:homeshop/models/Agente.dart';
 import 'package:homeshop/models/Empresa.dart';
 import 'package:homeshop/models/Persona.dart';
 import 'package:homeshop/models/Rol.dart';
@@ -9,6 +10,7 @@ class Usuario {
   List<Rol> roles = <Rol>[];
   Persona persona = Persona();
   Empresa empresa = Empresa();
+  Agente agente = Agente();
 
   setUsuario(responseData) {
     idUsuario = responseData["idUsuario"];
@@ -24,6 +26,10 @@ class Usuario {
 
     if (responseData["persona"] != null) {
       persona.setPersona(responseData["persona"]);
+
+      if (responseData["persona"]["agente"] != null) {
+        agente.setAgente(responseData["persona"]["agente"]);
+      }
     }
 
     if (responseData["empresa"] != null) {
@@ -39,5 +45,26 @@ class Usuario {
         roles.add(rol);
       });
     }
+  }
+
+  setAgente(responseData) {
+    agente.idAgente = responseData["idAgente"];
+    var personaData = responseData["persona"];
+    persona.idPersona = personaData["idPersona"];
+    persona.nombre = personaData["nombre"];
+    persona.apePaterno = personaData["apePaterno"];
+    persona.apeMaterno = personaData["apeMaterno"];
+    persona.fechaNacimiento = DateTime.parse(personaData["fechaNacimiento"]);
+    var usuarioData = personaData["usuario"];
+    idUsuario = usuarioData["idUsuario"];
+    email = usuarioData["email"];
+    contrasenia = usuarioData["contrasenia"];
+    calle = usuarioData["calle"];
+    numInterior = usuarioData["numInterior"];
+    numExterior = usuarioData["numExterior"];
+    colonia = usuarioData["colonia"];
+    cp = usuarioData["cp"];
+    telefono = usuarioData["telefono"];
+    estatus = usuarioData["estatus"];
   }
 }

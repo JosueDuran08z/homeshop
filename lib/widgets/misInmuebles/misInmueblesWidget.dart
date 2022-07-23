@@ -375,8 +375,8 @@ class _MisInmueblesWidgetState extends State<MisInmueblesWidget> {
                                         children: [
                                           ElevatedButton.icon(
                                             label: const Text("Editar"),
-                                            onPressed: () =>
-                                                _editarInmueble(i + 1),
+                                            onPressed: () => _editarInmueble(
+                                                _inmuebles[i].idInmueble!),
                                             style: ElevatedButton.styleFrom(
                                                 primary: Colors.blue[800],
                                                 padding:
@@ -394,7 +394,8 @@ class _MisInmueblesWidgetState extends State<MisInmueblesWidget> {
                                           ElevatedButton.icon(
                                             label: const Text("Eliminar"),
                                             onPressed: () => _mostrarModal(
-                                                context, i + 1,
+                                                context,
+                                                _inmuebles[i].idInmueble!,
                                                 eliminar: true),
                                             style: ElevatedButton.styleFrom(
                                               primary: Colors.red[600],
@@ -431,7 +432,8 @@ class _MisInmueblesWidgetState extends State<MisInmueblesWidget> {
                                             label:
                                                 const Text("Volver a publicar"),
                                             onPressed: () => _mostrarModal(
-                                                context, i + 1,
+                                                context,
+                                                _inmuebles[i].idInmueble!,
                                                 activar: true),
                                             style: ElevatedButton.styleFrom(
                                               primary: Colors.green[700],
@@ -454,9 +456,11 @@ class _MisInmueblesWidgetState extends State<MisInmueblesWidget> {
                                                 : "Rentar"),
                                         onPressed: () =>
                                             _inmuebles[i].estatus == "Venta"
-                                                ? _mostrarModal(context, i + 1,
+                                                ? _mostrarModal(context,
+                                                    _inmuebles[i].idInmueble!,
                                                     vender: true)
-                                                : _mostrarModal(context, i + 1,
+                                                : _mostrarModal(context,
+                                                    _inmuebles[i].idInmueble!,
                                                     rentar: true),
                                         style: ElevatedButton.styleFrom(
                                           primary: Colors.green[700],

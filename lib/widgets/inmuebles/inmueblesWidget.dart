@@ -84,9 +84,9 @@ class _InmueblesWidgetState extends State<InmueblesWidget> {
     ScaffoldMessenger.of(context).showSnackBar(snackbar);
   }
 
-  void _mostrarInmueble(id) {
+  void _mostrarInmueble(int idInmueble) {
     final route = MaterialPageRoute(
-        builder: (BuildContext context) => InmuebleWidget(id));
+        builder: (BuildContext context) => InmuebleWidget(idInmueble));
     Navigator.push(context, route);
   }
 
@@ -148,7 +148,7 @@ class _InmueblesWidgetState extends State<InmueblesWidget> {
                   itemCount: _inmuebles.length,
                   itemBuilder: (BuildContext context, int i) {
                     return GestureDetector(
-                      onTap: () => _mostrarInmueble(i + 1),
+                      onTap: () => _mostrarInmueble(_inmuebles[i].idInmueble!),
                       child: Card(
                         child: Column(
                           children: [
