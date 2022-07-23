@@ -188,7 +188,7 @@ class _LoginWidgetState extends State<LoginWidget> {
     _styleTextError =
         TextStyle(fontWeight: FontWeight.bold, color: Colors.red[700]);
     _loginRepository = LoginRepository();
-    _usuarioController = TextEditingController(text: "josueduran08z@gmail.com");
+    _usuarioController = TextEditingController(text: "emmpresa01@gmail.com");
     _contraseniaController = TextEditingController(text: "123");
   }
 }

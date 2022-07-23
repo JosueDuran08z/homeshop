@@ -359,7 +359,7 @@ class _MisInmueblesWidgetState extends State<MisInmueblesWidget> {
                                 ),
                                 const SizedBox(height: 10),
                                 Text(
-                                  "${_inmuebles[i].calle} ${_inmuebles[i].numInterior} ${_inmuebles[i].numExterior ?? ""} ${_inmuebles[i].colonia} C.P. ${_inmuebles[i].cp}",
+                                  "${_inmuebles[i].calle} ${_inmuebles[i].numInterior}${_inmuebles[i].numExterior ?? ""}, ${_inmuebles[i].colonia}, C.P. ${_inmuebles[i].cp}",
                                   style: const TextStyle(
                                     fontSize: 13,
                                   ),

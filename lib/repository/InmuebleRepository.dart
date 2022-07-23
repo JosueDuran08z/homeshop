@@ -12,6 +12,13 @@ class InmuebleRepository {
     return response;
   }
 
+  Future<http.Response?> obtenerPublicaciones(int idUsuario) async {
+    String url = "$HOST/inmueble/publicaciones/$idUsuario";
+    final response = await http.get(Uri.parse(url));
+
+    return response;
+  }
+
   Future<http.Response?> obtenerTodosPorUsuarioId(int idUsuario) async {
     String url = "$HOST/inmueble/usuario/$idUsuario";
     final response = await http.get(Uri.parse(url));
