@@ -7,6 +7,7 @@ import 'package:homeshop/repository/InmuebleRepository.dart';
 import 'package:homeshop/widgets/misInmuebles/agregarInmuebleWidget.dart';
 import 'package:homeshop/widgets/misInmuebles/editarInmuebleWidget.dart';
 import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 class MisInmueblesWidget extends StatefulWidget {
@@ -17,12 +18,15 @@ class MisInmueblesWidget extends StatefulWidget {
 }
 
 class _MisInmueblesWidgetState extends State<MisInmueblesWidget> {
+  late Future<SharedPreferences> _prefs;
   late InmuebleRepository _inmuebleRepository;
   late List<Inmueble> _inmuebles;
 
-  void _obtenerInmuebles() {
+  void _obtenerInmuebles() async {
     try {
-      Future<http.Response?> response = _inmuebleRepository.obtenerTodos();
+      int idUsuario = await _prefs.then((value) => value.getInt("idUsuario")!);
+      Future<http.Response?> response =
+          _inmuebleRepository.obtenerTodosPorUsuarioId(idUsuario);
 
       response.then((http.Response? response) {
         var responseData = jsonDecode(response!.body);
@@ -468,6 +472,7 @@ class _MisInmueblesWidgetState extends State<MisInmueblesWidget> {
   @override
   void initState() {
     super.initState();
+    _prefs = SharedPreferences.getInstance();
     _inmuebleRepository = InmuebleRepository();
     _inmuebles = <Inmueble>[];
     _obtenerInmuebles();
