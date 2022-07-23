@@ -81,7 +81,7 @@ class _RegistrarseWidgetState extends State<RegistrarseWidget> {
             final route = MaterialPageRoute(
                 builder: (BuildContext context) => LoginWidget());
             Navigator.push(context, route);
-            mostrarSnackbar(responseData["mensaje"], Colors.blue[600]);
+            mostrarSnackbar(responseData["mensaje"], Colors.blue[800]);
           } else {
             String mensaje = responseData["mensaje"];
 
