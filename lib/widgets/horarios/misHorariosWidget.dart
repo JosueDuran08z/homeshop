@@ -20,6 +20,7 @@ class _MisHorariosWidgetState extends State<MisHorariosWidget> {
   late HorarioRepository _horarioRepository;
   late List<Horario> _horarios;
   late bool _sinHorarios;
+  late bool _mostrarBtnAgregar;
 
   void _obtenerHorarios() async {
     try {
@@ -36,6 +37,12 @@ class _MisHorariosWidgetState extends State<MisHorariosWidget> {
             _horarios.add(horario);
           });
 
+          _horarios.forEach((horario) {
+            if (horario.estatus!) {
+              setState(() => _mostrarBtnAgregar = false);
+              return;
+            }
+          });
           setState(() => _horarios.isEmpty ? _sinHorarios = true : _horarios);
         } else {
           _mostrarSnackbar(responseData["mensaje"], Colors.red[900]);
@@ -124,7 +131,10 @@ class _MisHorariosWidgetState extends State<MisHorariosWidget> {
         if (response.statusCode == 200) {
           Navigator.pop(context);
           _mostrarSnackbar(responseData["mensaje"], Colors.green[700]);
-          setState(() => _horarios = []);
+          setState(() {
+            _horarios = [];
+            _mostrarBtnAgregar = true;
+          });
           _obtenerHorarios();
         } else {
           _mostrarSnackbar(responseData["mensaje"], Colors.red[900]);
@@ -154,25 +164,26 @@ class _MisHorariosWidgetState extends State<MisHorariosWidget> {
                   color: Colors.red[600],
                 ),
               ),
-              ElevatedButton(
-                onPressed: _agregarHorario,
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.blue[800],
-                  padding: const EdgeInsets.only(
-                    left: 10,
-                    top: 5,
-                    right: 10,
-                    bottom: 5,
+              if (_mostrarBtnAgregar)
+                ElevatedButton(
+                  onPressed: _agregarHorario,
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.blue[800],
+                    padding: const EdgeInsets.only(
+                      left: 10,
+                      top: 5,
+                      right: 10,
+                      bottom: 5,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
                   ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
+                  child: const Icon(
+                    Icons.add,
+                    size: 18,
                   ),
                 ),
-                child: const Icon(
-                  Icons.add,
-                  size: 18,
-                ),
-              ),
             ],
           ),
         ),
@@ -380,6 +391,7 @@ class _MisHorariosWidgetState extends State<MisHorariosWidget> {
     _horarioRepository = HorarioRepository();
     _horarios = <Horario>[];
     _sinHorarios = false;
+    _mostrarBtnAgregar = true;
     _obtenerHorarios();
   }
 }

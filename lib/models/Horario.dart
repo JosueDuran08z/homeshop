@@ -38,7 +38,7 @@ class Horario {
         if (i + 1 < dias.length) {
           diasString = "${diasString!}${dias[i].nombre!}, ";
         } else {
-          diasString = "${diasString!} y ${dias[i].nombre!}";
+          diasString = "${diasString!}y ${dias[i].nombre!}";
         }
       }
     }
