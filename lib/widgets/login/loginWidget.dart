@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:homeshop/models/Usuario.dart';
 import 'package:homeshop/repository/LoginRepository.dart';
+import 'package:homeshop/widgets/horarios/misHorariosWidget.dart';
 import 'package:homeshop/widgets/paginaInicioWidget.dart';
 import 'package:homeshop/widgets/login/registrarseWidget.dart';
 import 'dart:convert';
@@ -48,7 +49,7 @@ class _LoginWidgetState extends State<LoginWidget> {
               value.setStringList("roles", roles);
             });
             final route = MaterialPageRoute(
-                builder: (BuildContext context) => PaginaInicioWidget());
+                builder: (BuildContext context) => MisHorariosWidget());
             Navigator.push(context, route);
           } else {
             mostrarSnackbar(responseData["mensaje"], Colors.red[900]);

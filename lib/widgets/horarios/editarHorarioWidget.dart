@@ -3,13 +3,16 @@ import 'package:intl/intl.dart';
 import 'package:date_field/date_field.dart';
 
 class EditarHorarioWidget extends StatefulWidget {
-  EditarHorarioWidget({Key? key}) : super(key: key);
-
+  EditarHorarioWidget(this.idHorario, {Key? key}) : super(key: key);
+  int idHorario;
   @override
-  State<EditarHorarioWidget> createState() => _EditarHorarioWidgetState();
+  State<EditarHorarioWidget> createState() =>
+      _EditarHorarioWidgetState(idHorario);
 }
 
 class _EditarHorarioWidgetState extends State<EditarHorarioWidget> {
+  _EditarHorarioWidgetState(this.idHorario);
+  int idHorario;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextStyle textStylePregunta = TextStyle(
     fontWeight: FontWeight.bold,

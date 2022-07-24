@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:homeshop/widgets/cuenta/cambiarContrase%C3%B1aWidget.dart';
 import 'package:homeshop/widgets/cuenta/datosPersonaleWidget.dart';
-import 'package:homeshop/widgets/horarios/horariosWidget.dart';
+import 'package:homeshop/widgets/horarios/misHorariosWidget.dart';
 import 'package:homeshop/widgets/login/loginWidget.dart';
 import 'package:homeshop/widgets/roles/rolesWidget.dart';
 import 'package:homeshop/widgets/usuarios/usuariosWidget.dart';
@@ -58,8 +58,8 @@ class _GestionarWidgetState extends State<GestionarWidget> {
   }
 
   void _misHorarios() {
-    final route =
-        MaterialPageRoute(builder: (BuildContext context) => HorariosWidget());
+    final route = MaterialPageRoute(
+        builder: (BuildContext context) => MisHorariosWidget());
     Navigator.push(context, route);
   }
 
