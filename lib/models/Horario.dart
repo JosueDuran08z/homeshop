@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:homeshop/models/Dia.dart';
 import 'package:homeshop/models/Persona.dart';
+import 'package:homeshop/models/Usuario.dart';
 import 'package:intl/intl.dart';
 
 class Horario {
   int? idHorario, duracion;
   DateTime? horaInicio, horaFin;
+  String? horaInicioString, horaFinString;
   bool? estatus;
   List<Dia> dias = <Dia>[];
   Persona persona = Persona();
   DateTime hoy = DateTime.now();
   DateFormat formatter = DateFormat('yyyy-MM-dd');
   String? diasString;
+  Usuario usuario = Usuario();
 
   setHorario(responseData) {
     diasString = "";
@@ -42,5 +45,22 @@ class Horario {
         }
       }
     }
+  }
+
+  Map<String, dynamic> getMap() {
+    List<Map<String, int>> diasMap = <Map<String, int>>[];
+
+    for (var dia in dias) {
+      diasMap.add({"idDia": dia.idDia!});
+    }
+
+    return {
+      "idHorario": idHorario,
+      "horaInicio": horaInicioString,
+      "duracion": duracion,
+      "horaFin": horaFinString,
+      "dias": diasMap,
+      "idUsuario": usuario.idUsuario
+    };
   }
 }

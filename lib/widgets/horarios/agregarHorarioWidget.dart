@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:homeshop/models/Dia.dart';
+import 'package:homeshop/models/Horario.dart';
+import 'package:homeshop/repository/HorarioRepository.dart';
 import 'package:intl/intl.dart';
 import 'package:date_field/date_field.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AgregarHorarioWidget extends StatefulWidget {
   AgregarHorarioWidget({Key? key}) : super(key: key);
@@ -10,6 +14,10 @@ class AgregarHorarioWidget extends StatefulWidget {
 }
 
 class _AgregarHorarioWidgetState extends State<AgregarHorarioWidget> {
+  late HorarioRepository _horarioRepository;
+  late Horario _horario;
+  late Future<SharedPreferences> _prefs;
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextStyle textStylePregunta = TextStyle(
     fontWeight: FontWeight.bold,
     fontSize: 15,
@@ -33,6 +41,57 @@ class _AgregarHorarioWidgetState extends State<AgregarHorarioWidget> {
   DateTime? _horaFin;
   List<DropdownMenuItem<DateTime>> _horasFin = <DropdownMenuItem<DateTime>>[];
 
+  void _obtenerDias() {}
+
+  void _agregarHorario() {
+    List<bool> dias = [
+      _lunes,
+      _martes,
+      _miercoles,
+      _jueves,
+      _viernes,
+      _sabado,
+      _domingo
+    ];
+
+    bool diaSeleccionado = false;
+
+    for (var dia in dias) {
+      if (dia) {
+        diaSeleccionado = true;
+        break;
+      }
+    }
+
+    if (!diaSeleccionado) {
+      _mostrarSnackbar("Seleccione por lo menos un día", Colors.red[900]);
+      return;
+    }
+
+    if (formKey.currentState!.validate()) {
+      List<String> horaInicioSplit = _horaInicio.toString().split(" ");
+      _horario.horaInicioString = horaInicioSplit[1].split(".")[0];
+      _horario.duracion = _duracion;
+      List<String> horaFinSplit = _horaFin.toString().split(" ");
+      _horario.horaFinString = horaFinSplit[1].split(".")[0];
+      List<Dia> diasSeleccionados = [];
+    }
+  }
+
+  void _mostrarSnackbar(String mensaje, color) {
+    SnackBar snackbar = SnackBar(
+      content: Text(
+        mensaje,
+        style: const TextStyle(
+          fontWeight: FontWeight.bold,
+        ),
+        textAlign: TextAlign.center,
+      ),
+      backgroundColor: color,
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackbar);
+  }
+
   void _mostrarFechasFin() {
     setState(() {
       _horaFin = null;
@@ -42,6 +101,7 @@ class _AgregarHorarioWidgetState extends State<AgregarHorarioWidget> {
       DateTime _hoy = DateTime.now();
       DateTime _fechaLimite =
           DateTime(_hoy.year, _hoy.month, _hoy.day, 23, 59, 0);
+      _fechaLimite = _fechaLimite.add(const Duration(minutes: 1));
 
       do {
         DateTime _horaFin = _horasFinAux.isEmpty
@@ -56,8 +116,8 @@ class _AgregarHorarioWidgetState extends State<AgregarHorarioWidget> {
           ),
         );
       } while (_fechaLimite.compareTo(_horasFinAux[_horasFin.length - 1]
-              .add(Duration(hours: _duracionAux))) ==
-          1);
+              .add(Duration(hours: _duracionAux * 2))) >
+          -1);
     });
   }
 
@@ -83,6 +143,7 @@ class _AgregarHorarioWidgetState extends State<AgregarHorarioWidget> {
         child: Padding(
           padding: const EdgeInsets.all(20),
           child: Form(
+            key: formKey,
             child: Column(
               children: [
                 Row(
@@ -185,11 +246,41 @@ class _AgregarHorarioWidgetState extends State<AgregarHorarioWidget> {
                   validator: (value) =>
                       value == null ? "Seleccione una opción" : null,
                 ),
+                const SizedBox(height: 30),
+                ElevatedButton.icon(
+                  onPressed: _agregarHorario,
+                  icon: const Icon(Icons.add),
+                  label: const Text("Agregar Horario"),
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.red[700],
+                    padding: const EdgeInsets.only(
+                      left: 20,
+                      top: 15,
+                      right: 20,
+                      bottom: 15,
+                    ),
+                    minimumSize: const Size.fromHeight(50),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
         ),
       ),
     );
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _horarioRepository = HorarioRepository();
+    _horario = Horario();
+    _prefs = SharedPreferences.getInstance();
+    _prefs
+        .then((pref) => _horario.usuario.idUsuario = pref.getInt("idUsuario"));
   }
 }
